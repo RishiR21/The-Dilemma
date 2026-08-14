@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>The Dilemma: High-Conviction Market Game</title>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Sleek, corporate, and ruthless. Negotiate multimillion-dollar liquidity pools across customizable high-stakes themes.">
+  <meta name="keywords" content="The Dilemma, High Finance Game, Game Theory, Wall Street, Prisoner's Dilemma, Custom Themes">
+  <meta name="author" content="The Dilemma Fund">
+
+  <!-- iOS & PWA Configuration -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="The Dilemma">
+  <link rel="apple-touch-icon" href="./icons/icon.svg">
+  <link rel="manifest" href="./manifest.json">
+  <meta name="theme-color" content="#06080d">
+
+  <!-- Google Fonts: Space Grotesk, JetBrains Mono, Cinzel, Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800;900&family=JetBrains+Mono:wght@400;600;700;800&family=Outfit:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700;900&display=swap" rel="stylesheet">
+
+  <!-- App Stylesheet -->
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+  <!-- FX Canvas for Order Execution Particle Celebrations -->
+  <canvas id="fxCanvas"></canvas>
+
+  <div id="app">
+    <!-- Live Financial Ticker Tape -->
+    <div class="ticker-bar">
+      <div class="ticker-track">
+        <span class="ticker-item up">▲ BTC/USD $98,450 (+4.8%)</span>
+        <span class="ticker-item up">▲ S&P 500 5,890 (+1.2%)</span>
+        <span class="ticker-item up">▲ NVDA $142.80 (+3.9%)</span>
+        <span class="ticker-item neutral">◈ DILEMMA POOL: $10,000,000 TRANCHE</span>
+        <span class="ticker-item down">▼ US10Y 4.18% (-0.8%)</span>
+        <span class="ticker-item up">▲ ETH/USD $3,820 (+5.1%)</span>
+        <span class="ticker-item down">▼ TSLA $248.10 (-2.4%)</span>
+        <span class="ticker-item neutral">◈ NASH EQUILIBRIUM: (DEFECTION / COOPERATION)</span>
+        <!-- Duplicated for loop -->
+        <span class="ticker-item up">▲ BTC/USD $98,450 (+4.8%)</span>
+        <span class="ticker-item up">▲ S&P 500 5,890 (+1.2%)</span>
+        <span class="ticker-item up">▲ NVDA $142.80 (+3.9%)</span>
+        <span class="ticker-item neutral">◈ DILEMMA POOL: $10,000,000 TRANCHE</span>
+        <span class="ticker-item down">▼ US10Y 4.18% (-0.8%)</span>
+        <span class="ticker-item up">▲ ETH/USD $3,820 (+5.1%)</span>
+        <span class="ticker-item down">▼ TSLA $248.10 (-2.4%)</span>
+        <span class="ticker-item neutral">◈ NASH EQUILIBRIUM: (DEFECTION / COOPERATION)</span>
+      </div>
+    </div>
+
+    <!-- Header -->
+    <header class="app-header">
+      <div class="brand-logo" id="btnLogoHome">
+        <svg viewBox="0 0 512 512">
+          <polygon points="256,80 430,180 430,380 256,480 82,380 82,180" fill="#0f172a" stroke="currentColor" stroke-width="16"/>
+          <circle cx="256" cy="280" r="70" fill="#00e676" opacity="0.8"/>
+          <text x="256" y="295" font-family="'JetBrains Mono', monospace" font-weight="900" font-size="60" fill="#040609" text-anchor="middle">Δ</text>
+        </svg>
+        <div>
+          <span class="brand-title">THE DILEMMA</span>
+          <span class="brand-badge">TERMINAL</span>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <div class="bankroll-pill" id="headerBankroll">
+          <span>NAV:</span>
+          <span id="bankrollValue">$25,000</span>
+        </div>
+        <button class="header-icon-btn" id="btnThemeModal" title="Select Visual Theme">
+          🎨
+        </button>
+        <button class="header-icon-btn" id="btnHostVoiceToggle" title="Broker Voice Commentary">
+          🎙️
+        </button>
+        <button class="header-icon-btn" id="btnProfileModal" title="Fund Portfolio & Capsule Skins">
+          📊
+        </button>
+        <button class="header-icon-btn" id="btnHelpModal" title="Deal Mechanics">
+          ❓
+        </button>
+        <button class="header-icon-btn" id="btnSoundToggle" title="Toggle Terminal Audio">
+          🔊
+        </button>
+      </div>
+    </header>
+
+    <!-- ==========================================
+         SCREEN 1: MAIN MENU (EXECUTIVE DESK)
+         ========================================== -->
+    <main class="view-screen" id="screenMenu">
+      <section class="hero-section">
+        <p class="hero-subtitle">High-Conviction Liquidity Execution</p>
+        <h1 class="hero-headline">THE DILEMMA</h1>
+        <p class="hero-tagline">
+          Two counterparties. One institutional capital pool. Will you syndicate the 50/50 merger, or execute a ruthless hostile takeover?
+        </p>
+      </section>
+
+      <div class="mode-grid">
+        <!-- Mode 1: AI Counterparty Gauntlet -->
+        <div class="mode-card" id="btnModeAI">
+          <span class="badge-tag">Single Desk</span>
+          <div class="mode-icon-box">🏛️</div>
+          <div class="mode-details">
+            <h3>Counterparty Gauntlet</h3>
+            <p>Negotiate against 5 Wall Street sharks, activist raiders, and algorithmic quant models.</p>
+          </div>
+        </div>
+
+        <!-- Mode 2: Online Deal Room -->
+        <div class="mode-card" id="btnModeMultiplayer">
+          <span class="badge-tag">Institutional 1v1</span>
+          <div class="mode-icon-box">🌐</div>
+          <div class="mode-details">
+            <h3>Private Deal Room</h3>
+            <p>Host or join encrypted trade rooms with counterparties across desks in real time.</p>
+          </div>
+        </div>
+
+        <!-- Mode 3: Floor Pass & Play -->
+        <div class="mode-card" id="btnModePassPlay">
+          <span class="badge-tag">Floor 2-Player</span>
+          <div class="mode-icon-box">📱</div>
+          <div class="mode-details">
+            <h3>Floor Terminal (1 Device)</h3>
+            <p>Execute secret trade orders on the same terminal before the joint market reveal.</p>
+          </div>
+        </div>
+
+        <!-- Mode 4: High-Conviction Tranche Ladder -->
+        <div class="mode-card" id="btnModeLadder">
+          <span class="badge-tag">Fund Ladder</span>
+          <div class="mode-icon-box">📈</div>
+          <div class="mode-details">
+            <h3>Tranche Ladder</h3>
+            <p>Climb from $25,000 Angel Syndicates to the $10,000,000 Hostile Megamerger tranche.</p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- ==========================================
+         SCREEN 2: AI COUNTERPARTY SELECTION
+         ========================================== -->
+    <section class="view-screen hidden" id="screenAIGauntlet">
+      <div class="section-header">
+        <h2>Select Counterparty Desk</h2>
+        <p>Analyze counterparty risk profiles, predatory tendencies, and game theory strategies.</p>
+      </div>
+
+      <div class="ai-carousel" id="aiCardList">
+        <!-- Injected via JavaScript -->
+      </div>
+
+      <div style="display: flex; gap: 12px; width: 100%; max-width: 440px;">
+        <button class="btn btn-secondary btn-full" id="btnBackFromAI">Cancel</button>
+        <button class="btn btn-primary btn-full" id="btnStartAIGame">Open Deal Room</button>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         SCREEN 3: TRANCHE / STAKES SELECTION
+         ========================================== -->
+    <section class="view-screen hidden" id="screenTierSelect">
+      <div class="section-header">
+        <h2>Choose Capital Allocation</h2>
+        <p>Higher capital pools require proof of fund balance sheet and unyielding conviction.</p>
+      </div>
+
+      <div class="tier-list" id="tierListContainer">
+        <!-- Injected via JavaScript -->
+      </div>
+
+      <div style="display: flex; gap: 12px; width: 100%; max-width: 440px;">
+        <button class="btn btn-secondary btn-full" id="btnBackFromTiers">Cancel</button>
+        <button class="btn btn-primary btn-full" id="btnConfirmTier">Commit Capital</button>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         SCREEN 4: ONLINE MULTIPLAYER DEAL ROOM
+         ========================================== -->
+    <section class="view-screen hidden" id="screenLobby">
+      <div class="section-header">
+        <h2>Private Syndicate Room</h2>
+        <p>Direct terminal-to-terminal encrypted trade channel.</p>
+      </div>
+
+      <div class="modal-box" style="margin-bottom: 20px;">
+        <div style="display: flex; gap: 10px; margin-bottom: 16px;">
+          <button class="btn btn-secondary" id="tabHostRoom" style="flex: 1;">Host Tranche</button>
+          <button class="btn btn-secondary" id="tabJoinRoom" style="flex: 1;">Join Tranche</button>
+        </div>
+
+        <!-- Host View -->
+        <div id="hostSection">
+          <p style="font-size: 0.85rem; color: var(--text-muted); text-align: center;">Share Deal Access Code with counterparty:</p>
+          <div class="room-code-display">
+            <span class="room-code-text" id="displayRoomCode">------</span>
+          </div>
+          <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+            <button class="btn btn-secondary btn-full" id="btnCopyRoomLink">📋 Copy Terminal Link</button>
+          </div>
+          <p id="hostStatusMsg" style="text-align: center; font-size: 0.9rem; color: var(--primary-accent); font-family: var(--font-mono);">
+            Awaiting counterparty connection...
+          </p>
+          <button class="btn btn-primary btn-full hidden" id="btnHostStartMatch" style="margin-top: 14px;">
+            Open Live Negotiation
+          </button>
+        </div>
+
+        <!-- Join View -->
+        <div id="joinSection" class="hidden">
+          <input type="text" id="inputJoinCode" class="chat-input" placeholder="Enter 6-Letter Deal Code" style="text-align: center; text-transform: uppercase; font-size: 1.3rem; font-family: var(--font-mono); margin-bottom: 14px;" maxlength="6">
+          <button class="btn btn-primary btn-full" id="btnSubmitJoin">Connect to Deal Room</button>
+        </div>
+      </div>
+
+      <button class="btn btn-secondary" id="btnBackFromLobby">Abort Connection</button>
+    </section>
+
+    <!-- ==========================================
+         SCREEN 5: PASS & PLAY PRIVACY SCREEN
+         ========================================== -->
+    <section class="view-screen hidden" id="screenPassPlayPrivacy">
+      <div class="privacy-screen">
+        <div class="privacy-icon">🔒</div>
+        <h2 class="privacy-title" id="privacyPlayerTitle">Desk 1: Confidential Order</h2>
+        <p style="color: var(--text-muted); line-height: 1.5; font-size: 0.9rem;" id="privacyInstruction">
+          Pass the terminal to Desk 1. Ensure Counterparty looks away before entering the confidential execution key!
+        </p>
+        <button class="btn btn-primary btn-full" id="btnPrivacyReveal">Access Order Entry</button>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         SCREEN 6: GAMEPLAY (NEGOTIATION & ORDER EXECUTION)
+         ========================================== -->
+    <section class="view-screen hidden" id="screenGameplay">
+      <div class="game-arena">
+        <!-- Stage Header -->
+        <div class="stage-header">
+          <div class="stage-player">
+            <div class="stage-avatar" id="p1Avatar">💼</div>
+            <div>
+              <div class="stage-player-name" id="p1Name">Your Desk</div>
+              <div class="stage-player-trust" id="p1Trust">Fiduciary Trust: 100%</div>
+            </div>
+          </div>
+
+          <div class="stage-pot-box">
+            <div class="stage-pot-label">Capital Pool Liquidity</div>
+            <div class="stage-pot-value" id="gamePotDisplay">$100,000</div>
+          </div>
+
+          <div class="stage-player" style="flex-direction: row-reverse; text-align: right;">
+            <div class="stage-avatar" id="p2Avatar">🏢</div>
+            <div>
+              <div class="stage-player-name" id="p2Name">Nick Corrigan</div>
+              <div class="stage-player-trust" id="p2Trust">The Corporate Raider</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Polygraph / Order Flow Telemetry HUD -->
+        <div class="polygraph-panel" id="polygraphPanel">
+          <div class="polygraph-left">
+            <div class="polygraph-pulse-dot"></div>
+            <div>
+              <span style="color: var(--primary-accent); font-weight: 700;">Order Flow Biometrics: </span>
+              <span id="polygraphReading" style="color: var(--text-muted);">Awaiting telemetry scan...</span>
+            </div>
+          </div>
+          <button class="polygraph-scan-btn" id="btnRunPolygraph">🔍 Scan Deception Risk</button>
+        </div>
+
+        <!-- Negotiation Panel -->
+        <div class="negotiation-panel" id="negotiationPanel">
+          <!-- Timer Bar -->
+          <div class="timer-container">
+            <div class="timer-circle" id="negotiationTimer">45</div>
+            <div>
+              <div class="timer-phase-text" id="gamePhaseText">Live Syndicate Negotiation</div>
+              <div style="font-size: 0.72rem; color: var(--text-subtle); font-family: var(--font-mono);">Execute term sheet covenants or front-run the position</div>
+            </div>
+          </div>
+
+          <!-- Dialogue Stream -->
+          <div class="chat-stream" id="chatStream">
+            <!-- Messages injected here -->
+          </div>
+
+          <!-- Quick Conviction Bluff Reaction Buttons -->
+          <div class="quick-bluff-bar" id="quickBluffBar">
+            <button class="bluff-btn" data-bluff="I promise on my firm's honor we are locking in SPLIT.">🤝 "100% Syndicate SPLIT"</button>
+            <button class="bluff-btn" data-bluff="If you attempt a hostile steal, we both default to ZERO.">⚠️ "Hostile steal = $0 Default"</button>
+            <button class="bluff-btn" data-bluff="I am executing a HOSTILE STEAL. You must take the SPLIT.">🏢 "Executing STEAL, take the split"</button>
+            <button class="bluff-btn" data-bluff="Let's execute a clean 50/50 institutional merger!">📈 "Clean 50/50 Merger!"</button>
+          </div>
+
+          <!-- Chat Input -->
+          <div class="chat-input-row" id="chatInputRow">
+            <input type="text" class="chat-input" id="chatInput" placeholder="Send trade signal or bluff..." maxlength="120">
+            <button class="chat-send-btn" id="btnSendChat">Transmit</button>
+          </div>
+        </div>
+
+        <!-- Decision Capsules Podium (Selection) -->
+        <div class="decision-section" id="decisionSection">
+          <div class="decision-title" id="decisionPromptTitle">Select Confidential Execution Order</div>
+
+          <div class="balls-podium">
+            <!-- Split Capsule -->
+            <div class="golden-ball-container" id="ballSplit" data-choice="SPLIT">
+              <div class="golden-ball split-ball" id="ballVisualSplit">
+                <div class="ball-emblem">SPLIT</div>
+              </div>
+              <span class="ball-label">50% Syndicate</span>
+            </div>
+
+            <!-- Steal Capsule -->
+            <div class="golden-ball-container" id="ballSteal" data-choice="STEAL">
+              <div class="golden-ball steal-ball" id="ballVisualSteal">
+                <div class="ball-emblem">STEAL</div>
+              </div>
+              <span class="ball-label">100% Hostile Takeover</span>
+            </div>
+          </div>
+
+          <button class="btn btn-primary" id="btnLockChoice" style="min-width: 260px;" disabled>
+            🔒 Lock In Confidential Order
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         SCREEN 7: SUSPENSE REVEAL SEQUENCE
+         ========================================== -->
+    <section class="view-screen hidden" id="screenReveal">
+      <div class="reveal-arena">
+        <div class="reveal-countdown-banner" id="revealCountdown">
+          EXECUTING ORDERS AT THE BELL...
+        </div>
+
+        <div class="reveal-stage">
+          <!-- Desk 1 Capsule -->
+          <div class="reveal-player-box">
+            <div class="stage-player-name" id="revealP1Name">Your Desk</div>
+            <div class="reveal-ball" id="revealBallP1">
+              <span class="reveal-ball-content" id="revealContentP1">SPLIT</span>
+            </div>
+          </div>
+
+          <!-- Counterparty Capsule -->
+          <div class="reveal-player-box">
+            <div class="stage-player-name" id="revealP2Name">Counterparty</div>
+            <div class="reveal-ball" id="revealBallP2">
+              <span class="reveal-ball-content" id="revealContentP2">STEAL</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Outcome Card -->
+        <div class="outcome-card hidden" id="outcomeCard">
+          <h2 class="outcome-headline" id="outcomeHeadline">SYNDICATE CLOSED!</h2>
+          <p class="outcome-narrative" id="outcomeNarrative">Both counterparties honored the agreement!</p>
+
+          <div class="payout-grid">
+            <div class="payout-box">
+              <div class="payout-label" id="payoutLabelP1">Your Allocation</div>
+              <div class="payout-val" id="payoutValP1">$50,000</div>
+            </div>
+            <div class="payout-box">
+              <div class="payout-label" id="payoutLabelP2">Counterparty Allocation</div>
+              <div class="payout-val" id="payoutValP2">$50,000</div>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <button class="btn btn-secondary" style="flex: 1;" id="btnReturnHome">Trading Desk</button>
+            <button class="btn btn-primary" style="flex: 1;" id="btnPlayNextRound">Next Tranche</button>
+            <button class="btn btn-primary" style="flex: 1; background: var(--steal-color);" id="btnDoubleDownRevenge">
+              ⚡ Double Conviction Rematch
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         THEME PICKER MODAL
+         ========================================== -->
+    <div class="modal-overlay hidden" id="themeModal">
+      <div class="modal-box">
+        <button class="modal-close" id="btnCloseTheme">✕</button>
+        <h2 style="font-family: var(--font-display); font-size: 1.4rem; color: #fff; margin-bottom: 6px;">
+          🎨 Select Visual Theme
+        </h2>
+        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 16px;">
+          Choose your preferred environment, aesthetic styling, and audio mood.
+        </p>
+
+        <div class="theme-picker-grid" id="themePickerGrid">
+          <!-- Injected via JavaScript -->
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         CAREER PROFILE, CAPSULE SKINS & STATS MODAL
+         ========================================== -->
+    <div class="modal-overlay hidden" id="profileModal">
+      <div class="modal-box">
+        <button class="modal-close" id="btnCloseProfile">✕</button>
+        <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 16px;">
+          <div style="font-size: 2.2rem;" id="profileArchetypeIcon">💼</div>
+          <div>
+            <h2 style="font-family: var(--font-display); font-size: 1.35rem; color: #fff;" id="profileArchetypeTitle">
+              Syndicate Managing Partner
+            </h2>
+            <p style="font-size: 0.8rem; color: var(--text-muted); font-family: var(--font-mono);">Fund Balance Sheet & Reputational Standing</p>
+          </div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-item">
+            <div class="stat-label">Total Capital Seized</div>
+            <div class="stat-val" id="statTotalWon">$0</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">Fiduciary Trust Rating</div>
+            <div class="stat-val" id="statTrustScore">100%</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">Transactions Executed</div>
+            <div class="stat-val" id="statMatches">0</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">Hostile Takeovers</div>
+            <div class="stat-val" id="statHeists">0</div>
+          </div>
+        </div>
+
+        <h3 style="font-size: 0.9rem; font-family: var(--font-mono); font-weight: 700; color: var(--primary-accent); margin-top: 14px;">
+          ◈ Encrypted Trade Capsule Skins
+        </h3>
+        <div class="skins-shelf" id="ballSkinsShelf">
+          <!-- Injected via JavaScript -->
+        </div>
+
+        <h3 style="font-size: 0.9rem; font-family: var(--font-mono); font-weight: 700; color: var(--primary-accent); margin-top: 14px;">
+          ◈ Fiduciary Wall of Accreditations
+        </h3>
+        <div class="achievements-grid" id="achievementsGrid">
+          <!-- Injected via JavaScript -->
+        </div>
+
+        <div style="margin-top: 20px; display: flex; justify-content: flex-end;">
+          <button class="btn btn-secondary" id="btnResetCareer" style="font-size: 0.72rem; color: var(--steal-color); border-color: rgba(255,51,102,0.3);">
+            Reset Balance Sheet
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         HOW TO PLAY / DEAL MECHANICS MODAL
+         ========================================== -->
+    <div class="modal-overlay hidden" id="helpModal">
+      <div class="modal-box">
+        <button class="modal-close" id="btnCloseHelp">✕</button>
+        <h2 style="font-family: var(--font-display); font-size: 1.4rem; color: #fff; margin-bottom: 12px;">
+          The Payoff Matrix
+        </h2>
+        <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 14px;">
+          Two counterparties negotiate a capital pool. At the bell, both execute <strong>SPLIT</strong> (Syndicate) or <strong>STEAL</strong> (Hostile Takeover) in secret.
+        </p>
+
+        <div style="background: rgba(0,0,0,0.5); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 12px; margin-bottom: 14px; font-family: var(--font-mono);">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 0.8rem;">
+            <div>🤝 <strong>SPLIT + SPLIT</strong></div>
+            <div style="color: var(--split-color);">50/50 Equal Allocation</div>
+            <div>💼 <strong>STEAL + SPLIT</strong></div>
+            <div style="color: var(--primary-accent);">Raider takes 100%, Sucker gets $0</div>
+            <div>💥 <strong>STEAL + STEAL</strong></div>
+            <div style="color: var(--steal-color);">Total Default: Both get $0</div>
+          </div>
+        </div>
+
+        <h4 style="color: var(--primary-accent); font-family: var(--font-mono); margin-bottom: 6px; font-size: 0.88rem;">🏢 The Raider Ultimatum Gambit</h4>
+        <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.4;">
+          Activist raiders remove your incentive to defect by pre-committing 100% to Steal. Challenge Nick Corrigan on the trading floor to test your psychological resolve!
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="./js/soundEngine.js"></script>
+  <script src="./js/aiEngine.js"></script>
+  <script src="./js/gameMatrix.js"></script>
+  <script src="./js/multiplayer.js"></script>
+  <script src="./js/app.js"></script>
+
+  <!-- PWA Service Worker Registration -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').catch(() => {});
+      });
+    }
+  </script>
+</body>
+</html>

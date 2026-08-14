@@ -1,0 +1,13 @@
+{
+  "appId": "com.splitorsteal.app",
+  "appName": "Split or Steal",
+  "webDir": ".",
+  "bundledWebRuntime": false,
+  "server": {
+    "cleartext": true
+  },
+  "ios": {
+    "contentInset": "always",
+    "backgroundColor": "#0a0c10"
+  }
+}

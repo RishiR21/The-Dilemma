@@ -1,0 +1,19 @@
+{
+  "name": "The Dilemma: High-Conviction Market Game",
+  "short_name": "TheDilemma",
+  "description": "Sleek, corporate, and ruthless. Negotiate multimillion-dollar liquidity pools across late-night trading desks.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#06080d",
+  "theme_color": "#06080d",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "./icons/icon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["finance", "games", "strategy"]
+}
