@@ -1,27 +1,37 @@
 /**
- * Sound & Tension Engine - The Dilemma (Theme-Adaptive Soundscape)
+ * Sound & Tension Engine - The Dilemma (Theme-Adaptive Soundscape & Procedural Ambient Music)
  * Web Audio API synthesizer that produces real-time heartbeat acceleration,
  * sub-bass tension drones, theme-adaptive chip/key/bolt clicks, order fill pings,
- * exit transitions, and Web Speech API Announcer commentary tailored to active theme.
+ * and 5 PROPRIETARY GENERATIVE AMBIENT MUSIC SOUNDTRACKS for each unique theme.
  */
 
 class TensionSoundEngine {
   constructor() {
     this.ctx = null;
     this.isMuted = false;
+    this.isMusicEnabled = true;
     this.isHostVoiceEnabled = true;
-    this.heartbeatOsc = null;
-    this.heartbeatGain = null;
+
+    // SFX Oscillators
     this.heartbeatTimer = null;
     this.tensionDroneOsc = null;
     this.tensionDroneGain = null;
     this.currentBpm = 60;
     this.theme = 'poker_tournament';
     this.hasInteracted = false;
+
+    // Generative Ambient Music Engine
+    this.musicTimer = null;
+    this.musicMasterGain = null;
+    this.musicActiveNodes = [];
+    this.musicStep = 0;
   }
 
   setTheme(themeId) {
     this.theme = themeId;
+    if (this.isMusicEnabled && this.ctx) {
+      this.restartAmbientMusic();
+    }
   }
 
   init() {
@@ -30,6 +40,10 @@ class TensionSoundEngine {
       const AudioContextClass = window.AudioContext || window.webkitAudioContext;
       this.ctx = new AudioContextClass();
       this.hasInteracted = true;
+      this.setupMusicBus();
+      if (this.isMusicEnabled) {
+        this.startAmbientMusic();
+      }
     } catch (e) {
       console.warn('Web Audio API not supported on this browser', e);
     }
@@ -42,18 +56,211 @@ class TensionSoundEngine {
     }
   }
 
+  setupMusicBus() {
+    if (!this.ctx) return;
+    this.musicMasterGain = this.ctx.createGain();
+    this.musicMasterGain.gain.setValueAtTime(0.16, this.ctx.currentTime);
+    this.musicMasterGain.connect(this.ctx.destination);
+  }
+
   toggleMute() {
     this.isMuted = !this.isMuted;
     if (this.isMuted) {
       this.stopHeartbeat();
       this.stopTensionDrone();
+      if (this.musicMasterGain && this.ctx) {
+        this.musicMasterGain.gain.setValueAtTime(0.0001, this.ctx.currentTime);
+      }
+    } else {
+      if (this.musicMasterGain && this.ctx) {
+        this.musicMasterGain.gain.setValueAtTime(0.16, this.ctx.currentTime);
+      }
     }
     return this.isMuted;
+  }
+
+  toggleMusic() {
+    this.isMusicEnabled = !this.isMusicEnabled;
+    if (this.isMusicEnabled) {
+      this.startAmbientMusic();
+    } else {
+      this.stopAmbientMusic();
+    }
+    return this.isMusicEnabled;
   }
 
   toggleHostVoice() {
     this.isHostVoiceEnabled = !this.isHostVoiceEnabled;
     return this.isHostVoiceEnabled;
+  }
+
+  /* ==========================================================================
+     PROPRIETARY GENERATIVE AMBIENT MUSIC ENGINE (5 THEMES)
+     ========================================================================== */
+
+  startAmbientMusic() {
+    if (!this.isMusicEnabled || this.isMuted) return;
+    this.ensureContext();
+    if (!this.ctx) return;
+    this.stopAmbientMusic();
+
+    this.musicStep = 0;
+    this.scheduleMusicBar();
+  }
+
+  stopAmbientMusic() {
+    if (this.musicTimer) {
+      clearTimeout(this.musicTimer);
+      this.musicTimer = null;
+    }
+    this.musicActiveNodes.forEach(node => {
+      try {
+        node.stop();
+      } catch (e) {}
+    });
+    this.musicActiveNodes = [];
+  }
+
+  restartAmbientMusic() {
+    this.stopAmbientMusic();
+    this.startAmbientMusic();
+  }
+
+  scheduleMusicBar() {
+    if (!this.isMusicEnabled || this.isMuted || !this.ctx) return;
+
+    const t = this.ctx.currentTime;
+    let nextBarDelay = 2200; // ms
+
+    if (this.theme === 'poker_tournament') {
+      // ♠️ VEGAS CASINO LOUNGE JAZZ (Warm Electric Piano + Upright Bass)
+      nextBarDelay = 2400;
+      const chords = [
+        [174.61, 261.63, 311.13, 392.00], // Fm7
+        [116.54, 233.08, 277.18, 349.23], // Bbm7
+        [155.56, 233.08, 311.13, 392.00], // Eb7
+        [130.81, 196.00, 246.94, 329.63]  // C7
+      ];
+      const bassNotes = [87.31, 116.54, 77.78, 65.41]; // F, Bb, Eb, C
+
+      const chordIdx = this.musicStep % chords.length;
+      const chord = chords[chordIdx];
+      const bass = bassNotes[chordIdx];
+
+      // Play Upright Bass Note
+      this.playSynthNote(bass, t, 1.8, 'triangle', 0.28, 400);
+
+      // Play Rhodes Piano Chord (Arpeggiated)
+      chord.forEach((freq, idx) => {
+        this.playSynthNote(freq, t + idx * 0.12, 1.6, 'sine', 0.14, 1800);
+      });
+
+    } else if (this.theme === 'trading_desk') {
+      // 📊 CYBERPUNK WALL STREET SYNTHWAVE (Driving 16th Arpeggiator & Deep Sub-Bass)
+      nextBarDelay = 1800;
+      const bassFreqs = [73.42, 65.41, 87.31, 55.00]; // D2, C2, F2, A1
+      const arpNotes = [
+        [146.83, 220.00, 293.66, 349.23, 440.00],
+        [130.81, 196.00, 261.63, 329.63, 392.00],
+        [174.61, 261.63, 349.23, 440.00, 523.25],
+        [110.00, 164.81, 220.00, 277.18, 329.63]
+      ];
+
+      const barIdx = this.musicStep % bassFreqs.length;
+      const bass = bassFreqs[barIdx];
+      const arp = arpNotes[barIdx];
+
+      // Deep Analog Bass Pulse
+      this.playSynthNote(bass, t, 1.5, 'sawtooth', 0.22, 280);
+
+      // Cyber Arpeggio pulses
+      for (let i = 0; i < 8; i++) {
+        const note = arp[i % arp.length];
+        this.playSynthNote(note, t + i * 0.22, 0.18, 'sawtooth', 0.08, 2200);
+      }
+
+    } else if (this.theme === 'hotel_lobby') {
+      // 🛎️ GRAND CONTINENTAL ART DECO PIANO WALTZ (3/4 time warm chords)
+      nextBarDelay = 2600;
+      const chords = [
+        [196.00, 246.94, 293.66, 369.99], // Gmaj7
+        [123.47, 185.00, 220.00, 277.18], // Bm7
+        [130.81, 164.81, 196.00, 246.94], // Cmaj7
+        [146.83, 220.00, 277.18, 329.63]  // D7
+      ];
+      const bassNotes = [98.00, 123.47, 130.81, 146.83];
+
+      const idx = this.musicStep % chords.length;
+      this.playSynthNote(bassNotes[idx], t, 2.2, 'sine', 0.25, 350);
+
+      // 3/4 Waltz cadence (Beat 1, 2, 3)
+      chords[idx].forEach((f) => {
+        this.playSynthNote(f, t + 0.35, 0.9, 'triangle', 0.12, 1600);
+        this.playSynthNote(f, t + 1.15, 0.9, 'triangle', 0.10, 1600);
+      });
+
+    } else if (this.theme === 'bank_vault') {
+      // 🔒 SUBTERRANEAN INFILTRATION DRONE (Dark Sub Bass & Heavy Metal Resonance)
+      nextBarDelay = 2800;
+      const drones = [45.0, 42.5, 48.0, 38.0];
+      const metalTicks = [587.33, 880.00, 1174.66, 440.00];
+
+      const idx = this.musicStep % drones.length;
+      this.playSynthNote(drones[idx], t, 2.6, 'sawtooth', 0.32, 140);
+      this.playSynthNote(metalTicks[idx], t + 0.8, 0.08, 'triangle', 0.06, 3200);
+      this.playSynthNote(metalTicks[(idx + 1) % 4], t + 1.8, 0.08, 'triangle', 0.06, 3200);
+
+    } else {
+      // 🎯 MILITARY INTELLIGENCE DEFCON RECON (Stealth Minor Radar Sweep)
+      nextBarDelay = 2200;
+      const basses = [55.0, 58.27, 49.0, 51.91]; // A1, Bb1, G1, Ab1
+      const pings = [1760.0, 1975.5, 2093.0, 1567.98];
+
+      const idx = this.musicStep % basses.length;
+      this.playSynthNote(basses[idx], t, 2.0, 'triangle', 0.28, 240);
+
+      // Radar Sonar Ping
+      this.playSynthNote(pings[idx], t + 0.4, 0.35, 'sine', 0.10, 3500);
+    }
+
+    this.musicStep++;
+
+    this.musicTimer = setTimeout(() => {
+      this.scheduleMusicBar();
+    }, nextBarDelay);
+  }
+
+  playSynthNote(freq, startTime, duration, type, gainVal, filterFreq = 2000) {
+    if (!this.ctx || this.isMuted) return;
+
+    try {
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      const filter = this.ctx.createBiquadFilter();
+
+      osc.type = type;
+      osc.frequency.setValueAtTime(freq, startTime);
+
+      filter.type = 'lowpass';
+      filter.frequency.setValueAtTime(filterFreq, startTime);
+
+      gain.gain.setValueAtTime(0.0001, startTime);
+      gain.gain.linearRampToValueAtTime(gainVal, startTime + 0.06);
+      gain.gain.exponentialRampToValueAtTime(0.0001, startTime + duration);
+
+      osc.connect(filter);
+      filter.connect(gain);
+      gain.connect(this.musicMasterGain);
+
+      osc.start(startTime);
+      osc.stop(startTime + duration);
+
+      this.musicActiveNodes.push(osc);
+      setTimeout(() => {
+        const i = this.musicActiveNodes.indexOf(osc);
+        if (i > -1) this.musicActiveNodes.splice(i, 1);
+      }, duration * 1000 + 200);
+    } catch (e) {}
   }
 
   /* ==========================================================================

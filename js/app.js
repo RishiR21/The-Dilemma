@@ -40,7 +40,7 @@ class TheDilemmaApp {
     this.checkUrlRoomParam();
     this.setup3DTilt();
 
-    // Unlock Web Audio on first user interaction
+    // Unlock Web Audio & Start Ambient Music on first user interaction
     const unlockAudio = () => {
       window.soundEngine.init();
       window.soundEngine.setTheme(this.currentTheme);
@@ -178,8 +178,8 @@ class TheDilemmaApp {
         id: 'poker_tournament',
         name: 'Poker Tournament',
         icon: '♠️',
-        desc: 'High-stakes Vegas heads-up room, emerald green felt, ceramic clay chips.',
-        swatches: ['#05140b', '#eab308', '#22c55e', '#ef4444']
+        desc: 'Vegas High-Roller room, authentic green baize felt, mahogany table rails, clay chips.',
+        swatches: ['#04160c', '#fbbf24', '#22c55e', '#ef4444']
       },
       {
         id: 'trading_desk',
@@ -459,6 +459,16 @@ class TheDilemmaApp {
         if (confirm('Leave this round and return to the main lobby?')) {
           this.exitToLobby();
         }
+      });
+    }
+
+    // Ambient Music Toggle
+    const btnMusic = document.getElementById('btnMusicToggle');
+    if (btnMusic) {
+      btnMusic.addEventListener('click', () => {
+        const isMusicOn = window.soundEngine.toggleMusic();
+        btnMusic.textContent = isMusicOn ? '🎵' : '🔇';
+        btnMusic.classList.toggle('active', isMusicOn);
       });
     }
 

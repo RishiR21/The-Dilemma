@@ -1,55 +1,72 @@
 /* ==========================================================================
-   THE DILEMMA - 5 COMPLETE THEMATIC ENVIRONMENTS
-   1. Poker Tournament (Vegas High Roller)
-   2. Trading Desk (Bloomberg Wall Street)
-   3. Hotel Lobby (Art Deco Grand Continental)
-   4. Bank / Cash Vault (Ultra-Subterranean Armored Fort)
-   5. Military Intelligence / Black Ops (War Room DEFCON Bunker)
+   THE DILEMMA - 5 COMPLETE & HIGHLY DISTINCT THEMATIC UNIVERSES
+   1. Poker Tournament (Vegas High Roller Casino Table - Emerald Felt & Mahogany Rail)
+   2. Trading Desk (Bloomberg Wall Street Cyber Terminal)
+   3. Hotel Lobby (Art Deco Grand Continental Ballroom)
+   4. Bank / Cash Vault (Ultra-Subterranean Armored Fort & Laser Grid)
+   5. Military Intelligence / Black Ops (War Room DEFCON Radar Bunker)
    ========================================================================== */
 
 /* ==========================================
-   THEME 1: POKER TOURNAMENT
+   THEME 1: POKER TOURNAMENT (DISTINCT VEGAS CASINO FELT)
    ========================================== */
 [data-theme="poker_tournament"] {
-  --bg-core: #05140b;
-  --bg-surface: #0a2213;
-  --bg-surface-elevated: #0f301b;
-  --bg-card: rgba(10, 34, 19, 0.88);
+  --bg-core: #04160c;
+  --bg-surface: #0a2615;
+  --bg-surface-elevated: #113820;
+  --bg-card: rgba(8, 30, 16, 0.94);
 
-  --primary-accent: #eab308;
-  --primary-glow: rgba(234, 179, 8, 0.35);
+  --primary-accent: #f59e0b;
+  --primary-glow: rgba(245, 158, 11, 0.45);
 
   --split-color: #22c55e;
   --split-dim: #15803d;
-  --split-glow: rgba(34, 197, 94, 0.4);
-  --split-gradient: radial-gradient(circle at 35% 30%, #86efac 0%, #22c55e 40%, #15803d 80%, #052e16 100%);
+  --split-glow: rgba(34, 197, 94, 0.5);
+  --split-gradient: radial-gradient(circle at 35% 30%, #bbf7d0 0%, #22c55e 35%, #15803d 75%, #052e16 100%);
 
   --steal-color: #ef4444;
   --steal-dim: #991b1b;
-  --steal-glow: rgba(239, 68, 68, 0.4);
-  --steal-gradient: radial-gradient(circle at 35% 30%, #fca5a5 0%, #ef4444 40%, #991b1b 80%, #450a0a 100%);
+  --steal-glow: rgba(239, 68, 68, 0.5);
+  --steal-gradient: radial-gradient(circle at 35% 30%, #fecaca 0%, #ef4444 35%, #991b1b 75%, #450a0a 100%);
 
-  --ball-base-bg: radial-gradient(circle at 35% 30%, #374151 0%, #1f2937 40%, #111827 80%, #030712 100%);
-  --ball-border: #eab308;
+  --ball-base-bg: radial-gradient(circle at 35% 30%, #451a03 0%, #78350f 40%, #1e1b4b 80%, #030712 100%);
+  --ball-border: #fbbf24;
 
-  --text-main: #fef9c3;
+  --text-main: #fef3c7;
   --text-muted: #86efac;
   --text-subtle: #166534;
-  --border-subtle: rgba(234, 179, 8, 0.22);
-  --border-active: #eab308;
+  --border-subtle: rgba(245, 158, 11, 0.3);
+  --border-active: #fbbf24;
 
   --font-display: 'Cinzel', Georgia, serif;
   --font-mono: 'JetBrains Mono', monospace;
   --font-body: 'Outfit', sans-serif;
 
-  --theme-bg-overlay: radial-gradient(circle at 50% 40%, rgba(34, 197, 94, 0.15) 0%, rgba(5, 20, 11, 0.95) 85%),
-    repeating-radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.2) 0, rgba(0, 0, 0, 0.2) 2px, transparent 2px, transparent 6px);
-  --theme-table-border: 4px solid #78350f;
-  --token-notch: repeating-conic-gradient(#eab308 0deg 15deg, #111827 15deg 30deg);
+  /* Rich Vegas Baize Green Felt with Mahogany Table Rails & Card Suit Watermarks */
+  --theme-bg-overlay: 
+    radial-gradient(circle at 50% 30%, rgba(34, 197, 94, 0.22) 0%, rgba(4, 22, 12, 0.98) 75%),
+    repeating-radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.25) 0, rgba(0, 0, 0, 0.25) 3px, transparent 3px, transparent 8px);
+  --theme-table-border: 5px solid #854d0e;
+  --token-notch: repeating-conic-gradient(#fbbf24 0deg 15deg, #1e293b 15deg 30deg, #dc2626 30deg 45deg, #1e293b 45deg 60deg);
+}
+
+/* Poker Spotlight Cone & Felt Ambient Texture */
+[data-theme="poker_tournament"] body::before {
+  background: 
+    radial-gradient(ellipse at 50% 15%, rgba(251, 191, 36, 0.18) 0%, transparent 60%),
+    radial-gradient(circle at 50% 50%, rgba(34, 197, 94, 0.14) 0%, rgba(4, 22, 12, 0.98) 85%);
+}
+
+[data-theme="poker_tournament"] .game-arena {
+  background: radial-gradient(ellipse at center, rgba(16, 185, 129, 0.12) 0%, rgba(4, 22, 12, 0.6) 100%);
+  border: 4px solid #854d0e;
+  border-radius: 40px;
+  padding: 16px;
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.9), 0 10px 40px rgba(0, 0, 0, 0.8);
 }
 
 /* ==========================================
-   THEME 2: TRADING DESK
+   THEME 2: TRADING DESK (BLOOMBERG TERMINAL)
    ========================================== */
 :root, [data-theme="trading_desk"] {
   --bg-core: #06080d;
@@ -165,7 +182,6 @@
   --font-mono: 'JetBrains Mono', monospace;
   --font-body: 'Outfit', sans-serif;
 
-  /* Industrial Heavy Steel Armor with Laser Grids & Hazard Stripes */
   --theme-bg-overlay: 
     repeating-linear-gradient(45deg, rgba(245, 158, 11, 0.05), rgba(245, 158, 11, 0.05) 16px, transparent 16px, transparent 32px),
     radial-gradient(ellipse at center, rgba(245, 158, 11, 0.12) 0%, rgba(6, 8, 14, 0.96) 80%);
@@ -173,7 +189,6 @@
   --token-notch: repeating-conic-gradient(#f59e0b 0deg 10deg, #1e293b 10deg 20deg, #94a3b8 20deg 30deg, #020617 30deg 40deg);
 }
 
-/* Vault Laser Security Scanline */
 [data-theme="bank_vault"] body::after {
   content: '';
   position: absolute;
@@ -229,7 +244,6 @@
   --font-mono: 'JetBrains Mono', monospace;
   --font-body: 'Outfit', sans-serif;
 
-  /* Tactical Radar Scanlines & Satellite Grid */
   --theme-bg-overlay: 
     repeating-linear-gradient(to bottom, rgba(16, 185, 129, 0.03) 0px, rgba(16, 185, 129, 0.03) 2px, transparent 2px, transparent 4px),
     radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.1) 0%, rgba(4, 9, 7, 0.97) 80%);
@@ -269,7 +283,6 @@ html, body {
   transition: background-color 0.35s ease, color 0.35s ease;
 }
 
-/* Dynamic Texture Overlay */
 body::before {
   content: '';
   position: absolute;
@@ -309,7 +322,6 @@ body::after {
   padding-right: env(safe-area-inset-right);
 }
 
-/* Particle FX Canvas */
 #fxCanvas {
   position: fixed;
   inset: 0;
@@ -455,6 +467,12 @@ body::after {
   background: rgba(255, 255, 255, 0.12);
   border-color: var(--primary-accent);
   transform: translateY(-1px);
+}
+
+.header-icon-btn.active {
+  border-color: var(--primary-accent);
+  background: rgba(255, 255, 255, 0.16);
+  box-shadow: 0 0 10px var(--primary-glow);
 }
 
 /* ==========================================================================
