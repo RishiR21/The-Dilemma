@@ -1,55 +1,55 @@
 /* ==========================================================================
-   THE DILEMMA - 4 COMPLETE IMMERSIVE THEMES
-   1. Poker Tournament
-   2. Trading Desk
-   3. Luxury Hotel Lobby
-   4. Bank / Cash Vault
+   THE DILEMMA - 4 COMPLETE THEMATIC ENVIRONMENTS
+   1. Poker Tournament (Vegas High Roller)
+   2. Trading Desk (Bloomberg Wall Street)
+   3. Hotel Lobby (Art Deco Grand Continental)
+   4. Bank / Cash Vault (Armored Subterranean Safe)
    ========================================================================== */
 
 /* ==========================================
-   THEME 1: POKER TOURNAMENT (Vegas High Roller)
+   THEME 1: POKER TOURNAMENT
    ========================================== */
 [data-theme="poker_tournament"] {
-  --bg-core: #07150c;
-  --bg-surface: #0a1f12;
-  --bg-surface-elevated: #0f2d1b;
-  --bg-card: rgba(10, 31, 18, 0.88);
+  --bg-core: #05140b;
+  --bg-surface: #0a2213;
+  --bg-surface-elevated: #0f301b;
+  --bg-card: rgba(10, 34, 19, 0.88);
 
   --primary-accent: #eab308;
-  --primary-glow: rgba(234, 179, 8, 0.3);
+  --primary-glow: rgba(234, 179, 8, 0.35);
 
   --split-color: #22c55e;
   --split-dim: #15803d;
-  --split-glow: rgba(34, 197, 94, 0.35);
-  --split-gradient: radial-gradient(circle at 35% 30%, #4ade80 0%, #22c55e 40%, #15803d 80%, #052e16 100%);
+  --split-glow: rgba(34, 197, 94, 0.4);
+  --split-gradient: radial-gradient(circle at 35% 30%, #86efac 0%, #22c55e 40%, #15803d 80%, #052e16 100%);
 
   --steal-color: #ef4444;
-  --steal-dim: #b91c1c;
-  --steal-glow: rgba(239, 68, 68, 0.35);
-  --steal-gradient: radial-gradient(circle at 35% 30%, #f87171 0%, #ef4444 40%, #991b1b 80%, #450a0a 100%);
+  --steal-dim: #991b1b;
+  --steal-glow: rgba(239, 68, 68, 0.4);
+  --steal-gradient: radial-gradient(circle at 35% 30%, #fca5a5 0%, #ef4444 40%, #991b1b 80%, #450a0a 100%);
 
-  /* Poker Chip styling */
-  --ball-base-bg: radial-gradient(circle at 35% 30%, #1f2937 0%, #111827 40%, #030712 80%, #000000 100%);
+  --ball-base-bg: radial-gradient(circle at 35% 30%, #374151 0%, #1f2937 40%, #111827 80%, #030712 100%);
   --ball-border: #eab308;
 
   --text-main: #fef9c3;
   --text-muted: #86efac;
   --text-subtle: #166534;
-  --border-subtle: rgba(234, 179, 8, 0.2);
+  --border-subtle: rgba(234, 179, 8, 0.22);
   --border-active: #eab308;
 
-  --font-display: 'Cinzel', serif;
+  --font-display: 'Cinzel', Georgia, serif;
   --font-mono: 'JetBrains Mono', monospace;
   --font-body: 'Outfit', sans-serif;
 
-  /* Poker table green felt texture */
-  --table-felt-pattern: radial-gradient(circle at 50% 50%, rgba(34, 197, 94, 0.12) 0%, rgba(10, 31, 18, 0.95) 75%), repeating-radial-gradient(circle, rgba(0, 0, 0, 0.15) 0 2px, transparent 2px 4px);
-  --table-accent-border: 4px solid #78350f;
-  --theme-symbol: '♠ ♥ ♦ ♣';
+  /* Authentic Green Felt with Playing Card Suit Watermarks */
+  --theme-bg-overlay: radial-gradient(circle at 50% 40%, rgba(34, 197, 94, 0.15) 0%, rgba(5, 20, 11, 0.95) 85%),
+    repeating-radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.2) 0, rgba(0, 0, 0, 0.2) 2px, transparent 2px, transparent 6px);
+  --theme-table-border: 4px solid #78350f;
+  --token-notch: repeating-conic-gradient(#eab308 0deg 15deg, #111827 15deg 30deg);
 }
 
 /* ==========================================
-   THEME 2: TRADING DESK (Bloomberg / High-Finance)
+   THEME 2: TRADING DESK
    ========================================== */
 :root, [data-theme="trading_desk"] {
   --bg-core: #06080d;
@@ -58,56 +58,57 @@
   --bg-card: rgba(15, 22, 33, 0.88);
 
   --primary-accent: #38bdf8;
-  --primary-glow: rgba(56, 189, 248, 0.25);
+  --primary-glow: rgba(56, 189, 248, 0.3);
 
   --split-color: #00e676;
   --split-dim: #059669;
-  --split-glow: rgba(0, 230, 118, 0.3);
+  --split-glow: rgba(0, 230, 118, 0.35);
   --split-gradient: radial-gradient(circle at 35% 30%, #a7f3d0 0%, #10b981 40%, #064e3b 80%, #022c22 100%);
 
   --steal-color: #ff3366;
   --steal-dim: #be123c;
-  --steal-glow: rgba(255, 51, 102, 0.3);
+  --steal-glow: rgba(255, 51, 102, 0.35);
   --steal-gradient: radial-gradient(circle at 35% 30%, #fca5a5 0%, #dc2626 40%, #7f1d1d 80%, #450a0a 100%);
 
   --ball-base-bg: radial-gradient(circle at 35% 30%, #475569 0%, #1e293b 40%, #0f172a 80%, #020617 100%);
-  --ball-border: rgba(56, 189, 248, 0.4);
+  --ball-border: rgba(56, 189, 248, 0.45);
 
   --text-main: #f8fafc;
   --text-muted: #94a3b8;
   --text-subtle: #475569;
-  --border-subtle: rgba(56, 189, 248, 0.15);
-  --border-active: rgba(56, 189, 248, 0.55);
+  --border-subtle: rgba(56, 189, 248, 0.18);
+  --border-active: rgba(56, 189, 248, 0.6);
 
   --font-display: 'Space Grotesk', -apple-system, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
   --font-body: 'Outfit', sans-serif;
 
-  --table-felt-pattern: radial-gradient(ellipse at center, rgba(56, 189, 248, 0.08) 0%, transparent 70%);
-  --table-accent-border: 1px solid rgba(56, 189, 248, 0.2);
-  --theme-symbol: '◈ Δ 📈';
+  --theme-bg-overlay: linear-gradient(to right, rgba(56, 189, 248, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(56, 189, 248, 0.035) 1px, transparent 1px);
+  --theme-table-border: 1px solid rgba(56, 189, 248, 0.25);
+  --token-notch: repeating-conic-gradient(rgba(56, 189, 248, 0.4) 0deg 10deg, transparent 10deg 20deg);
 }
 
 /* ==========================================
-   THEME 3: LUXURY HOTEL LOBBY (Art Deco Grand Continental)
+   THEME 3: HOTEL LOBBY (Art Deco Grand Continental)
    ========================================== */
 [data-theme="hotel_lobby"] {
-  --bg-core: #0d0b09;
-  --bg-surface: #17130e;
-  --bg-surface-elevated: #241c14;
-  --bg-card: rgba(28, 22, 16, 0.88);
+  --bg-core: #0e0a07;
+  --bg-surface: #19120c;
+  --bg-surface-elevated: #261b12;
+  --bg-card: rgba(30, 22, 15, 0.9);
 
   --primary-accent: #d4af37;
-  --primary-glow: rgba(212, 175, 55, 0.35);
+  --primary-glow: rgba(212, 175, 55, 0.38);
 
   --split-color: #10b981;
   --split-dim: #047857;
-  --split-glow: rgba(16, 185, 129, 0.3);
+  --split-glow: rgba(16, 185, 129, 0.35);
   --split-gradient: radial-gradient(circle at 35% 30%, #fffbe6 0%, #f7dc6f 25%, #d4af37 60%, #855b11 90%, #3e2804 100%);
 
   --steal-color: #e11d48;
   --steal-dim: #9f1239;
-  --steal-glow: rgba(225, 29, 72, 0.3);
+  --steal-glow: rgba(225, 29, 72, 0.35);
   --steal-gradient: radial-gradient(circle at 35% 30%, #fffbe6 0%, #f7dc6f 25%, #d4af37 60%, #855b11 90%, #3e2804 100%);
 
   --ball-base-bg: radial-gradient(circle at 35% 30%, #fffbe6 0%, #f7dc6f 25%, #d4af37 60%, #855b11 90%, #3e2804 100%);
@@ -116,58 +117,58 @@
   --text-main: #fef3c7;
   --text-muted: #d6d3d1;
   --text-subtle: #78716c;
-  --border-subtle: rgba(212, 175, 55, 0.2);
-  --border-active: rgba(212, 175, 55, 0.65);
+  --border-subtle: rgba(212, 175, 55, 0.25);
+  --border-active: rgba(212, 175, 55, 0.7);
 
-  --font-display: 'Cinzel', serif;
+  --font-display: 'Cinzel', Georgia, serif;
   --font-mono: 'JetBrains Mono', monospace;
   --font-body: 'Outfit', sans-serif;
 
-  --table-felt-pattern: radial-gradient(ellipse at center, rgba(212, 175, 55, 0.12) 0%, rgba(23, 19, 14, 0.9) 75%);
-  --table-accent-border: 2px solid rgba(212, 175, 55, 0.4);
-  --theme-symbol: '🛎️ 🗝️ 👑';
+  --theme-bg-overlay: radial-gradient(ellipse at center, rgba(212, 175, 55, 0.12) 0%, rgba(14, 10, 7, 0.95) 80%),
+    repeating-linear-gradient(60deg, rgba(212, 175, 55, 0.02) 0px, rgba(212, 175, 55, 0.02) 20px, transparent 20px, transparent 40px);
+  --theme-table-border: 2px solid rgba(212, 175, 55, 0.45);
+  --token-notch: repeating-conic-gradient(#d4af37 0deg 20deg, #3e2804 20deg 40deg);
 }
 
 /* ==========================================
-   THEME 4: BANK / CASH VAULT (Armored Titanium Fort)
+   THEME 4: BANK / CASH VAULT
    ========================================== */
 [data-theme="bank_vault"] {
   --bg-core: #090a0f;
   --bg-surface: #0f121a;
-  --bg-surface-elevated: #161b26;
-  --bg-card: rgba(18, 23, 34, 0.9);
+  --bg-surface-elevated: #171d2b;
+  --bg-card: rgba(18, 24, 36, 0.92);
 
   --primary-accent: #f59e0b;
-  --primary-glow: rgba(245, 158, 11, 0.35);
+  --primary-glow: rgba(245, 158, 11, 0.38);
 
   --split-color: #10b981;
   --split-dim: #059669;
-  --split-glow: rgba(16, 185, 129, 0.35);
+  --split-glow: rgba(16, 185, 129, 0.4);
   --split-gradient: radial-gradient(circle at 35% 30%, #93c5fd 0%, #3b82f6 40%, #1d4ed8 80%, #0f172a 100%);
 
   --steal-color: #ef4444;
   --steal-dim: #b91c1c;
-  --steal-glow: rgba(239, 68, 68, 0.35);
+  --steal-glow: rgba(239, 68, 68, 0.4);
   --steal-gradient: radial-gradient(circle at 35% 30%, #fca5a5 0%, #dc2626 40%, #7f1d1d 80%, #450a0a 100%);
 
-  /* Heavy steel vault dial */
   --ball-base-bg: radial-gradient(circle at 35% 30%, #94a3b8 0%, #475569 40%, #1e293b 80%, #020617 100%);
   --ball-border: #f59e0b;
 
   --text-main: #f1f5f9;
   --text-muted: #94a3b8;
   --text-subtle: #475569;
-  --border-subtle: rgba(245, 158, 11, 0.2);
+  --border-subtle: rgba(245, 158, 11, 0.22);
   --border-active: #f59e0b;
 
-  --font-display: 'Space Grotesk', sans-serif;
+  --font-display: 'Space Grotesk', -apple-system, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
   --font-body: 'Outfit', sans-serif;
 
-  /* Industrial steel diamond hazard pattern */
-  --table-felt-pattern: repeating-linear-gradient(45deg, rgba(245, 158, 11, 0.04), rgba(245, 158, 11, 0.04) 10px, transparent 10px, transparent 20px);
-  --table-accent-border: 3px dashed rgba(245, 158, 11, 0.4);
-  --theme-symbol: '🔒 🚨 💰';
+  --theme-bg-overlay: repeating-linear-gradient(45deg, rgba(245, 158, 11, 0.04), rgba(245, 158, 11, 0.04) 12px, transparent 12px, transparent 24px),
+    radial-gradient(ellipse at center, rgba(245, 158, 11, 0.08) 0%, rgba(9, 10, 15, 0.95) 85%);
+  --theme-table-border: 3px dashed rgba(245, 158, 11, 0.4);
+  --token-notch: repeating-conic-gradient(#f59e0b 0deg 15deg, #1e293b 15deg 30deg);
 }
 
 /* Base Dimensions */
@@ -199,18 +200,19 @@ html, body {
   overflow: hidden;
   position: fixed;
   touch-action: manipulation;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background-color 0.35s ease, color 0.35s ease;
 }
 
-/* Dynamic Table & Ambient Atmosphere Shift */
+/* Dynamic Texture Overlay */
 body::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: var(--table-felt-pattern);
+  background: var(--theme-bg-overlay);
+  background-size: cover;
   pointer-events: none;
   z-index: 0;
-  transition: all 0.3s ease;
+  transition: all 0.35s ease;
 }
 
 body::after {
@@ -225,7 +227,7 @@ body::after {
   background: radial-gradient(ellipse at center, var(--primary-glow) 0%, transparent 70%);
   pointer-events: none;
   z-index: 0;
-  transition: all 0.3s ease;
+  transition: all 0.35s ease;
 }
 
 #app {
@@ -241,7 +243,7 @@ body::after {
   padding-right: env(safe-area-inset-right);
 }
 
-/* Confetti & Particle FX Canvas */
+/* Particle FX Canvas */
 #fxCanvas {
   position: fixed;
   inset: 0;
@@ -252,19 +254,19 @@ body::after {
 }
 
 /* ==========================================================================
-   LIVE TOP TICKER / LEDGER TAPE
+   TICKER BAR
    ========================================================================== */
 
 .ticker-bar {
   height: var(--ticker-height);
-  background: rgba(0, 0, 0, 0.55);
+  background: rgba(0, 0, 0, 0.6);
   border-bottom: 1px solid var(--border-subtle);
   display: flex;
   align-items: center;
   overflow: hidden;
   white-space: nowrap;
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: 0.74rem;
   letter-spacing: 1px;
   flex-shrink: 0;
 }
@@ -272,7 +274,7 @@ body::after {
 .ticker-track {
   display: inline-flex;
   gap: 28px;
-  animation: tickerScroll 32s linear infinite;
+  animation: tickerScroll 30s linear infinite;
 }
 
 @keyframes tickerScroll {
@@ -291,7 +293,7 @@ body::after {
 .ticker-item.neutral { color: var(--primary-accent); }
 
 /* ==========================================================================
-   HEADER & NAVIGATION BAR
+   HEADER
    ========================================================================== */
 
 .app-header {
@@ -303,8 +305,9 @@ body::after {
   background: var(--bg-surface);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  border-bottom: var(--table-accent-border);
+  border-bottom: var(--theme-table-border);
   flex-shrink: 0;
+  transition: all 0.3s ease;
 }
 
 .brand-logo {
@@ -338,6 +341,7 @@ body::after {
   background: rgba(255, 255, 255, 0.08);
   color: var(--primary-accent);
   border: 1px solid var(--border-subtle);
+  font-weight: 700;
 }
 
 .header-actions {
@@ -358,6 +362,12 @@ body::after {
   font-size: 0.88rem;
   font-weight: 700;
   color: var(--split-color);
+}
+
+.bankroll-label {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
 }
 
 .header-icon-btn {
@@ -406,7 +416,7 @@ body::after {
 
 .hero-section {
   text-align: center;
-  margin-bottom: 24px;
+  margin-bottom: 22px;
   max-width: 650px;
 }
 
@@ -422,7 +432,7 @@ body::after {
 
 .hero-headline {
   font-family: var(--font-display);
-  font-size: clamp(2rem, 6vw, 3.6rem);
+  font-size: clamp(2rem, 5.8vw, 3.6rem);
   font-weight: 900;
   letter-spacing: 3px;
   line-height: 1.05;
@@ -444,7 +454,7 @@ body::after {
   gap: 14px;
   width: 100%;
   max-width: 880px;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 
 .mode-card {
@@ -531,7 +541,7 @@ body::after {
 
 .section-header {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 
 .section-header h2 {
@@ -554,7 +564,7 @@ body::after {
   gap: 14px;
   width: 100%;
   max-width: 1020px;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 
 .ai-card {
@@ -632,7 +642,7 @@ body::after {
 }
 
 /* ==========================================================================
-   TIERS / STAKES
+   TIERS / STAKES LADDER
    ========================================================================== */
 
 .tier-list {
@@ -641,7 +651,7 @@ body::after {
   gap: 10px;
   width: 100%;
   max-width: 600px;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 
 .tier-item {
@@ -988,7 +998,7 @@ body::after {
 }
 
 /* ==========================================================================
-   DECISION STAGE (POKER CHIPS / ORDER CAPSULES / SAFE DIALS)
+   DECISION TOKENS (POKER CHIPS / ORDER CAPSULES / GOLD MEDALLIONS / VAULT DIALS)
    ========================================================================== */
 
 .decision-section {
@@ -1041,7 +1051,27 @@ body::after {
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease;
-  border: 2px solid var(--ball-border);
+  border: 4px solid var(--ball-border);
+}
+
+/* Theme-Specific Token Edge Rings */
+.golden-ball::before {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  background: var(--token-notch);
+  z-index: 0;
+  opacity: 0.85;
+}
+
+.golden-ball::after {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border-radius: 50%;
+  background: var(--ball-base-bg);
+  z-index: 1;
 }
 
 .ball-emblem {
@@ -1054,6 +1084,7 @@ body::after {
   font-size: clamp(0.8rem, 2.2vw, 1rem);
   letter-spacing: 1.5px;
   z-index: 2;
+  position: relative;
 }
 
 .golden-ball.split-ball .ball-emblem {
@@ -1162,7 +1193,7 @@ body::after {
   box-shadow: 0 18px 36px rgba(0, 0, 0, 0.9);
   position: relative;
   transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-  border: 2px solid var(--ball-border);
+  border: 4px solid var(--ball-border);
 }
 
 .reveal-ball.opened.is-split {

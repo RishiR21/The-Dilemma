@@ -1,163 +1,30 @@
 /**
- * App - The Dilemma Master Controller (Robust 4-Theme Interactive Ecosystem)
- * Themes:
- * 1. Poker Tournament (Vegas High Roller)
- * 2. Trading Desk (Wall Street Terminal)
- * 3. Hotel Lobby (Art Deco Grand Continental)
- * 4. Bank / Cash Vault (Armored Titanium Safe)
+ * App - The Dilemma Master Game Controller (Deep 4-Theme Interactive Ecosystem)
+ * Complete visual, mechanical, typographic, and atmospheric transformation
+ * across Poker Tournament, Trading Desk, Hotel Lobby, and Bank Vault.
  */
-
-const THEMES_CONFIG = {
-  poker_tournament: {
-    id: 'poker_tournament',
-    name: 'Poker Tournament',
-    icon: '♠️',
-    desc: 'High-stakes Vegas heads-up room, emerald green felt, ceramic clay chips.',
-    swatches: ['#07150c', '#eab308', '#22c55e', '#ef4444'],
-    brandBadge: 'HIGH ROLLER',
-    potLabel: 'CHAMPIONSHIP CHIP POT',
-    splitLabel: '50% Chop Pot',
-    stealLabel: '100% All-In Steal',
-    ballSplitText: 'CHOP',
-    ballStealText: 'ALL-IN',
-    scanLabel: '♠ Read Opponent Tells',
-    lockPrompt: '🔒 Lock In Secret Hand Order',
-    bluffs: [
-      { text: "I'm checking this down. 100% locking in the CHOP.", label: "♠️ '100% Chop Pot'" },
-      { text: "If you push all-in to steal, we both bust to $0.", label: "⚠️ 'All-in = $0 Bust'" },
-      { text: "I am shoving ALL-IN. Your only EV is to chop.", label: "🃏 'Shoving All-in, take the chop'" },
-      { text: "Let's split the bracelet 50/50 and walk with the cash!", label: "🏆 'Split the Bracelet!'" }
-    ],
-    tickerHtml: `
-      <span class="ticker-item neutral">♠ WSOP HEADS-UP TABLE 1</span>
-      <span class="ticker-item up">▲ BLINDS: 10,000 / 20,000</span>
-      <span class="ticker-item up">▲ CHIP LEADER STACK: $2,500,000</span>
-      <span class="ticker-item neutral">◈ TIME BANK: 45 SECONDS</span>
-      <span class="ticker-item down">▼ BRACELET BOUNTY: ACTIVE</span>
-      <span class="ticker-item up">▲ HAND: SUITED CONNECTORS</span>
-      <span class="ticker-item neutral">♠ WSOP HEADS-UP TABLE 1</span>
-      <span class="ticker-item up">▲ BLINDS: 10,000 / 20,000</span>
-      <span class="ticker-item up">▲ CHIP LEADER STACK: $2,500,000</span>
-      <span class="ticker-item neutral">◈ TIME BANK: 45 SECONDS</span>
-    `
-  },
-  trading_desk: {
-    id: 'trading_desk',
-    name: 'Trading Desk',
-    icon: '📊',
-    desc: 'Bloomberg executive trading desk, phosphor emerald, cyber cyan telemetry.',
-    swatches: ['#06080d', '#00e676', '#38bdf8', '#ff3366'],
-    brandBadge: 'TERMINAL V2',
-    potLabel: 'CAPITAL POOL LIQUIDITY',
-    splitLabel: '50% Syndicate Split',
-    stealLabel: '100% Hostile Takeover',
-    ballSplitText: 'SPLIT',
-    ballStealText: 'STEAL',
-    scanLabel: '🔍 Scan Order Flow Risk',
-    lockPrompt: '🔒 Lock In Confidential Order',
-    bluffs: [
-      { text: "I promise on my firm's honor we are locking in SPLIT.", label: "🤝 '100% Syndicate SPLIT'" },
-      { text: "If you attempt a hostile steal, we both default to ZERO.", label: "⚠️ 'Hostile steal = $0 Default'" },
-      { text: "I am executing a HOSTILE STEAL. You must take the SPLIT.", label: "🏢 'Executing STEAL, take split'" },
-      { text: "Let's execute a clean 50/50 institutional merger!", label: "📈 'Clean 50/50 Merger!'" }
-    ],
-    tickerHtml: `
-      <span class="ticker-item up">▲ BTC/USD $98,450 (+4.8%)</span>
-      <span class="ticker-item up">▲ S&P 500 5,890 (+1.2%)</span>
-      <span class="ticker-item up">▲ NVDA $142.80 (+3.9%)</span>
-      <span class="ticker-item neutral">◈ DILEMMA POOL: $10,000,000 TRANCHE</span>
-      <span class="ticker-item down">▼ US10Y 4.18% (-0.8%)</span>
-      <span class="ticker-item up">▲ ETH/USD $3,820 (+5.1%)</span>
-      <span class="ticker-item up">▲ BTC/USD $98,450 (+4.8%)</span>
-      <span class="ticker-item up">▲ S&P 500 5,890 (+1.2%)</span>
-      <span class="ticker-item neutral">◈ DILEMMA POOL: $10,000,000 TRANCHE</span>
-    `
-  },
-  hotel_lobby: {
-    id: 'hotel_lobby',
-    name: 'Hotel Lobby',
-    icon: '🛎️',
-    desc: 'Art Deco Grand Continental, warm champagne brass, private sealed escrow.',
-    swatches: ['#0d0b09', '#d4af37', '#10b981', '#e11d48'],
-    brandBadge: 'GRAND CONTINENTAL',
-    potLabel: 'PRIVATE ESCROW DEPOSIT',
-    splitLabel: 'Honor Covenant (50%)',
-    stealLabel: 'Seize Escrow (100%)',
-    ballSplitText: 'HONOR',
-    ballStealText: 'SEIZE',
-    scanLabel: '🛎️ Inquire Concierge Intel',
-    lockPrompt: '🔒 Seal Wax Escrow Key',
-    bluffs: [
-      { text: "By the rules of the Continental, I am honoring the 50/50 covenant.", label: "🛎️ 'Honor Covenant'" },
-      { text: "If you break sanctuary and steal, the deposit is forfeited to $0.", label: "⚠️ 'Breach = Total Forfeit'" },
-      { text: "I intend to claim the full escrow. Surrender with the split.", label: "🗝️ 'Claiming Full Escrow'" },
-      { text: "A gentleman's agreement: we divide the deposit equally.", label: "👑 'Gentleman's Agreement'" }
-    ],
-    tickerHtml: `
-      <span class="ticker-item neutral">👑 THE GRAND CONTINENTAL LOBBY</span>
-      <span class="ticker-item up">▲ PRESIDENTIAL SUITE: OCCUPIED</span>
-      <span class="ticker-item neutral">◈ ESCROW VAULT: SANCTUARY GUARANTEED</span>
-      <span class="ticker-item up">▲ CONCIERGE DESK: LEVEL 5 DISCRETION</span>
-      <span class="ticker-item down">▼ COVENANT AUDIT: IN PROGRESS</span>
-      <span class="ticker-item neutral">👑 THE GRAND CONTINENTAL LOBBY</span>
-      <span class="ticker-item up">▲ PRESIDENTIAL SUITE: OCCUPIED</span>
-      <span class="ticker-item neutral">◈ ESCROW VAULT: SANCTUARY GUARANTEED</span>
-    `
-  },
-  bank_vault: {
-    id: 'bank_vault',
-    name: 'Bank / Cash Vault',
-    icon: '🔒',
-    desc: 'Armored titanium fortress, heavy safe dials, laser grid security.',
-    swatches: ['#090a0f', '#f59e0b', '#10b981', '#ef4444'],
-    brandBadge: 'SECTOR 9 VAULT',
-    potLabel: 'SECURED CASH RESERVE',
-    splitLabel: 'Split Cash Reserve (50%)',
-    stealLabel: 'Crack & Heist (100%)',
-    ballSplitText: 'SPLIT',
-    ballStealText: 'HEIST',
-    scanLabel: '🚨 Biometric Threat Scan',
-    lockPrompt: '🔒 Set Vault Dual-Key Dial',
-    bluffs: [
-      { text: "Dual-key protocol engaged: locking in safe 50/50 split.", label: "🔒 'Dual-Key Split'" },
-      { text: "Tripping the silent alarm with a heist locks us both out at $0.", label: "🚨 'Heist = Alarm Lockdown'" },
-      { text: "I have cracked the master cipher. I am executing the HEIST.", label: "💰 'Master Heist Queued'" },
-      { text: "Let's disarm the charges and walk out with equal bullion!", label: "⚡ 'Clean Safe Evacuation'" }
-    ],
-    tickerHtml: `
-      <span class="ticker-item neutral">🔒 SWISS ARMORED VAULT SECTOR 9</span>
-      <span class="ticker-item up">▲ TIME-LOCK: 45 SECONDS TO SEAL</span>
-      <span class="ticker-item up">▲ BULLION RESERVE: $10,000,000 VERIFIED</span>
-      <span class="ticker-item down">▼ LASER GRID: ARMED</span>
-      <span class="ticker-item neutral">◈ BIOMETRICS: SCANNING DUAL KEYS</span>
-      <span class="ticker-item neutral">🔒 SWISS ARMORED VAULT SECTOR 9</span>
-      <span class="ticker-item up">▲ TIME-LOCK: 45 SECONDS TO SEAL</span>
-      <span class="ticker-item up">▲ BULLION RESERVE: $10,000,000 VERIFIED</span>
-    `
-  }
-};
 
 class TheDilemmaApp {
   constructor() {
-    this.currentTheme = localStorage.getItem('dilemma_theme') || 'trading_desk';
+    this.currentTheme = localStorage.getItem('dilemma_theme') || 'poker_tournament';
     this.currentMode = 'ai';
     this.selectedAI = 'nick';
-    this.selectedTier = TOURNAMENT_TIERS[0];
+    this.selectedTier = null;
     this.currentStake = 25000;
     
-    // State
+    // Trade session state
     this.timerInterval = null;
     this.timeRemaining = 45;
     this.selectedBall = null;
     this.p1Choice = null;
     this.p2Choice = null;
-    this.p1Name = 'Your Desk';
-    this.p2Name = 'Counterparty';
+    this.p1Name = 'You';
+    this.p2Name = 'Opponent';
     this.passPlayStep = 1;
     this.chatHistory = [];
     this.aiDialogueTimer = null;
 
-    // FX Canvas
+    // Particle FX
     this.canvas = document.getElementById('fxCanvas');
     this.ctx = this.canvas.getContext('2d');
     this.particles = [];
@@ -170,17 +37,10 @@ class TheDilemmaApp {
     this.applyTheme(this.currentTheme);
     this.setupCanvas();
     this.bindEvents();
-    this.renderThemeCards();
-    this.renderAICards();
-    this.renderTiers();
-    this.renderAchievements();
-    this.renderBallSkins();
-    this.applyEquippedSkin();
-    this.updateHeaderBankroll();
     this.checkUrlRoomParam();
     this.setup3DTilt();
 
-    // Unlock Web Audio on interaction
+    // Unlock Web Audio on first user interaction
     const unlockAudio = () => {
       window.soundEngine.init();
       window.soundEngine.setTheme(this.currentTheme);
@@ -191,24 +51,76 @@ class TheDilemmaApp {
     window.addEventListener('keydown', unlockAudio);
   }
 
+  getThemeConfig() {
+    const data = window.THEMES_DATA || {};
+    return data[this.currentTheme] || data['poker_tournament'] || Object.values(data)[0];
+  }
+
   applyTheme(themeId) {
-    if (!THEMES_CONFIG[themeId]) themeId = 'trading_desk';
+    if (!window.THEMES_DATA || !window.THEMES_DATA[themeId]) {
+      themeId = 'poker_tournament';
+    }
     this.currentTheme = themeId;
-    const config = THEMES_CONFIG[themeId];
-
-    document.documentElement.setAttribute('data-theme', themeId);
     localStorage.setItem('dilemma_theme', themeId);
-    window.soundEngine.setTheme(themeId);
+    document.documentElement.setAttribute('data-theme', themeId);
 
-    // Update dynamic interface elements
-    const brandBadge = document.querySelector('.brand-badge');
+    // Synchronize sub-engines
+    window.soundEngine.setTheme(themeId);
+    window.gameMatrix.setTheme(themeId);
+    window.aiEngine.setTheme(themeId);
+
+    const config = this.getThemeConfig();
+
+    // 1. Header Elements
+    const brandTitle = document.getElementById('headerBrandTitle');
+    if (brandTitle) brandTitle.textContent = config.brandTitle;
+
+    const brandBadge = document.getElementById('headerBrandBadge');
     if (brandBadge) brandBadge.textContent = config.brandBadge;
 
-    const tickerTrack = document.querySelector('.ticker-track');
-    if (tickerTrack) tickerTrack.innerHTML = config.tickerHtml;
+    const bankrollLabel = document.getElementById('bankrollLabel');
+    if (bankrollLabel) bankrollLabel.textContent = config.currencyLabel;
 
-    const potLabel = document.querySelector('.stage-pot-label');
+    // 2. Hero Section
+    const heroSubtitle = document.getElementById('heroSubtitle');
+    if (heroSubtitle) heroSubtitle.textContent = config.heroSubtitle;
+
+    const heroHeadline = document.getElementById('heroHeadline');
+    if (heroHeadline) heroHeadline.textContent = config.heroHeadline;
+
+    const heroTagline = document.getElementById('heroTagline');
+    if (heroTagline) heroTagline.textContent = config.heroTagline;
+
+    // 3. Mode Cards
+    const modeTitleAI = document.getElementById('modeTitleAI');
+    if (modeTitleAI) modeTitleAI.textContent = config.modes.ai.title;
+    const modeDescAI = document.getElementById('modeDescAI');
+    if (modeDescAI) modeDescAI.textContent = config.modes.ai.desc;
+
+    const modeTitleMulti = document.getElementById('modeTitleMultiplayer');
+    if (modeTitleMulti) modeTitleMulti.textContent = config.modes.multiplayer.title;
+    const modeDescMulti = document.getElementById('modeDescMultiplayer');
+    if (modeDescMulti) modeDescMulti.textContent = config.modes.multiplayer.desc;
+
+    const modeTitlePass = document.getElementById('modeTitlePassPlay');
+    if (modeTitlePass) modeTitlePass.textContent = config.modes.pass_play.title;
+    const modeDescPass = document.getElementById('modeDescPassPlay');
+    if (modeDescPass) modeDescPass.textContent = config.modes.pass_play.desc;
+
+    const modeTitleLadder = document.getElementById('modeTitleLadder');
+    if (modeTitleLadder) modeTitleLadder.textContent = config.modes.ladder.title;
+    const modeDescLadder = document.getElementById('modeDescLadder');
+    if (modeDescLadder) modeDescLadder.textContent = config.modes.ladder.desc;
+
+    // 4. Gameplay Stage Labels
+    const potLabel = document.getElementById('gamePotLabel');
     if (potLabel) potLabel.textContent = config.potLabel;
+
+    const splitLabel = document.getElementById('splitBallLabel');
+    if (splitLabel) splitLabel.textContent = config.splitLabel;
+
+    const stealLabel = document.getElementById('stealBallLabel');
+    if (stealLabel) stealLabel.textContent = config.stealLabel;
 
     const ballVisualSplit = document.querySelector('#ballVisualSplit .ball-emblem');
     if (ballVisualSplit) ballVisualSplit.textContent = config.ballSplitText;
@@ -216,21 +128,25 @@ class TheDilemmaApp {
     const ballVisualSteal = document.querySelector('#ballVisualSteal .ball-emblem');
     if (ballVisualSteal) ballVisualSteal.textContent = config.ballStealText;
 
-    const splitLabel = document.querySelector('#ballSplit .ball-label');
-    if (splitLabel) splitLabel.textContent = config.splitLabel;
+    const promptTitle = document.getElementById('decisionPromptTitle');
+    if (promptTitle) promptTitle.textContent = config.decisionPrompt;
 
-    const stealLabel = document.querySelector('#ballSteal .ball-label');
-    if (stealLabel) stealLabel.textContent = config.stealLabel;
+    const scanBtn = document.getElementById('btnRunPolygraph');
+    if (scanBtn) scanBtn.textContent = config.scanBtnLabel;
 
-    const btnScan = document.getElementById('btnRunPolygraph');
-    if (btnScan) btnScan.textContent = config.scanLabel;
+    const polyHeader = document.getElementById('polygraphHeader');
+    if (polyHeader) polyHeader.textContent = `${config.scanTitle}: `;
 
-    const decisionPrompt = document.getElementById('decisionPromptTitle');
-    if (decisionPrompt) decisionPrompt.textContent = config.lockPrompt;
+    // 5. Dynamic Ticker Track
+    const tickerTrack = document.querySelector('.ticker-track');
+    if (tickerTrack && config.ticker) {
+      const itemsHtml = config.ticker.map(t => `<span class="ticker-item ${t.type}">${t.text}</span>`).join('');
+      tickerTrack.innerHTML = itemsHtml + itemsHtml; // duplicate for infinite loop
+    }
 
-    // Update quick bluffs
+    // 6. Quick Bluffs Bar
     const quickBar = document.getElementById('quickBluffBar');
-    if (quickBar) {
+    if (quickBar && config.bluffs) {
       quickBar.innerHTML = '';
       config.bluffs.forEach(b => {
         const btn = document.createElement('button');
@@ -242,8 +158,14 @@ class TheDilemmaApp {
       });
     }
 
-    this.applyEquippedSkin();
+    // 7. Re-render all views
     this.renderThemeCards();
+    this.renderAICards();
+    this.renderTiers();
+    this.renderBallSkins();
+    this.renderAchievements();
+    this.applyEquippedSkin();
+    this.updateHeaderBankroll();
   }
 
   renderThemeCards() {
@@ -251,7 +173,38 @@ class TheDilemmaApp {
     if (!grid) return;
     grid.innerHTML = '';
 
-    Object.values(THEMES_CONFIG).forEach(t => {
+    const allThemes = [
+      {
+        id: 'poker_tournament',
+        name: 'Poker Tournament',
+        icon: '♠️',
+        desc: 'High-stakes Vegas heads-up room, emerald green felt, ceramic clay chips.',
+        swatches: ['#05140b', '#eab308', '#22c55e', '#ef4444']
+      },
+      {
+        id: 'trading_desk',
+        name: 'Trading Desk',
+        icon: '📊',
+        desc: 'Bloomberg executive trading desk, phosphor emerald, cyber cyan telemetry.',
+        swatches: ['#06080d', '#00e676', '#38bdf8', '#ff3366']
+      },
+      {
+        id: 'hotel_lobby',
+        name: 'Hotel Lobby',
+        icon: '🛎️',
+        desc: 'Art Deco Grand Continental, warm champagne brass, private sealed escrow.',
+        swatches: ['#0e0a07', '#d4af37', '#10b981', '#e11d48']
+      },
+      {
+        id: 'bank_vault',
+        name: 'Bank / Cash Vault',
+        icon: '🔒',
+        desc: 'Armored titanium fortress, heavy safe dials, laser grid security.',
+        swatches: ['#090a0f', '#f59e0b', '#10b981', '#ef4444']
+      }
+    ];
+
+    allThemes.forEach(t => {
       const isActive = this.currentTheme === t.id;
       const card = document.createElement('div');
       card.className = `theme-card ${isActive ? 'active' : ''}`;
@@ -279,6 +232,175 @@ class TheDilemmaApp {
 
       grid.appendChild(card);
     });
+  }
+
+  renderAICards() {
+    const list = document.getElementById('aiCardList');
+    if (!list) return;
+    list.innerHTML = '';
+    const allAI = window.aiEngine.getAllPersonalities();
+
+    allAI.forEach(ai => {
+      const isSelected = ai.id === this.selectedAI;
+      const card = document.createElement('div');
+      card.className = `ai-card ${isSelected ? 'selected' : ''}`;
+      card.innerHTML = `
+        <div class="ai-card-header">
+          <div class="ai-avatar">${ai.avatar}</div>
+          <div class="ai-info">
+            <h3>${ai.name}</h3>
+            <div class="ai-subtitle">${ai.title}</div>
+          </div>
+        </div>
+        <p class="ai-quote">${ai.quote}</p>
+        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 10px;">${ai.bio}</p>
+        <div class="ai-meta">
+          <span>Profile: <strong>${ai.difficulty}</strong></span>
+          <span>Strategy: <strong>${ai.tellNote ? 'Dynamic' : 'Adaptive'}</strong></span>
+        </div>
+      `;
+
+      card.addEventListener('click', () => {
+        window.soundEngine.playClick();
+        document.querySelectorAll('.ai-card').forEach(c => c.classList.remove('selected'));
+        card.classList.add('selected');
+        this.selectedAI = ai.id;
+      });
+
+      list.appendChild(card);
+    });
+  }
+
+  renderTiers() {
+    const container = document.getElementById('tierListContainer');
+    if (!container) return;
+    container.innerHTML = '';
+
+    const tiers = window.gameMatrix.getTiers();
+    if (!this.selectedTier && tiers.length > 0) {
+      this.selectedTier = tiers[0];
+    }
+
+    tiers.forEach(tier => {
+      const isLocked = window.gameMatrix.stats.bankroll < tier.minBankroll;
+      const isSelected = this.selectedTier && tier.id === this.selectedTier.id;
+
+      const item = document.createElement('div');
+      item.className = `tier-item ${isSelected ? 'selected' : ''} ${isLocked ? 'locked' : ''}`;
+      item.innerHTML = `
+        <div class="tier-left">
+          <div class="tier-icon">${tier.icon}</div>
+          <div>
+            <div class="tier-title">${tier.name} ${isLocked ? '🔒' : ''}</div>
+            <div class="tier-desc">${tier.desc || tier.description}</div>
+          </div>
+        </div>
+        <div class="tier-stake">$${tier.stake.toLocaleString()}</div>
+      `;
+
+      if (!isLocked) {
+        item.addEventListener('click', () => {
+          window.soundEngine.playClick();
+          document.querySelectorAll('.tier-item').forEach(t => t.classList.remove('selected'));
+          item.classList.add('selected');
+          this.selectedTier = tier;
+        });
+      }
+
+      container.appendChild(item);
+    });
+  }
+
+  renderAchievements() {
+    const grid = document.getElementById('achievementsGrid');
+    if (!grid) return;
+    grid.innerHTML = '';
+
+    ACHIEVEMENTS.forEach(ach => {
+      const isUnlocked = window.gameMatrix.stats.unlockedAchievements.includes(ach.id);
+      const badge = document.createElement('div');
+      badge.className = `achievement-badge ${isUnlocked ? 'unlocked' : ''}`;
+      badge.title = ach.desc;
+      badge.innerHTML = `
+        <div class="badge-icon">${ach.icon}</div>
+        <div class="badge-name">${ach.title}</div>
+      `;
+      grid.appendChild(badge);
+    });
+  }
+
+  renderBallSkins() {
+    const shelf = document.getElementById('ballSkinsShelf');
+    if (!shelf) return;
+    shelf.innerHTML = '';
+
+    window.gameMatrix.skins.forEach(skin => {
+      const isUnlocked = window.gameMatrix.stats.unlockedSkins.includes(skin.id);
+      const isEquipped = window.gameMatrix.stats.equippedSkin === skin.id;
+
+      const card = document.createElement('div');
+      card.className = `skin-card ${isEquipped ? 'equipped' : ''}`;
+      card.innerHTML = `
+        <div class="skin-preview-ball" style="background: ${skin.splitStyle};"></div>
+        <div class="skin-name">${skin.name}</div>
+        <div class="skin-status">${isEquipped ? 'EQUIPPED' : isUnlocked ? 'Owned' : `$${skin.price.toLocaleString()}`}</div>
+      `;
+
+      card.onclick = () => {
+        window.soundEngine.playClick();
+        if (isUnlocked) {
+          window.gameMatrix.equipSkin(skin.id);
+          this.applyEquippedSkin();
+          this.renderBallSkins();
+        } else {
+          if (window.gameMatrix.unlockSkin(skin.id)) {
+            this.applyEquippedSkin();
+            this.updateHeaderBankroll();
+            this.renderBallSkins();
+            alert(`Unlocked and equipped ${skin.name}!`);
+          } else {
+            alert(`Insufficient funds. Need $${skin.price.toLocaleString()}.`);
+          }
+        }
+      };
+
+      shelf.appendChild(card);
+    });
+  }
+
+  applyEquippedSkin() {
+    const skin = window.gameMatrix.getEquippedSkin();
+    const splitVisual = document.getElementById('ballVisualSplit');
+    const stealVisual = document.getElementById('ballVisualSteal');
+    if (splitVisual) splitVisual.style.background = skin.splitStyle;
+    if (stealVisual) stealVisual.style.background = skin.stealStyle;
+  }
+
+  openProfileModal() {
+    const stats = window.gameMatrix.stats;
+    const arch = window.gameMatrix.getPlayerArchetype();
+
+    document.getElementById('profileArchetypeIcon').textContent = arch.icon;
+    document.getElementById('profileArchetypeTitle').textContent = arch.title;
+    document.getElementById('profileArchetypeTitle').style.color = arch.color;
+
+    const config = this.getThemeConfig();
+    const subtitle = document.getElementById('profileArchetypeSubtitle');
+    if (subtitle) subtitle.textContent = `Career ${config.currencyName} & Standing`;
+
+    document.getElementById('statTotalWon').textContent = `$${stats.totalWon.toLocaleString()}`;
+    document.getElementById('statTrustScore').textContent = `${window.gameMatrix.getTrustScore()}%`;
+    document.getElementById('statMatches').textContent = stats.matchesPlayed;
+    document.getElementById('statHeists').textContent = stats.successfulHeists;
+
+    this.renderBallSkins();
+    this.renderAchievements();
+    document.getElementById('profileModal').classList.remove('hidden');
+  }
+
+  updateHeaderBankroll() {
+    const roll = window.gameMatrix.stats.bankroll;
+    document.getElementById('bankrollValue').textContent = `$${roll.toLocaleString()}`;
   }
 
   setupCanvas() {
@@ -327,7 +449,7 @@ class TheDilemmaApp {
     document.getElementById('btnHostVoiceToggle').addEventListener('click', (e) => {
       const isVoiceOn = window.soundEngine.toggleHostVoice();
       e.target.textContent = isVoiceOn ? '🎙️' : '🔇';
-      window.soundEngine.speakHost(isVoiceOn ? 'Host voice telemetry online' : '', true);
+      window.soundEngine.speakHost(isVoiceOn ? 'Voice commentary online' : '', true);
     });
 
     // Theme Modal Toggle
@@ -364,23 +486,24 @@ class TheDilemmaApp {
     });
 
     document.getElementById('btnResetCareer').addEventListener('click', () => {
-      if (confirm('Reset fund portfolio NAV balance sheet and all trading certifications?')) {
+      if (confirm('Reset career balance sheet and all achievements?')) {
         window.gameMatrix.resetStats();
         this.updateHeaderBankroll();
         this.openProfileModal();
       }
     });
 
-    // Polygraph / Read Tells Scan
+    // Lie Detector / Read Tells Scan
     document.getElementById('btnRunPolygraph').addEventListener('click', () => {
       window.soundEngine.playClick();
       this.handlePolygraphScan();
     });
 
-    // Menu Mode Cards
+    // Mode Cards
     document.getElementById('btnModeAI').addEventListener('click', () => {
       window.soundEngine.playClick();
       this.currentMode = 'ai';
+      this.renderAICards();
       this.showScreen('screenAIGauntlet');
     });
 
@@ -401,6 +524,7 @@ class TheDilemmaApp {
     document.getElementById('btnModeLadder').addEventListener('click', () => {
       window.soundEngine.playClick();
       this.currentMode = 'ladder';
+      this.renderTiers();
       this.showScreen('screenTierSelect');
     });
 
@@ -431,14 +555,15 @@ class TheDilemmaApp {
     // Ladder Tier Confirmation
     document.getElementById('btnConfirmTier').addEventListener('click', () => {
       window.soundEngine.playClick();
-      this.currentStake = this.selectedTier.stake;
+      const tiers = window.gameMatrix.getTiers();
+      const chosenTier = this.selectedTier || tiers[0];
+      this.currentStake = chosenTier.stake;
       const aiList = ['sarah', 'damian', 'jax', 'nash', 'nick'];
-      const randomAI = aiList[Math.floor(Math.random() * aiList.length)];
-      this.selectedAI = randomAI;
+      this.selectedAI = aiList[Math.floor(Math.random() * aiList.length)];
       this.startAIGameplay();
     });
 
-    // Capsule Order Selection
+    // Decision Token Selection
     const ballSplit = document.getElementById('ballSplit');
     const ballSteal = document.getElementById('ballSteal');
     const btnLock = document.getElementById('btnLockChoice');
@@ -505,12 +630,12 @@ class TheDilemmaApp {
       }
     });
 
-    // Double Conviction Rematch
+    // Double Stakes Rematch
     document.getElementById('btnDoubleDownRevenge').addEventListener('click', () => {
       window.soundEngine.playClick();
       this.cleanupGameSession();
       this.currentStake *= 2;
-      window.soundEngine.speakHost(`Double stakes rematch! $${this.currentStake.toLocaleString()} in play!`, true);
+      window.soundEngine.speakHost(`Double stakes rematch! $${this.currentStake.toLocaleString()} now in the pot!`, true);
       this.startAIGameplay();
     });
 
@@ -519,7 +644,7 @@ class TheDilemmaApp {
 
   handlePolygraphScan() {
     const reading = document.getElementById('polygraphReading');
-    reading.innerHTML = '<span style="color: var(--primary-accent);">Analyzing counterparty cadence & stress indicators...</span>';
+    reading.innerHTML = '<span style="color: var(--primary-accent);">Analyzing counterparty cadence & tell signals...</span>';
 
     setTimeout(() => {
       const scan = window.gameMatrix.runPolygraphScan(this.selectedAI, this.timeRemaining, this.chatHistory.length);
@@ -528,65 +653,18 @@ class TheDilemmaApp {
         <strong style="color: ${color};">${scan.deceptionProbability}% Deception Probability</strong> (${scan.stressLevel}) - <em>${scan.tellNote}</em>
       `;
       window.soundEngine.playCountdownTick(2);
-    }, 700);
-  }
-
-  renderBallSkins() {
-    const shelf = document.getElementById('ballSkinsShelf');
-    if (!shelf) return;
-    shelf.innerHTML = '';
-
-    window.gameMatrix.skins.forEach(skin => {
-      const isUnlocked = window.gameMatrix.stats.unlockedSkins.includes(skin.id);
-      const isEquipped = window.gameMatrix.stats.equippedSkin === skin.id;
-
-      const card = document.createElement('div');
-      card.className = `skin-card ${isEquipped ? 'equipped' : ''}`;
-      card.innerHTML = `
-        <div class="skin-preview-ball" style="background: ${skin.splitStyle};"></div>
-        <div class="skin-name">${skin.name}</div>
-        <div class="skin-status">${isEquipped ? 'EQUIPPED' : isUnlocked ? 'Owned' : `$${skin.price.toLocaleString()}`}</div>
-      `;
-
-      card.onclick = () => {
-        window.soundEngine.playClick();
-        if (isUnlocked) {
-          window.gameMatrix.equipSkin(skin.id);
-          this.applyEquippedSkin();
-          this.renderBallSkins();
-        } else {
-          if (window.gameMatrix.unlockSkin(skin.id)) {
-            this.applyEquippedSkin();
-            this.updateHeaderBankroll();
-            this.renderBallSkins();
-            alert(`Unlocked and equipped ${skin.name}!`);
-          } else {
-            alert(`Insufficient funds. Need $${skin.price.toLocaleString()}.`);
-          }
-        }
-      };
-
-      shelf.appendChild(card);
-    });
-  }
-
-  applyEquippedSkin() {
-    const skin = window.gameMatrix.getEquippedSkin();
-    const splitVisual = document.getElementById('ballVisualSplit');
-    const stealVisual = document.getElementById('ballVisualSteal');
-    if (splitVisual) splitVisual.style.background = skin.splitStyle;
-    if (stealVisual) stealVisual.style.background = skin.stealStyle;
+    }, 600);
   }
 
   setupMultiplayerListeners() {
     window.multiplayerEngine.on('onRoomCreated', (data) => {
       document.getElementById('displayRoomCode').textContent = data.roomCode;
-      document.getElementById('hostStatusMsg').textContent = 'Awaiting counterparty connection...';
+      document.getElementById('hostStatusMsg').textContent = 'Awaiting player connection...';
     });
 
     window.multiplayerEngine.on('onPlayerJoined', (opponent) => {
       window.soundEngine.playClick();
-      document.getElementById('hostStatusMsg').textContent = `✅ Counterparty [${opponent.name}] connected!`;
+      document.getElementById('hostStatusMsg').textContent = `✅ Player [${opponent.name}] connected!`;
       document.getElementById('btnHostStartMatch').classList.remove('hidden');
       
       if (!window.multiplayerEngine.isHost) {
@@ -598,7 +676,7 @@ class TheDilemmaApp {
 
     window.multiplayerEngine.on('onGameStart', () => {
       this.p1Name = window.multiplayerEngine.playerName;
-      this.p2Name = window.multiplayerEngine.opponent ? window.multiplayerEngine.opponent.name : 'Counterparty';
+      this.p2Name = window.multiplayerEngine.opponent ? window.multiplayerEngine.opponent.name : 'Opponent';
       this.startMultiplayerMatch(45);
     });
 
@@ -609,7 +687,7 @@ class TheDilemmaApp {
 
     window.multiplayerEngine.on('onOpponentLocked', (data) => {
       this.p2Choice = data.choice;
-      this.appendChat('SYSTEM', `${data.opponentName} decision locked in secret 🔒`, false);
+      this.appendChat('SYSTEM', `${data.opponentName} decision entered in secret 🔒`, false);
       
       if (this.p1Choice) {
         this.triggerRevealSequence(this.p1Choice, this.p2Choice);
@@ -658,9 +736,9 @@ class TheDilemmaApp {
       const url = `${window.location.origin}${window.location.pathname}?room=${window.multiplayerEngine.roomCode}`;
       navigator.clipboard.writeText(url).then(() => {
         window.soundEngine.playClick();
-        alert(`Encrypted Deal Link copied to clipboard:\n${url}`);
+        alert(`Encrypted Game Link copied to clipboard:\n${url}`);
       }).catch(() => {
-        prompt('Copy deal link:', url);
+        prompt('Copy game link:', url);
       });
     };
 
@@ -668,7 +746,7 @@ class TheDilemmaApp {
       const input = document.getElementById('inputJoinCode');
       const val = input.value.trim().toUpperCase();
       if (val.length < 4) {
-        alert('Please enter a valid 6-letter deal code');
+        alert('Please enter a valid 6-letter room code');
         return;
       }
       window.soundEngine.playClick();
@@ -695,115 +773,6 @@ class TheDilemmaApp {
       tabJoin.click();
       document.getElementById('inputJoinCode').value = room;
     }
-  }
-
-  renderAICards() {
-    const list = document.getElementById('aiCardList');
-    list.innerHTML = '';
-    const allAI = window.aiEngine.getAllPersonalities();
-
-    allAI.forEach(ai => {
-      const card = document.createElement('div');
-      card.className = `ai-card ${ai.id === this.selectedAI ? 'selected' : ''}`;
-      card.innerHTML = `
-        <div class="ai-card-header">
-          <div class="ai-avatar">${ai.avatar}</div>
-          <div class="ai-info">
-            <h3>${ai.name}</h3>
-            <div class="ai-subtitle">${ai.title}</div>
-          </div>
-        </div>
-        <p class="ai-quote">${ai.quote}</p>
-        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 10px;">${ai.bio}</p>
-        <div class="ai-meta">
-          <span>Profile: <strong>${ai.difficulty}</strong></span>
-          <span>Strategy: <strong>${ai.tactics}</strong></span>
-        </div>
-      `;
-
-      card.addEventListener('click', () => {
-        window.soundEngine.playClick();
-        document.querySelectorAll('.ai-card').forEach(c => c.classList.remove('selected'));
-        card.classList.add('selected');
-        this.selectedAI = ai.id;
-      });
-
-      list.appendChild(card);
-    });
-  }
-
-  renderTiers() {
-    const container = document.getElementById('tierListContainer');
-    container.innerHTML = '';
-
-    TOURNAMENT_TIERS.forEach(tier => {
-      const isLocked = window.gameMatrix.stats.bankroll < tier.minBankroll;
-      const isSelected = tier.id === this.selectedTier.id;
-
-      const item = document.createElement('div');
-      item.className = `tier-item ${isSelected ? 'selected' : ''} ${isLocked ? 'locked' : ''}`;
-      item.innerHTML = `
-        <div class="tier-left">
-          <div class="tier-icon">${tier.icon}</div>
-          <div>
-            <div class="tier-title">${tier.name} ${isLocked ? '🔒' : ''}</div>
-            <div class="tier-desc">${tier.description}</div>
-          </div>
-        </div>
-        <div class="tier-stake">$${tier.stake.toLocaleString()}</div>
-      `;
-
-      if (!isLocked) {
-        item.addEventListener('click', () => {
-          window.soundEngine.playClick();
-          document.querySelectorAll('.tier-item').forEach(t => t.classList.remove('selected'));
-          item.classList.add('selected');
-          this.selectedTier = tier;
-        });
-      }
-
-      container.appendChild(item);
-    });
-  }
-
-  renderAchievements() {
-    const grid = document.getElementById('achievementsGrid');
-    grid.innerHTML = '';
-
-    ACHIEVEMENTS.forEach(ach => {
-      const isUnlocked = window.gameMatrix.stats.unlockedAchievements.includes(ach.id);
-      const badge = document.createElement('div');
-      badge.className = `achievement-badge ${isUnlocked ? 'unlocked' : ''}`;
-      badge.title = ach.desc;
-      badge.innerHTML = `
-        <div class="badge-icon">${ach.icon}</div>
-        <div class="badge-name">${ach.title}</div>
-      `;
-      grid.appendChild(badge);
-    });
-  }
-
-  openProfileModal() {
-    const stats = window.gameMatrix.stats;
-    const arch = window.gameMatrix.getPlayerArchetype();
-
-    document.getElementById('profileArchetypeIcon').textContent = arch.icon;
-    document.getElementById('profileArchetypeTitle').textContent = arch.title;
-    document.getElementById('profileArchetypeTitle').style.color = arch.color;
-
-    document.getElementById('statTotalWon').textContent = `$${stats.totalWon.toLocaleString()}`;
-    document.getElementById('statTrustScore').textContent = `${window.gameMatrix.getTrustScore()}%`;
-    document.getElementById('statMatches').textContent = stats.matchesPlayed;
-    document.getElementById('statHeists').textContent = stats.successfulHeists;
-
-    this.renderBallSkins();
-    this.renderAchievements();
-    document.getElementById('profileModal').classList.remove('hidden');
-  }
-
-  updateHeaderBankroll() {
-    const roll = window.gameMatrix.stats.bankroll;
-    document.getElementById('bankrollValue').textContent = `$${roll.toLocaleString()}`;
   }
 
   /* ==========================================================================
@@ -840,8 +809,8 @@ class TheDilemmaApp {
     window.soundEngine.startTensionDrone();
     window.soundEngine.startHeartbeat(65);
 
-    const config = THEMES_CONFIG[this.currentTheme];
-    window.soundEngine.speakHost(`${config.name} active. $${this.currentStake.toLocaleString()} in negotiation with ${ai.name}.`, true);
+    const config = this.getThemeConfig();
+    window.soundEngine.speakHost(config.announcements.roundStart, true);
 
     this.appendChat(ai.name, ai.initialDialogue, true);
 
@@ -930,8 +899,10 @@ class TheDilemmaApp {
       const bpm = 65 + (45 - this.timeRemaining) * 2;
       window.soundEngine.setHeartbeatBpm(bpm);
 
+      const config = this.getThemeConfig();
+
       if (this.timeRemaining === 10) {
-        window.soundEngine.speakHost("Ten seconds remaining! Lock in your choice!");
+        window.soundEngine.speakHost(config.announcements.tenSeconds);
       }
 
       if (this.timeRemaining <= 10) {
@@ -991,7 +962,7 @@ class TheDilemmaApp {
           const ai = window.aiEngine.getPersonality(this.selectedAI);
           const reply = window.aiEngine.generateNegotiationDialogue(this.selectedAI, this.timeRemaining, this.chatHistory);
           this.appendChat(ai.name, reply, true);
-        }, 1200);
+        }, 1100);
       }
     }
   }
@@ -1037,7 +1008,7 @@ class TheDilemmaApp {
       }
       setTimeout(() => {
         this.triggerRevealSequence(this.p1Choice, this.p2Choice);
-      }, 1000);
+      }, 900);
     } else if (this.currentMode === 'multiplayer') {
       window.multiplayerEngine.lockChoice(this.p1Choice);
       if (this.p2Choice) {
@@ -1078,10 +1049,11 @@ class TheDilemmaApp {
     ballP1.style.background = skin.splitStyle;
     ballP2.style.background = skin.splitStyle;
 
+    const config = this.getThemeConfig();
     let count = 3;
     countdown.textContent = `REVEAL IN ${count}...`;
     window.soundEngine.playCountdownTick(count);
-    window.soundEngine.speakHost("Three, two, one, reveal!");
+    window.soundEngine.speakHost(config.announcements.reveal);
 
     const revealTimer = setInterval(() => {
       count--;
@@ -1093,8 +1065,6 @@ class TheDilemmaApp {
         countdown.textContent = 'REVEALED!';
         
         window.soundEngine.playRevealSting();
-
-        const config = THEMES_CONFIG[this.currentTheme];
 
         setTimeout(() => {
           ballP1.classList.add('opened', p1 === 'SPLIT' ? 'is-split' : 'is-steal');
@@ -1140,20 +1110,22 @@ class TheDilemmaApp {
 
     card.classList.remove('hidden');
 
+    const config = this.getThemeConfig();
+
     if (outcome.outcomeType === 'SPLIT_SPLIT') {
       window.soundEngine.playSplitVictory();
-      window.soundEngine.speakHost(`Both sides split! $${outcome.p1Amount.toLocaleString()} awarded to each!`);
+      window.soundEngine.speakHost(config.announcements.splitWin);
       this.spawnConfetti(['#00e676', '#38bdf8', '#ffffff', '#eab308'], 150);
     } else if (outcome.outcomeType === 'P1_STEALS') {
       window.soundEngine.playStealHeist(true);
-      window.soundEngine.speakHost(`Total steal! You take the entire $${outcome.totalJackpot.toLocaleString()} pot!`);
+      window.soundEngine.speakHost(config.announcements.stealWin);
       this.spawnConfetti(['#eab308', '#38bdf8', '#ffffff', '#f59e0b'], 180);
     } else if (outcome.outcomeType === 'P2_STEALS') {
       window.soundEngine.playStealHeist(false);
-      window.soundEngine.speakHost(`Betrayal! ${this.p2Name} takes the entire pot!`);
+      window.soundEngine.speakHost(config.announcements.stealLose);
     } else {
       window.soundEngine.playMutualDestruction();
-      window.soundEngine.speakHost(`Mutual destruction! Both walk away with nothing!`);
+      window.soundEngine.speakHost(config.announcements.mutualLose);
     }
   }
 

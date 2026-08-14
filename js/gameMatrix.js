@@ -1,100 +1,73 @@
 /**
- * GameMatrix - The Dilemma: Corporate & High-Finance Payoff Engine
- * High-conviction trading tiers, liquidity allocations, keystone skins, and desk statistics.
+ * GameMatrix - The Dilemma Theme-Adaptive Payoff & Archetype Engine
+ * Automatically aligns bankroll labels, stakes ladders, lie detection,
+ * and player career progression with the active theme.
  */
-
-const TOURNAMENT_TIERS = [
-  {
-    id: 'tier1',
-    name: 'Angel Syndicate Round',
-    stake: 25000,
-    minBankroll: 0,
-    description: 'Seed stage deal room where junior venture partners prove their conviction.',
-    icon: '💼'
-  },
-  {
-    id: 'tier2',
-    name: 'Series A Venture Tranche',
-    stake: 100000,
-    minBankroll: 25000,
-    description: 'Competitive venture round with high institutional scrutiny.',
-    icon: '📊'
-  },
-  {
-    id: 'tier3',
-    name: 'Wall Street Trading Floor',
-    stake: 500000,
-    minBankroll: 150000,
-    description: 'High-frequency institutional derivatives block trade.',
-    icon: '🏛️'
-  },
-  {
-    id: 'tier4',
-    name: 'Sovereign Wealth Allocation',
-    stake: 2000000,
-    minBankroll: 750000,
-    description: 'Eight-figure private wealth mandate with global sovereign funds.',
-    icon: '💎'
-  },
-  {
-    id: 'tier5',
-    name: 'Hostile Megamerger Acquisition',
-    stake: 10000000,
-    minBankroll: 2500000,
-    description: 'The ultimate $10,000,000 hostile takeover on live financial news.',
-    icon: '👑'
-  }
-];
 
 const BALL_SKINS = [
   {
-    id: 'obsidian_titanium',
-    name: 'Titanium Obsidian Core',
+    id: 'standard_token',
+    name: 'Classic Theme Standard',
     price: 0,
-    desc: 'Brushed matte black aerospace titanium with gold telemetry.',
-    splitStyle: 'radial-gradient(circle at 35% 30%, #475569 0%, #1e293b 40%, #0f172a 80%, #020617 100%)',
-    stealStyle: 'radial-gradient(circle at 35% 30%, #475569 0%, #1e293b 40%, #0f172a 80%, #020617 100%)'
-  },
-  {
-    id: 'bloomberg_emerald',
-    name: 'Bloomberg Terminal Emerald',
-    price: 50000,
-    desc: 'Phosphor terminal green with high-frequency order matrix.',
-    splitStyle: 'radial-gradient(circle at 35% 30%, #a7f3d0 0%, #10b981 40%, #064e3b 80%, #022c22 100%)',
-    stealStyle: 'radial-gradient(circle at 35% 30%, #fca5a5 0%, #dc2626 40%, #7f1d1d 80%, #450a0a 100%)'
+    desc: 'Bespoke hand-crafted style matching the active theme environment.',
+    splitStyle: 'var(--split-gradient)',
+    stealStyle: 'var(--steal-gradient)'
   },
   {
     id: 'gold_bullion',
-    name: 'Swiss Vault Gold Bullion',
-    price: 150000,
-    desc: 'Pure 999.9 physical bullion with laser-engraved ledger stamp.',
+    name: '24K Swiss Gold Ingot',
+    price: 50000,
+    desc: 'Pure 999.9 physical gold with high-luster specular reflection.',
     splitStyle: 'radial-gradient(circle at 35% 30%, #fffbe6 0%, #f7dc6f 25%, #d4af37 60%, #855b11 90%, #3e2804 100%)',
     stealStyle: 'radial-gradient(circle at 35% 30%, #fffbe6 0%, #f7dc6f 25%, #d4af37 60%, #855b11 90%, #3e2804 100%)'
   },
   {
+    id: 'titanium_obsidian',
+    name: 'Aerospace Matte Obsidian',
+    price: 150000,
+    desc: 'Brushed matte black titanium with carbon edge accents.',
+    splitStyle: 'radial-gradient(circle at 35% 30%, #475569 0%, #1e293b 40%, #0f172a 80%, #020617 100%)',
+    stealStyle: 'radial-gradient(circle at 35% 30%, #475569 0%, #1e293b 40%, #0f172a 80%, #020617 100%)'
+  },
+  {
     id: 'diamond_platinum',
-    name: 'Sovereign Diamond Platinum',
+    name: 'Sovereign Diamond Crystal',
     price: 500000,
-    desc: 'Ultra-exclusive diamond crystal and polished platinum matrix.',
+    desc: 'Faceted diamond crystal matrix with holographic shimmer.',
     splitStyle: 'radial-gradient(circle at 35% 30%, #ffffff 0%, #e0f2fe 30%, #7dd3fc 70%, #0284c7 100%)',
     stealStyle: 'radial-gradient(circle at 35% 30%, #ffffff 0%, #ffe4e6 30%, #fda4af 70%, #e11d48 100%)'
   }
 ];
 
 const ACHIEVEMENTS = [
-  { id: 'first_split', title: 'Syndicate Closed', desc: 'Successfully execute a 50/50 equity syndicate', icon: '🤝' },
-  { id: 'first_steal', title: 'Hostile Takeover', desc: 'Execute a hostile liquidation and seize 100% of the capital pool', icon: '💼' },
-  { id: 'double_steal', title: 'Total Default Collapse', desc: 'Both counterparties defect and trigger a $0 mutual default', icon: '💥' },
-  { id: 'master_saint', title: 'Fiduciary Titan', desc: 'Maintain an 85%+ Fiduciary Trust Rating across 10+ transactions', icon: '📈' },
-  { id: 'master_thief', title: 'Apex Corporate Raider', desc: 'Liquidate and seize over $2,000,000 in hostile acquisitions', icon: '🦈' },
-  { id: 'millionaire', title: 'Decamillionaire Fund', desc: 'Build your fund balance sheet past $10,000,000', icon: '🏆' },
-  { id: 'nick_gambit', title: 'The Raider Gambit', desc: 'Outmaneuver Nick Corrigan in a high-conviction standoff', icon: '🏢' }
+  { id: 'first_split', title: 'Syndicate Closed', desc: 'Successfully execute a 50/50 mutual split', icon: '🤝' },
+  { id: 'first_steal', title: 'Grand Heist', desc: 'Execute a successful steal and seize 100% of the pot', icon: '💼' },
+  { id: 'double_steal', title: 'Mutual Wipeout', desc: 'Both sides attempt to steal, resulting in total $0 default', icon: '💥' },
+  { id: 'master_saint', title: 'Fiduciary Titan', desc: 'Maintain an 80%+ Trust Rating across 10+ matches', icon: '📈' },
+  { id: 'master_thief', title: 'Apex Raider', desc: 'Accumulate over $2,000,000 in successful steals', icon: '🦈' },
+  { id: 'millionaire', title: 'Decamillionaire Club', desc: 'Build your career bankroll past $10,000,000', icon: '🏆' },
+  { id: 'nick_gambit', title: 'Bully Neutralized', desc: 'Defeat Nick in a high-conviction standoff', icon: '👑' }
 ];
 
 class GameMatrix {
   constructor() {
+    this.currentTheme = 'trading_desk';
     this.stats = this.loadStats();
     this.skins = BALL_SKINS;
+  }
+
+  setTheme(themeId) {
+    this.currentTheme = themeId;
+  }
+
+  getThemeData() {
+    const data = window.THEMES_DATA || {};
+    return data[this.currentTheme] || data['trading_desk'];
+  }
+
+  getTiers() {
+    const themeData = this.getThemeData();
+    return themeData.tiers || [];
   }
 
   loadStats() {
@@ -109,13 +82,13 @@ class GameMatrix {
       betrayedByOpponent: 0,
       mutualDestructions: 0,
       unlockedAchievements: [],
-      equippedSkin: 'obsidian_titanium',
-      unlockedSkins: ['obsidian_titanium'],
+      equippedSkin: 'standard_token',
+      unlockedSkins: ['standard_token'],
       history: []
     };
 
     try {
-      const saved = localStorage.getItem('dilemma_fund_stats');
+      const saved = localStorage.getItem('dilemma_game_stats_v2');
       if (saved) {
         return { ...defaults, ...JSON.parse(saved) };
       }
@@ -126,7 +99,7 @@ class GameMatrix {
 
   saveStats() {
     try {
-      localStorage.setItem('dilemma_fund_stats', JSON.stringify(this.stats));
+      localStorage.setItem('dilemma_game_stats_v2', JSON.stringify(this.stats));
     } catch (_) {}
   }
 
@@ -162,43 +135,39 @@ class GameMatrix {
   }
 
   getPlayerArchetype() {
+    const themeData = this.getThemeData();
+    const archs = themeData.archetypes || {};
     const trust = this.getTrustScore();
     const total = this.stats.matchesPlayed;
 
-    if (total < 3) return { title: 'Junior Desk Analyst', icon: '💼', color: '#94a3b8' };
-    if (trust >= 80) return { title: 'Syndicate Managing Partner', icon: '📈', color: '#34d399' };
-    if (trust <= 25) return { title: 'Apex Corporate Raider', icon: '🦈', color: '#f87171' };
-    if (this.stats.successfulHeists >= 5) return { title: 'Predatory Short Seller', icon: '📉', color: '#fbbf24' };
-    return { title: 'Quantitative Arbitrageur', icon: '⚖️', color: '#38bdf8' };
+    if (total < 3) return archs.novice || { title: 'New Challenger', icon: '💼', color: '#94a3b8' };
+    if (trust >= 80) return archs.saint || { title: 'Fiduciary Partner', icon: '📈', color: '#22c55e' };
+    if (trust <= 25) return archs.thief || { title: 'Ruthless Raider', icon: '🦈', color: '#ef4444' };
+    if (this.stats.successfulHeists >= 5) return archs.predator || { title: 'Predatory Strategist', icon: '⚡', color: '#eab308' };
+    return archs.balancer || { title: 'Balanced Tactician', icon: '⚖️', color: '#38bdf8' };
   }
 
   runPolygraphScan(aiId, timeRemaining, chatCount) {
     const ai = window.aiEngine.getPersonality(aiId);
-    
     let deceptionProbability = 50;
-    let stressLevel = 'STEADY ORDER FLOW';
-    let tellNote = 'Normal biometric volatility.';
+    let stressLevel = 'STEADY BASELINE';
+    let tellNote = ai.tellNote || 'Normal biometric readings.';
 
-    if (ai.id === 'damian') {
+    if (aiId === 'damian') {
       deceptionProbability = Math.floor(78 + Math.random() * 18);
-      stressLevel = 'HIGH DECEPTION (PUPIL DILATION & MICRO-SWEAT)';
-      tellNote = 'Predatory front-running pattern detected in vocal cadence.';
-    } else if (ai.id === 'sarah') {
-      deceptionProbability = Math.floor(8 + Math.random() * 20);
-      stressLevel = 'FIDUCIARY BASELINE';
-      tellNote = 'Institutional compliance and calm vocal cadence confirmed.';
-    } else if (ai.id === 'nick') {
-      deceptionProbability = Math.floor(50 + Math.random() * 25);
+      stressLevel = 'HIGH DECEPTION (PUPILS DILATED / MICRO-SWEAT)';
+    } else if (aiId === 'sarah') {
+      deceptionProbability = Math.floor(8 + Math.random() * 18);
+      stressLevel = 'HONEST BASELINE (CALM & STEADY)';
+    } else if (aiId === 'nick') {
+      deceptionProbability = Math.floor(48 + Math.random() * 22);
       stressLevel = 'COLD STEEL (HEART RATE 52 BPM)';
-      tellNote = 'Ruthless activist ultimatum. High-conviction posture.';
-    } else if (ai.id === 'jax') {
+    } else if (aiId === 'jax') {
       deceptionProbability = Math.floor(40 + Math.random() * 45);
       stressLevel = 'HIGH VOLATILITY SPIKE';
-      tellNote = 'Extreme adrenaline spikes detected on trading desk.';
-    } else if (ai.id === 'nash') {
-      deceptionProbability = Math.floor(45 + Math.random() * 20);
+    } else if (aiId === 'nash') {
+      deceptionProbability = Math.floor(42 + Math.random() * 18);
       stressLevel = 'FLATLINE ARBITRAGE';
-      tellNote = 'Bayesian mathematical optimization model in execution.';
     }
 
     return {
@@ -209,6 +178,7 @@ class GameMatrix {
   }
 
   evaluateMatrix(p1Choice, p2Choice, totalJackpot) {
+    const themeData = this.getThemeData();
     let outcomeType = '';
     let p1Amount = 0;
     let p2Amount = 0;
@@ -219,26 +189,26 @@ class GameMatrix {
       outcomeType = 'SPLIT_SPLIT';
       p1Amount = totalJackpot / 2;
       p2Amount = totalJackpot / 2;
-      headline = 'SYNDICATE CLOSED! 50/50 MERGER!';
-      narrative = `Both desks executed the co-investment covenant! The $${totalJackpot.toLocaleString()} pool is disbursed equally ($${p1Amount.toLocaleString()} to each firm).`;
+      headline = '50/50 SPLIT FINALIZED!';
+      narrative = `Both sides honored the agreement! The $${totalJackpot.toLocaleString()} pool is disbursed equally ($${p1Amount.toLocaleString()} to each side).`;
     } else if (p1Choice === 'STEAL' && p2Choice === 'SPLIT') {
       outcomeType = 'P1_STEALS';
       p1Amount = totalJackpot;
       p2Amount = 0;
-      headline = 'HOSTILE TAKEOVER! DESK 1 SEIZES 100%!';
-      narrative = `Desk 1 executed a hostile liquidation while Desk 2 honored the syndicate. Desk 1 absorbs the entire $${totalJackpot.toLocaleString()} capital pool!`;
+      headline = 'SOLO STEAL! YOU SEIZE 100%!';
+      narrative = `You executed a successful steal while your counterparty honored the split. You take the entire $${totalJackpot.toLocaleString()} prize!`;
     } else if (p1Choice === 'SPLIT' && p2Choice === 'STEAL') {
       outcomeType = 'P2_STEALS';
       p1Amount = 0;
       p2Amount = totalJackpot;
-      headline = 'PREDATORY RUG-PULL! COUNTERPARTY SEIZES ALL!';
-      narrative = `Counterparty executed a hostile takeover while you honored the syndicate. Counterparty absorbs the entire $${totalJackpot.toLocaleString()} pool!`;
+      headline = 'BETRAYAL! OPPONENT SEIZED THE POT!';
+      narrative = `Opponent executed a steal while you offered the split. Opponent takes the entire $${totalJackpot.toLocaleString()} prize!`;
     } else {
       outcomeType = 'MUTUAL_STEAL';
       p1Amount = 0;
       p2Amount = 0;
-      headline = 'MARGIN CALL COLLAPSE! MUTUAL $0 DEFAULT!';
-      narrative = `Both desks attempted a hostile liquidation simultaneously! Mutual market collapse triggered: the entire $${totalJackpot.toLocaleString()} pool is wiped to zero!`;
+      headline = 'MUTUAL DESTRUCTION! BOTH GET $0!';
+      narrative = `Both sides attempted to steal simultaneously! Total collapse: the entire $${totalJackpot.toLocaleString()} prize is lost to $0!`;
     }
 
     return {
@@ -283,7 +253,7 @@ class GameMatrix {
       this.checkAchievement('millionaire');
     }
 
-    if (this.stats.matchesPlayed >= 10 && this.getTrustScore() >= 85) {
+    if (this.stats.matchesPlayed >= 10 && this.getTrustScore() >= 80) {
       this.checkAchievement('master_saint');
     }
 
@@ -317,7 +287,7 @@ class GameMatrix {
   }
 
   resetStats() {
-    localStorage.removeItem('dilemma_fund_stats');
+    localStorage.removeItem('dilemma_game_stats_v2');
     localStorage.removeItem('sos_ai_memory');
     this.stats = this.loadStats();
   }
