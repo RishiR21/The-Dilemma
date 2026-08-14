@@ -1,7 +1,7 @@
 /**
- * App - The Dilemma Master Game Controller (Deep 4-Theme Interactive Ecosystem)
+ * App - The Dilemma Master Game Controller (Deep 5-Theme Interactive Ecosystem)
  * Complete visual, mechanical, typographic, and atmospheric transformation
- * across Poker Tournament, Trading Desk, Hotel Lobby, and Bank Vault.
+ * across Poker Tournament, Trading Desk, Hotel Lobby, Bank Vault, and Military Black Ops.
  */
 
 class TheDilemmaApp {
@@ -12,7 +12,7 @@ class TheDilemmaApp {
     this.selectedTier = null;
     this.currentStake = 25000;
     
-    // Trade session state
+    // Session state
     this.timerInterval = null;
     this.timeRemaining = 45;
     this.selectedBall = null;
@@ -141,7 +141,7 @@ class TheDilemmaApp {
     const tickerTrack = document.querySelector('.ticker-track');
     if (tickerTrack && config.ticker) {
       const itemsHtml = config.ticker.map(t => `<span class="ticker-item ${t.type}">${t.text}</span>`).join('');
-      tickerTrack.innerHTML = itemsHtml + itemsHtml; // duplicate for infinite loop
+      tickerTrack.innerHTML = itemsHtml + itemsHtml;
     }
 
     // 6. Quick Bluffs Bar
@@ -199,8 +199,15 @@ class TheDilemmaApp {
         id: 'bank_vault',
         name: 'Bank / Cash Vault',
         icon: '🔒',
-        desc: 'Armored titanium fortress, heavy safe dials, laser grid security.',
-        swatches: ['#090a0f', '#f59e0b', '#10b981', '#ef4444']
+        desc: 'Hyper-armored titanium safe fortress, rotating dial cogs, security laser sweep.',
+        swatches: ['#06080e', '#f59e0b', '#10b981', '#ef4444']
+      },
+      {
+        id: 'military_intelligence',
+        name: 'Military Intelligence / Black Ops',
+        icon: '🎯',
+        desc: 'Subterranean Pentagon war room, DEFCON radar alerts, dual-key launch ciphers.',
+        swatches: ['#040907', '#10b981', '#00ff88', '#ff3344']
       }
     ];
 
@@ -433,13 +440,27 @@ class TheDilemmaApp {
     if (target) target.classList.remove('hidden');
   }
 
+  exitToLobby() {
+    window.soundEngine.playExitSound();
+    this.cleanupGameSession();
+    this.showScreen('screenMenu');
+  }
+
   bindEvents() {
     // Header Navigation
     document.getElementById('btnLogoHome').addEventListener('click', () => {
-      window.soundEngine.playClick();
-      this.cleanupGameSession();
-      this.showScreen('screenMenu');
+      this.exitToLobby();
     });
+
+    // In-game Exit to Lobby Button
+    const btnExit = document.getElementById('btnExitGame');
+    if (btnExit) {
+      btnExit.addEventListener('click', () => {
+        if (confirm('Leave this round and return to the main lobby?')) {
+          this.exitToLobby();
+        }
+      });
+    }
 
     document.getElementById('btnSoundToggle').addEventListener('click', (e) => {
       const isMuted = window.soundEngine.toggleMute();
@@ -611,9 +632,7 @@ class TheDilemmaApp {
 
     // Outcome Card Buttons
     document.getElementById('btnReturnHome').addEventListener('click', () => {
-      window.soundEngine.playClick();
-      this.cleanupGameSession();
-      this.showScreen('screenMenu');
+      this.exitToLobby();
     });
 
     document.getElementById('btnPlayNextRound').addEventListener('click', () => {

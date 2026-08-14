@@ -6,8 +6,8 @@
   <title>The Showdown: High-Stakes Dilemma Game</title>
   
   <!-- SEO Meta Tags -->
-  <meta name="description" content="A high-stakes psychological dilemma game across 4 immersive worlds: Vegas Poker Tournament, Wall Street Trading Desk, Grand Continental Hotel, and Armored Bank Vault.">
-  <meta name="keywords" content="The Dilemma, Poker Tournament, Wall Street, Hotel Lobby, Bank Vault, Split or Steal, Prisoner's Dilemma, Game Theory">
+  <meta name="description" content="A high-stakes psychological dilemma game across 5 immersive worlds: Vegas Poker Tournament, Wall Street Trading Desk, Grand Continental Hotel, Armored Bank Vault, and Military Black Ops.">
+  <meta name="keywords" content="The Dilemma, Poker Tournament, Wall Street, Hotel Lobby, Bank Vault, Military Intelligence, Split or Steal, Prisoner's Dilemma, Game Theory">
   <meta name="author" content="The Showdown">
 
   <!-- iOS & PWA Configuration -->
@@ -76,7 +76,7 @@
     </header>
 
     <!-- ==========================================
-         SCREEN 1: MAIN MENU
+         SCREEN 1: MAIN MENU (LOBBY)
          ========================================== -->
     <main class="view-screen" id="screenMenu">
       <section class="hero-section">
@@ -225,11 +225,11 @@
     </section>
 
     <!-- ==========================================
-         SCREEN 6: GAMEPLAY (NEGOTIATION & ORDER EXECUTION)
+         SCREEN 6: GAMEPLAY (NEGOTIATION & DECISION)
          ========================================== -->
     <section class="view-screen hidden" id="screenGameplay">
       <div class="game-arena">
-        <!-- Stage Header -->
+        <!-- Stage Header with Instant Exit to Lobby Button -->
         <div class="stage-header">
           <div class="stage-player">
             <div class="stage-avatar" id="p1Avatar">💼</div>
@@ -251,6 +251,10 @@
               <div class="stage-player-trust" id="p2Trust">Challenger</div>
             </div>
           </div>
+
+          <button class="btn-exit-game" id="btnExitGame" title="Abandon Round & Return to Main Lobby">
+            🚪 Exit to Lobby
+          </button>
         </div>
 
         <!-- Polygraph / Tell Scanner HUD -->
@@ -366,7 +370,7 @@
           </div>
 
           <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-            <button class="btn btn-secondary" style="flex: 1;" id="btnReturnHome">Main Menu</button>
+            <button class="btn btn-secondary" style="flex: 1;" id="btnReturnHome">Lobby</button>
             <button class="btn btn-primary" style="flex: 1;" id="btnPlayNextRound">Next Round</button>
             <button class="btn btn-primary" style="flex: 1; background: var(--steal-color);" id="btnDoubleDownRevenge">
               ⚡ Double Stakes Rematch

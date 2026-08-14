@@ -2,7 +2,7 @@
  * Sound & Tension Engine - The Dilemma (Theme-Adaptive Soundscape)
  * Web Audio API synthesizer that produces real-time heartbeat acceleration,
  * sub-bass tension drones, theme-adaptive chip/key/bolt clicks, order fill pings,
- * and Web Speech API Announcer commentary tailored to active theme.
+ * exit transitions, and Web Speech API Announcer commentary tailored to active theme.
  */
 
 class TensionSoundEngine {
@@ -16,7 +16,7 @@ class TensionSoundEngine {
     this.tensionDroneOsc = null;
     this.tensionDroneGain = null;
     this.currentBpm = 60;
-    this.theme = 'trading_desk';
+    this.theme = 'poker_tournament';
     this.hasInteracted = false;
   }
 
@@ -93,18 +93,31 @@ class TensionSoundEngine {
       osc.start(t);
       osc.stop(t + 0.25);
     } else if (this.theme === 'bank_vault') {
-      // Heavy metallic vault bolt lock
+      // Heavy subterranean titanium deadbolt lock with pneumatic hiss
       const osc = this.ctx.createOscillator();
       const gain = this.ctx.createGain();
-      osc.type = 'square';
-      osc.frequency.setValueAtTime(180, t);
-      osc.frequency.exponentialRampToValueAtTime(45, t + 0.08);
-      gain.gain.setValueAtTime(0.25, t);
-      gain.gain.exponentialRampToValueAtTime(0.001, t + 0.08);
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(160, t);
+      osc.frequency.exponentialRampToValueAtTime(30, t + 0.12);
+      gain.gain.setValueAtTime(0.35, t);
+      gain.gain.exponentialRampToValueAtTime(0.001, t + 0.12);
       osc.connect(gain);
       gain.connect(this.ctx.destination);
       osc.start(t);
-      osc.stop(t + 0.08);
+      osc.stop(t + 0.12);
+    } else if (this.theme === 'military_intelligence') {
+      // Tactical SATCOM radio squelch & radar ping
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(1800, t);
+      osc.frequency.exponentialRampToValueAtTime(900, t + 0.05);
+      gain.gain.setValueAtTime(0.22, t);
+      gain.gain.exponentialRampToValueAtTime(0.001, t + 0.05);
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+      osc.start(t);
+      osc.stop(t + 0.05);
     } else {
       // Trading Terminal mechanical keystroke
       const osc = this.ctx.createOscillator();
@@ -119,6 +132,28 @@ class TensionSoundEngine {
       osc.start(t);
       osc.stop(t + 0.03);
     }
+  }
+
+  playExitSound() {
+    if (this.isMuted) return;
+    this.ensureContext();
+    if (!this.ctx) return;
+
+    const t = this.ctx.currentTime;
+    const osc = this.ctx.createOscillator();
+    const gain = this.ctx.createGain();
+
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(440, t);
+    osc.frequency.exponentialRampToValueAtTime(110, t + 0.18);
+
+    gain.gain.setValueAtTime(0.25, t);
+    gain.gain.exponentialRampToValueAtTime(0.001, t + 0.18);
+
+    osc.connect(gain);
+    gain.connect(this.ctx.destination);
+    osc.start(t);
+    osc.stop(t + 0.18);
   }
 
   playBallHover() {
@@ -152,14 +187,12 @@ class TensionSoundEngine {
     const gain = this.ctx.createGain();
 
     if (isSteal) {
-      // Ominous minor interval / danger surge
       osc.type = 'sawtooth';
       osc.frequency.setValueAtTime(240, t);
       osc.frequency.exponentialRampToValueAtTime(140, t + 0.2);
       gain.gain.setValueAtTime(0.25, t);
       gain.gain.exponentialRampToValueAtTime(0.001, t + 0.2);
     } else {
-      // Crisp synergistic chord
       osc.type = 'triangle';
       osc.frequency.setValueAtTime(440, t);
       osc.frequency.exponentialRampToValueAtTime(880, t + 0.2);
@@ -188,7 +221,7 @@ class TensionSoundEngine {
     this.tensionDroneGain = this.ctx.createGain();
 
     this.tensionDroneOsc.type = 'sine';
-    this.tensionDroneOsc.frequency.setValueAtTime(55, t); // Low A1 sub drone
+    this.tensionDroneOsc.frequency.setValueAtTime(55, t);
 
     this.tensionDroneGain.gain.setValueAtTime(0.001, t);
     this.tensionDroneGain.gain.linearRampToValueAtTime(0.12, t + 2);
@@ -255,7 +288,6 @@ class TensionSoundEngine {
     osc1.start(t);
     osc1.stop(t + 0.08);
 
-    // Second thump of lub-dub
     setTimeout(() => {
       if (!this.ctx) return;
       const t2 = this.ctx.currentTime;
@@ -284,7 +316,7 @@ class TensionSoundEngine {
   }
 
   /* ==========================================================================
-     REVEAL COUNTDOWN & OUTCOME AUDIO JINGLES
+     REVEAL COUNTDOWN & OUTCOME AUDIO
      ========================================================================== */
 
   playCountdownTick(count) {
@@ -336,7 +368,7 @@ class TensionSoundEngine {
     this.ensureContext();
     if (!this.ctx) return;
 
-    const notes = [523.25, 659.25, 783.99, 1046.50]; // C Major arpeggio
+    const notes = [523.25, 659.25, 783.99, 1046.50];
     notes.forEach((freq, idx) => {
       setTimeout(() => {
         if (!this.ctx) return;

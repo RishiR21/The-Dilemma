@@ -1,10 +1,11 @@
 /**
  * ThemeContent - Complete Thematic Data & Copywriting Engine for The Dilemma
- * 4 Full Worlds:
+ * 5 Full Worlds:
  * 1. poker_tournament: Vegas High Roller Poker Room
  * 2. trading_desk: Bloomberg Executive Trading Floor
  * 3. hotel_lobby: Art Deco Grand Continental Hotel
  * 4. bank_vault: Armored Titanium Swiss Safe
+ * 5. military_intelligence: Pentagon War Room & Black Ops Bunker
  */
 
 const THEMES_DATA = {
@@ -587,6 +588,152 @@ const THEMES_DATA = {
       stealWin: "Solo heist! You seized 100% of the vault cash reserve!",
       stealLose: "Locked in the vault! Counterparty escaped with all the loot!",
       mutualLose: "Alarm triggered! Vault locked down with all $0 cash trapped inside!"
+    }
+  },
+
+  military_intelligence: {
+    id: 'military_intelligence',
+    name: 'Military Intelligence / Black Ops',
+    icon: '🎯',
+    brandTitle: 'WAR ROOM: DEFCON',
+    brandBadge: 'BLACK OPS BUNKER',
+    heroSubtitle: 'Top-Secret Black Ops Exfiltration',
+    heroHeadline: 'WAR ROOM: DEFCON',
+    heroTagline: 'Two covert operatives at the underground command console. One $10,000,000 classified black budget. Will you execute dual asset extraction, or go rogue and defect?',
+    currencyName: 'Budget',
+    currencyLabel: 'BUDGET:',
+    potLabel: 'CLASSIFIED BLACK BUDGET POOL',
+    splitLabel: 'Dual Extraction (50%)',
+    stealLabel: 'Rogue Defection (100%)',
+    ballSplitText: 'EXTRACT',
+    ballStealText: 'DEFECT',
+    decisionPrompt: '🎯 Turn Dual-Key Launch Dial',
+    scanBtnLabel: '🛰️ Intercept Signal Telemetry',
+    scanTitle: 'Covert Asset Satellite Telemetry',
+    modes: {
+      ai: { title: 'War Room Gauntlet', desc: 'Duel 5 rogue commanders, CIA handlers, and Pentagon game theory strategists.' },
+      multiplayer: { title: 'Encrypted SATCOM Link', desc: 'Establish direct satellite uplink with another covert field operative.' },
+      pass_play: { title: 'Bunker Pass & Play', desc: 'Enter classified launch coordinates on one terminal under strict red-line protocol.' },
+      ladder: { title: 'DEFCON Clearance Ladder', desc: 'Advance from $25,000 Field Recon to the $10,000,000 Pentagon Black Budget.' }
+    },
+    bluffs: [
+      { text: "Mission protocol locked: executing 50/50 dual extraction.", label: "🛰️ 'Dual Extraction'" },
+      { text: "Going rogue triggers DEFCON 1 wipeout on both assets.", label: "⚠️ 'Defection = DEFCON Wipeout'" },
+      { text: "I hold the master cipher key. Take the extraction split.", label: "🎯 'Preemptive Strike Ready'" },
+      { text: "Let's exfiltrate the package together and secure our pensions.", label: "🎖️ 'Honor Mission Protocol'" }
+    ],
+    ticker: [
+      { text: '🛰️ NORAD SECTOR 4 UPLINK', type: 'neutral' },
+      { text: '▲ DEFCON STATUS: LEVEL 2', type: 'down' },
+      { text: '▲ SATELLITE ENCRYPTION: 4096-BIT', type: 'up' },
+      { text: '◈ EXTRACTION WINDOW: 45 SECONDS', type: 'neutral' },
+      { text: '▲ BLACK BUDGET: $10,000,000 APPROVED', type: 'up' },
+      { text: '▼ ASSET STATUS: ARMED & CLASSIFIED', type: 'down' }
+    ],
+    tiers: [
+      { id: 'tier1', name: 'Field Reconnaissance Bounty', stake: 25000, minBankroll: 0, desc: 'Covert surveillance operation in hostile territory.', icon: '🎯' },
+      { id: 'tier2', name: 'Black Ops Asset Exfiltration', stake: 100000, minBankroll: 25000, desc: 'High-risk extraction behind enemy borders.', icon: '🚁' },
+      { id: 'tier3', name: 'NORAD Subterranean War Room', stake: 500000, minBankroll: 150000, desc: 'Classified standoff inside the Cheyenne Mountain bunker.', icon: '📡' },
+      { id: 'tier4', name: 'Pentagon Special Access Budget', stake: 2000000, minBankroll: 750000, desc: 'Multi-million dollar covert operations fund with sovereign clearance.', icon: '🛰️' },
+      { id: 'tier5', name: 'Top Secret DEFCON 1 Sovereign Protocol', stake: 10000000, minBankroll: 2500000, desc: 'The ultimate $10,000,000 black budget nuclear launch key duel.', icon: '👑' }
+    ],
+    archetypes: {
+      novice: { title: 'Field Operative', icon: '🎯', color: '#94a3b8' },
+      saint: { title: 'Distinguished CIA Handler', icon: '🎖️', color: '#10b981' },
+      thief: { title: 'Rogue Infiltrator', icon: '🥷', color: '#ef4444' },
+      predator: { title: 'Rogue Warlord', icon: '💣', color: '#f59e0b' },
+      balancer: { title: 'Pentagon Strategist', icon: '🛰️', color: '#38bdf8' }
+    },
+    ai: {
+      nick: {
+        name: 'General Nick "Ironclad" Corrigan',
+        title: 'The Rogue Warlord',
+        avatar: '🎖️',
+        difficulty: 'Apex Commander',
+        quote: '"I have pre-targeted this position. Settle for 50% extraction or we both face court-martial at $0."',
+        bio: 'Battle-hardened black ops commander who commands total submission through overwhelming firepower ultimatum.',
+        initialDialogue: "Attention operative. I have pre-armed a preemptive rogue defection strike. You have zero tactical advantage. Accept the 50/50 extraction split, or we both get obliterated to $0.",
+        tellNote: 'Combat heart rate stable at 50 BPM. Unflinching tactical gaze.',
+        bluffs: [
+          "My targeting telemetry is locked on DEFECT. Do not test my resolve.",
+          "If you try to go rogue against my squad, we both face total terminal default.",
+          "Every rookie who tried to double-cross me is classified as MIA.",
+          "Authorize the extraction key and exfiltrate in one piece."
+        ]
+      },
+      sarah: {
+        name: 'Agent Sarah "Specter" Evans',
+        title: 'The CIA Division Chief',
+        avatar: '🛰️',
+        difficulty: 'Loyal Handler',
+        quote: '"Mission success relies on operative covenant. I am authorizing DUAL EXTRACTION."',
+        bio: 'Senior intelligence chief who coordinates complex extractions with absolute fidelity to loyal agents.',
+        initialDialogue: "We crossed through contested airspace to recover this asset. A 50/50 extraction completes our mission directives and secures our standing. I am turning my key to EXTRACT.",
+        tellNote: 'Steady biometric signal on encrypted SATCOM. Zero deception.',
+        bluffs: [
+          "The Agency stands by our extraction covenant. I will not defect.",
+          "Let's complete this mission cleanly and secure our full pensions.",
+          "Going rogue will put you on every red-notice kill list worldwide.",
+          "Operatives don't leave partners behind. Authorize extraction."
+        ]
+      },
+      damian: {
+        name: 'Major Damian "Ghost" Vance',
+        title: 'The Double Agent',
+        avatar: '🥷',
+        difficulty: 'Predatory Traitor',
+        quote: '"I swear on my Congressional Medal, I am turning the extraction key with you!"',
+        bio: 'Deceptive mercenary operating as a triple agent who promises safe extraction while transferring the black budget to an offshore shell.',
+        initialDialogue: "We did it, soldier! Ten million in black budget funds right on our console! On my military honor, my key is set to EXTRACT. Lock it in with me!",
+        tellNote: 'Pulse spike detected during voice transmission. High likelihood of defection.',
+        bluffs: [
+          "I just keyed in EXTRACT! Check the terminal uplink!",
+          "I would never leave a battle brother behind on hostile ground!",
+          "The chopper is inbound in two minutes! Confirm Extract!",
+          "Trust the chain of command! We both walk away rich!"
+        ]
+      },
+      jax: {
+        name: 'Jax "Reaper" Vega',
+        title: 'The Combat Mercenary',
+        avatar: '⚡',
+        difficulty: 'Wild Commando',
+        quote: '"Incoming artillery on our position! Who dares to pull the rogue trigger?!"',
+        bio: 'Heavy-weapons contractor who thrives in hot extraction zones, sirens, and chaotic shootouts.',
+        initialDialogue: "Perimeter alarms are blaring! Do we take the safe split or grab the whole black budget and shoot our way out?! Let's ride!",
+        tellNote: 'Adrenaline spike: 155 BPM. High combat agitation.',
+        bluffs: [
+          "Blow the bunker doors! All-out extraction!",
+          "Maybe I extract, maybe I seize the whole budget and vanish in the smoke!",
+          "Hear that gunfire outside?! Decide before the air strike hits!",
+          "No guts, no glory! Turn the launch dial!"
+        ]
+      },
+      nash: {
+        name: 'Colonel Arthur Nash',
+        title: 'The Pentagon War Games Strategist',
+        avatar: '📡',
+        difficulty: 'Pentagon Game Theorist',
+        quote: '"Deterrence theory dictates (Extract, Extract) as the sole stable Nash Equilibrium."',
+        bio: 'War games architect calculating nuclear deterrence, mutual assured destruction, and game-theoretic payoff matrixes.',
+        initialDialogue: "According to Pentagon crisis simulations, mutual defection results in Mutual Assured Destruction. A 50/50 dual extraction achieves mathematical mission optimality.",
+        tellNote: 'Cold calculated logic. Flatline baseline.',
+        bluffs: [
+          "Strategic command models predict an 81% defection risk on uncoordinated keys.",
+          "Rogue strikes trigger automatic counter-battery liquidation.",
+          "A 50/50 extraction preserves strategic equilibrium.",
+          "Adhere to tactical deterrence protocols immediately."
+        ]
+      }
+    },
+    announcements: {
+      roundStart: "Classified war room session convened. Dual-key launch sequence armed.",
+      tenSeconds: "Ten seconds to satellite lockout! Enter your mission order!",
+      reveal: "Transmitting launch authorization. Three, two, one!",
+      splitWin: "Mission accomplished! Dual extraction executed: budget disbursed equally!",
+      stealWin: "Rogue defection! You seized 100% of the classified black budget!",
+      stealLose: "Ambushed by double agent! Counterparty defected with the entire budget!",
+      mutualLose: "DEFCON 1 total wipeout! Mutual defection triggered complete asset self-destruct!"
     }
   }
 };
