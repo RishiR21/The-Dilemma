@@ -2119,12 +2119,29 @@ body::after {
   box-shadow: 0 0 12px var(--split-glow);
 }
 
+/* Expandable Theme Picker Drawer */
+.theme-drawer {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border-subtle);
+  animation: themeDrawerFade 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.theme-drawer.hidden {
+  display: none !important;
+}
+
+@keyframes themeDrawerFade {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 /* Theme Picker Cards */
 .theme-picker-grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: 10px;
-  margin: 14px 0;
+  margin: 8px 0;
 }
 
 .theme-card {

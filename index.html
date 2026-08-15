@@ -529,13 +529,24 @@
             </div>
             <button class="setting-toggle-btn active" id="settingSoundToggle">ON</button>
           </div>
+
+          <!-- Universe Atmosphere & Theme Setting Row -->
+          <div class="setting-row" id="settingThemeRow">
+            <div class="setting-info">
+              <span class="setting-icon" id="settingActiveThemeIcon">♠️</span>
+              <div>
+                <div class="setting-title">Universe Atmosphere & Style</div>
+                <div class="setting-desc" id="settingActiveThemeDesc">Active: High Stakes Arena</div>
+              </div>
+            </div>
+            <button class="btn btn-secondary" id="btnChangeTheme" style="font-size: 0.74rem; padding: 6px 12px; border-radius: var(--radius-sm); white-space: nowrap;">
+              Change Theme ▾
+            </button>
+          </div>
         </div>
 
-        <!-- Theme Picker Section -->
-        <div style="margin-top: 20px;">
-          <h3 style="font-size: 0.88rem; font-family: var(--font-mono); font-weight: 700; color: var(--primary-accent); margin-bottom: 10px;">
-            🎨 Active Universe Theme
-          </h3>
+        <!-- Expandable Theme Picker Drawer (Revealed via Change Theme) -->
+        <div class="theme-drawer hidden" id="themePickerDrawer">
           <div class="theme-picker-grid" id="themePickerGrid">
             <!-- Injected via JavaScript -->
           </div>

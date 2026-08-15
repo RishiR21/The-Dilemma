@@ -219,6 +219,12 @@ class TheDilemmaApp {
       }
     ];
 
+    const currentThemeObj = allThemes.find(t => t.id === this.currentTheme) || allThemes[0];
+    const settingThemeIcon = document.getElementById('settingActiveThemeIcon');
+    if (settingThemeIcon) settingThemeIcon.textContent = currentThemeObj.icon;
+    const settingThemeDesc = document.getElementById('settingActiveThemeDesc');
+    if (settingThemeDesc) settingThemeDesc.textContent = `Active: ${currentThemeObj.name}`;
+
     allThemes.forEach(t => {
       const isActive = this.currentTheme === t.id;
       const card = document.createElement('div');
@@ -535,6 +541,10 @@ class TheDilemmaApp {
       btnSettings.addEventListener('click', () => {
         window.soundEngine.playClick();
         this.renderThemeCards();
+        const drawer = document.getElementById('themePickerDrawer');
+        if (drawer) drawer.classList.add('hidden');
+        const btnChange = document.getElementById('btnChangeTheme');
+        if (btnChange) btnChange.textContent = 'Change Theme ▾';
         document.getElementById('settingsModal').classList.remove('hidden');
       });
     }
@@ -545,6 +555,32 @@ class TheDilemmaApp {
         window.soundEngine.playClick();
         document.getElementById('settingsModal').classList.add('hidden');
       });
+    }
+
+    // Expandable Theme Picker Drawer in Settings
+    const btnChangeTheme = document.getElementById('btnChangeTheme');
+    const themeDrawer = document.getElementById('themePickerDrawer');
+    if (btnChangeTheme && themeDrawer) {
+      const toggleThemeDrawer = () => {
+        window.soundEngine.playClick();
+        const isHidden = themeDrawer.classList.toggle('hidden');
+        btnChangeTheme.textContent = isHidden ? 'Change Theme ▾' : 'Close Themes ▴';
+        if (!isHidden) {
+          this.renderThemeCards();
+        }
+      };
+
+      btnChangeTheme.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleThemeDrawer();
+      });
+
+      const settingThemeRow = document.getElementById('settingThemeRow');
+      if (settingThemeRow) {
+        settingThemeRow.addEventListener('click', () => {
+          toggleThemeDrawer();
+        });
+      }
     }
 
     // Settings Audio Toggles inside Settings Modal
