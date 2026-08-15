@@ -43,15 +43,45 @@
 
     <!-- Header -->
     <header class="app-header">
-      <div class="brand-logo" id="btnLogoHome">
-        <svg viewBox="0 0 512 512">
-          <polygon points="256,80 430,180 430,380 256,480 82,380 82,180" fill="#0f172a" stroke="currentColor" stroke-width="16"/>
-          <circle cx="256" cy="280" r="70" fill="var(--split-color)" opacity="0.8"/>
-          <text x="256" y="295" font-family="'JetBrains Mono', monospace" font-weight="900" font-size="60" fill="#040609" text-anchor="middle">Δ</text>
+      <div class="brand-logo" id="btnLogoHome" title="The Dilemma - Return to Executive Lobby">
+        <!-- Definitive Favicon Logo -->
+        <svg viewBox="0 0 64 64" width="34" height="34" class="header-favicon-svg">
+          <defs>
+            <radialGradient id="hdrFavBg" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#141c28"/>
+              <stop offset="85%" stop-color="#06080d"/>
+              <stop offset="100%" stop-color="#020305"/>
+            </radialGradient>
+            <linearGradient id="hdrFavEmerald" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#4ade80"/>
+              <stop offset="50%" stop-color="#10b981"/>
+              <stop offset="100%" stop-color="#047857"/>
+            </linearGradient>
+            <linearGradient id="hdrFavCrimson" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#fb7185"/>
+              <stop offset="50%" stop-color="#f43f5e"/>
+              <stop offset="100%" stop-color="#be123c"/>
+            </linearGradient>
+            <linearGradient id="hdrFavGold" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#fef08a"/>
+              <stop offset="50%" stop-color="#f59e0b"/>
+              <stop offset="100%" stop-color="#b45309"/>
+            </linearGradient>
+          </defs>
+          <rect width="64" height="64" rx="14" fill="url(#hdrFavBg)" stroke="#334155" stroke-width="1.5"/>
+          <circle cx="32" cy="32" r="26" fill="none" stroke="url(#hdrFavGold)" stroke-width="2" opacity="0.9"/>
+          <path d="M 32,8 A 24,24 0 0,0 32,56 Z" fill="url(#hdrFavEmerald)"/>
+          <path d="M 32,8 A 24,24 0 0,1 32,56 Z" fill="url(#hdrFavCrimson)"/>
+          <line x1="32" y1="7" x2="32" y2="57" stroke="#06080d" stroke-width="2.5"/>
+          <circle cx="32" cy="32" r="11" fill="url(#hdrFavGold)" stroke="#06080d" stroke-width="2"/>
+          <circle cx="32" cy="32" r="9" fill="#0b0f17"/>
+          <text x="32" y="37" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="900" font-size="14" fill="url(#hdrFavGold)" text-anchor="middle">Δ</text>
+          <circle cx="28" cy="14" r="2" fill="#ffffff" opacity="0.6"/>
+          <circle cx="30" cy="27" r="1.5" fill="#ffffff" opacity="0.8"/>
         </svg>
-        <div>
-          <span class="brand-title" id="headerBrandTitle">THE DILEMMA</span>
-          <span class="brand-badge" id="headerBrandBadge">TERMINAL</span>
+        <div class="brand-text-block">
+          <span class="brand-title">THE DILEMMA</span>
+          <span class="brand-badge" id="headerBrandBadge">SPLIT OR STEAL</span>
         </div>
       </div>
 
