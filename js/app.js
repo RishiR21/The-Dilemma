@@ -191,9 +191,9 @@ class TheDilemmaApp {
       },
       {
         id: 'trading_desk',
-        name: 'Hostile Takeover',
+        name: 'Trading Floor',
         icon: '📊',
-        desc: 'Bloomberg executive trading desk, phosphor emerald, 50% syndicate vs 100% hostile takeover.',
+        desc: 'Bloomberg trading terminal, phosphor emerald, 50/50 equilibrium vs 100% defection.',
         swatches: ['#06080d', '#00e676', '#38bdf8', '#ff3366']
       },
       {

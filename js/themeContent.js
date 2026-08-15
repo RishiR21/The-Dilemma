@@ -155,13 +155,13 @@ const THEMES_DATA = {
 
   trading_desk: {
     id: 'trading_desk',
-    name: 'Hostile Takeover',
+    name: 'Trading Floor',
     icon: '📊',
-    brandTitle: 'HOSTILE TAKEOVER',
-    brandBadge: 'WALL STREET',
-    heroSubtitle: 'Wall Street Trading Floor • Syndicate vs Takeover',
-    heroHeadline: 'HOSTILE TAKEOVER',
-    heroTagline: 'Two traders. One institutional capital pool. Will you syndicate a 50/50 split, or launch a hostile takeover to seize 100%?',
+    brandTitle: 'THE EQUILIBRIUM',
+    brandBadge: 'GAME THEORY',
+    heroSubtitle: 'Trading Floor • Nash Equilibrium & Payoffs',
+    heroHeadline: 'THE EQUILIBRIUM',
+    heroTagline: 'Two traders. One capital pool. Will you cooperate to lock in a 50/50 split, or defect to capture 100% of the alpha?',
     currencyName: 'NAV',
     currencyLabel: 'ESCROW:',
     potLabel: 'CAPITAL POOL',
@@ -290,9 +290,9 @@ const THEMES_DATA = {
       roundStart: "Showdown on the floor! Will you Split or will you Steal?",
       tenSeconds: "Ten seconds left! Lock in your trade decision!",
       reveal: "Three, two, one, reveal!",
-      splitWin: "Deal closed! Both traders share the pool equally!",
-      stealWin: "Takeover successful! You seize 100% of the pool!",
-      stealLose: "Hostile takeover! Counterparty took the whole pool!",
+      splitWin: "Equilibrium reached! Both traders share the pool equally!",
+      stealWin: "Defection successful! You capture 100% of the pool!",
+      stealLose: "Counterparty defected! They captured the whole pool!",
       mutualLose: "Both stole! Deal collapsed, both get $0!"
     }
   },
