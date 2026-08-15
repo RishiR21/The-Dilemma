@@ -1,0 +1,467 @@
+/**
+ * THE DILEMMA - DEDICATED MOBILE DESIGN SYSTEM & STYLESHEET
+ * Designed specifically for Mobile Phones (iOS Safari, Android Chrome) & Compact Screens (<= 768px)
+ * Features:
+ *  - 16px Font Sizing to Prevent Involuntary iOS Safari Auto-Zoom
+ *  - Single-Screen "Battle Station" Deal Room (No Vertical Scrolling)
+ *  - Native Sliding Bottom-Sheet Modals with Inertia Scrolling
+ *  - Thumb-Friendly Decision Token Podiums (48px+ Touch Targets)
+ *  - Compact List-Style Game Mode Cards
+ *  - Safe-Area Inset Handling (Notch, Dynamic Island & Home Indicator)
+ */
+
+@media (max-width: 768px) {
+  :root {
+    --header-height: 50px;
+  }
+
+  /* ==========================================================================
+     GLOBAL MOBILE RESETS & TOUCH ACCESSIBILITY
+     ========================================================================== */
+  *, *::before, *::after {
+    -webkit-tap-highlight-color: transparent !important;
+  }
+
+  /* CRITICAL: 16px font size prevents iOS Safari from auto-zooming inputs on tap */
+  input, select, textarea, .chat-input, 
+  #inputPlayerHandle, #inputPlayerPin, 
+  #inputRestoreHandle, #inputRestorePin, 
+  #inputJoinCode {
+    font-size: 16px !important;
+    user-select: text;
+    -webkit-user-select: text;
+  }
+
+  button, .btn, .golden-ball-container, .mode-card, .tab-btn, 
+  .header-icon-btn, .header-user-btn, .bluff-btn, .skin-card, 
+  .tier-card, .ai-card, .polygraph-scan-btn, .hotline-interact-btn {
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  /* Tactile Press Feedback */
+  button:active, .btn:active, .golden-ball-container:active, 
+  .mode-card:active, .skin-card:active, .tier-card:active {
+    transform: scale(0.97);
+  }
+
+  /* ==========================================================================
+     APP HEADER (COMPACT MOBILE VIEW)
+     ========================================================================== */
+  .app-header {
+    height: var(--header-height);
+    padding: 0 10px;
+  }
+
+  .brand-logo {
+    gap: 6px;
+  }
+
+  .header-favicon-svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  .brand-title {
+    font-size: 0.94rem;
+    letter-spacing: 1px;
+  }
+
+  .brand-badge {
+    display: none;
+  }
+
+  .header-actions {
+    gap: 4px;
+  }
+
+  .header-user-btn {
+    padding: 4px 8px;
+    font-size: 0.74rem;
+    gap: 4px;
+  }
+
+  .user-bankroll-mini {
+    padding-left: 4px;
+    font-size: 0.74rem;
+  }
+
+  .header-icon-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 0.86rem;
+  }
+
+  /* ==========================================================================
+     VIEW SCREEN CONTAINERS
+     ========================================================================== */
+  .view-screen {
+    padding: 10px 8px 36px 8px;
+  }
+
+  /* ==========================================================================
+     LOBBY HERO & LIST-STYLE MODE CARDS
+     ========================================================================== */
+  .hero-section {
+    margin-bottom: 12px;
+    padding: 0 4px;
+  }
+
+  .hero-pill-badge {
+    font-size: 0.65rem;
+    padding: 3px 10px;
+    margin-bottom: 6px;
+  }
+
+  .hero-headline {
+    font-size: clamp(1.6rem, 6vw, 2.2rem);
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+    line-height: 1.15;
+  }
+
+  .hero-tagline {
+    font-size: 0.82rem;
+    line-height: 1.38;
+  }
+
+  /* High-Polish Mobile List Cards */
+  .mode-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    width: 100%;
+  }
+
+  .mode-card {
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+    gap: 12px;
+    border-radius: var(--radius-md);
+    min-height: 58px;
+  }
+
+  .mode-card .mode-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 1.35rem;
+    margin-bottom: 0;
+    flex-shrink: 0;
+  }
+
+  .mode-card > div:not(.mode-icon) {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .mode-card h3 {
+    font-size: 0.95rem;
+    margin-bottom: 2px;
+  }
+
+  .mode-card p {
+    font-size: 0.74rem;
+    line-height: 1.3;
+    margin-bottom: 4px;
+  }
+
+  /* ==========================================================================
+     SINGLE-SCREEN "BATTLE STATION" DEAL ROOM
+     ========================================================================== */
+  .game-arena {
+    padding: 8px 6px;
+    border-radius: var(--radius-md);
+  }
+
+  .deal-room-stage {
+    padding: 8px 6px 18px 6px;
+    gap: 8px;
+    width: 100%;
+  }
+
+  .deal-room-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  /* Compact Top Battle Bar */
+  .stage-header {
+    padding: 6px 8px;
+    gap: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .stage-player {
+    gap: 5px;
+  }
+
+  .stage-avatar {
+    width: 32px;
+    height: 32px;
+    font-size: 1.1rem;
+  }
+
+  .stage-player-name {
+    font-size: 0.76rem;
+  }
+
+  .stage-player-trust {
+    font-size: 0.62rem;
+  }
+
+  .stage-pot-box {
+    text-align: center;
+  }
+
+  .stage-pot-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.5px;
+  }
+
+  .stage-pot-value {
+    font-size: 1.2rem;
+  }
+
+  .btn-exit-game {
+    padding: 3px 8px;
+    font-size: 0.65rem;
+  }
+
+  /* Tactical Intel Panels */
+  .polygraph-panel, .thematic-hotline-bar {
+    padding: 6px 10px;
+    margin-top: 0;
+    border-radius: var(--radius-sm);
+  }
+
+  .polygraph-left, .hotline-left {
+    font-size: 0.72rem;
+  }
+
+  .polygraph-scan-btn, .hotline-interact-btn {
+    padding: 4px 8px;
+    font-size: 0.7rem;
+  }
+
+  /* Compact Negotiation Panel */
+  .negotiation-panel {
+    height: 195px;
+    padding: 8px;
+    gap: 6px;
+  }
+
+  .timer-container {
+    padding: 3px 6px;
+  }
+
+  .timer-circle {
+    width: 28px;
+    height: 28px;
+    font-size: 0.78rem;
+  }
+
+  .timer-phase-text {
+    font-size: 0.74rem;
+  }
+
+  .chat-stream {
+    max-height: 100px;
+    gap: 4px;
+  }
+
+  .chat-bubble {
+    max-width: 92%;
+    font-size: 0.76rem;
+    padding: 5px 8px;
+    line-height: 1.35;
+  }
+
+  .quick-bluff-bar {
+    gap: 4px;
+    padding: 1px 0;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .bluff-btn {
+    padding: 4px 8px;
+    font-size: 0.66rem;
+    flex-shrink: 0;
+  }
+
+  .chat-input-row {
+    height: 36px;
+  }
+
+  .chat-input {
+    padding: 6px 10px;
+  }
+
+  .chat-send-btn {
+    padding: 0 12px;
+    font-size: 0.72rem;
+  }
+
+  /* Decision Tokens Section */
+  .decision-section {
+    gap: 6px;
+    margin-top: 4px;
+  }
+
+  .decision-title {
+    font-size: 0.74rem;
+    letter-spacing: 1px;
+  }
+
+  .balls-podium {
+    gap: clamp(14px, 5vw, 24px);
+    padding: 4px 0;
+  }
+
+  .golden-ball {
+    width: clamp(82px, 22vw, 105px);
+    height: clamp(82px, 22vw, 105px);
+    border-width: 3px;
+  }
+
+  .ball-emblem {
+    font-size: clamp(0.72rem, 2.6vw, 0.84rem);
+    padding: 3px 8px;
+  }
+
+  .ball-label {
+    font-size: 0.72rem;
+  }
+
+  .btn-lock-choice {
+    min-height: 48px;
+    font-size: 0.88rem;
+    padding: 12px;
+    width: 100%;
+  }
+
+  /* ==========================================================================
+     REVEAL SHOWDOWN ARENA ON MOBILE
+     ========================================================================== */
+  .reveal-arena {
+    max-width: 100%;
+    padding: 0 4px;
+    gap: 12px;
+  }
+
+  .reveal-countdown-banner {
+    font-size: 1.4rem;
+    letter-spacing: 1px;
+  }
+
+  .reveal-stage {
+    gap: 12px;
+  }
+
+  .reveal-ball {
+    width: clamp(86px, 24vw, 115px);
+    height: clamp(86px, 24vw, 115px);
+  }
+
+  .reveal-ball-content {
+    font-size: clamp(0.8rem, 2.8vw, 1rem);
+    padding: 3px 6px;
+  }
+
+  .outcome-card {
+    padding: 16px 12px;
+    width: 100%;
+  }
+
+  .outcome-headline {
+    font-size: 1.3rem;
+  }
+
+  .outcome-narrative {
+    font-size: 0.8rem;
+    line-height: 1.4;
+  }
+
+  .payout-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    margin: 10px 0;
+  }
+
+  .outcome-actions {
+    flex-direction: column;
+    width: 100%;
+    gap: 6px;
+  }
+
+  .outcome-actions .btn {
+    width: 100%;
+  }
+
+  /* ==========================================================================
+     TIER SELECTION & GAUNTLET LISTS
+     ========================================================================== */
+  .tier-list, .gauntlet-list {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .tier-card, .ai-card {
+    padding: 10px 12px;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .skins-shelf {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+  }
+}
+
+/* ==========================================================================
+   NATIVE SLIDING BOTTOM-SHEET MODALS ON MOBILE (< 600px)
+   ========================================================================== */
+@media (max-width: 600px) {
+  .modal-overlay {
+    align-items: flex-end;
+    padding: 0;
+  }
+
+  .modal-box {
+    border-radius: 20px 20px 0 0;
+    max-height: 86vh;
+    max-height: 86dvh;
+    padding: 20px 14px calc(env(safe-area-inset-bottom, 16px) + 16px) 14px;
+    width: 100%;
+    max-width: 100%;
+    animation: slideUpSheet 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @keyframes slideUpSheet {
+    from {
+      transform: translateY(100%);
+      opacity: 0.5;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  .modal-header {
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+  }
+
+  .modal-title {
+    font-size: 1.15rem;
+  }
+}

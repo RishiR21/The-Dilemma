@@ -4,11 +4,13 @@ import sys
 endpoints = [
     ("/index.html", "text/html"),
     ("/css/style.css", "text/css"),
+    ("/css/mobile.css", "text/css"),
     ("/js/themeContent.js", "application/javascript"),
     ("/js/soundEngine.js", "application/javascript"),
     ("/js/aiEngine.js", "application/javascript"),
     ("/js/gameMatrix.js", "application/javascript"),
     ("/js/multiplayer.js", "application/javascript"),
+    ("/js/mobileUI.js", "application/javascript"),
     ("/js/app.js", "application/javascript"),
     ("/manifest.json", "application/manifest+json"),
     ("/icons/icon.svg", "image/svg+xml"),
