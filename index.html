@@ -125,7 +125,7 @@
           </button>
         </div>
 
-        <!-- Mode List: Aligned in a Single File -->
+        <!-- Core 3 Game Modes (Single File) -->
         <div class="mode-grid">
           <!-- Mode 1: AI Gauntlet -->
           <div class="mode-card" id="btnModeAI">
@@ -171,20 +171,18 @@
               <span class="mode-card-arrow">→</span>
             </div>
           </div>
+        </div>
 
-          <!-- Mode 4: High-Stakes Ladder -->
-          <div class="mode-card" id="btnModeLadder">
-            <div class="mode-icon-box">📈</div>
-            <div class="mode-details">
-              <div class="mode-details-header">
-                <h3 id="modeTitleLadder">High-Roller Ladder</h3>
-                <span class="badge-tag">Stakes Ladder</span>
-              </div>
-              <p id="modeDescLadder">Climb from $25,000 Micro Stakes to the $10,000,000 Championship.</p>
-            </div>
-            <div class="mode-card-action">
-              <span class="mode-card-arrow">→</span>
-            </div>
+        <!-- Discreet Stakes Ladder Pill -->
+        <div class="discreet-ladder-pill" id="btnModeLadder" title="Open High-Stakes Tier Ladder">
+          <div class="ladder-pill-left">
+            <span class="ladder-pill-icon">📈</span>
+            <span class="ladder-pill-title" id="modeTitleLadder">Stakes Ladder</span>
+            <span class="ladder-pill-range">$25K → $10M</span>
+          </div>
+          <div class="ladder-pill-right">
+            <span id="modeDescLadder" class="ladder-pill-subtext">5 Staking Tiers</span>
+            <span class="ladder-pill-arrow">→</span>
           </div>
         </div>
 

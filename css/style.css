@@ -819,6 +819,94 @@ body::after {
   color: var(--primary-accent);
 }
 
+/* Discreet Stakes Ladder Pill */
+.discreet-ladder-pill {
+  width: 100%;
+  max-width: 760px;
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-full);
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  cursor: pointer;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  margin: 4px auto 16px auto;
+}
+
+.discreet-ladder-pill:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--primary-accent);
+  box-shadow: 0 4px 20px var(--primary-glow);
+  transform: translateY(-2px);
+}
+
+.ladder-pill-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.ladder-pill-icon {
+  font-size: 1.15rem;
+  flex-shrink: 0;
+}
+
+.ladder-pill-title {
+  font-family: var(--font-display);
+  font-size: 0.94rem;
+  font-weight: 700;
+  color: var(--text-main);
+  white-space: nowrap;
+}
+
+.ladder-pill-range {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--split-color);
+  background: rgba(255, 255, 255, 0.06);
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-subtle);
+  white-space: nowrap;
+}
+
+.ladder-pill-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.ladder-pill-subtext {
+  display: inline-block;
+}
+
+@media (max-width: 540px) {
+  .ladder-pill-subtext {
+    display: none;
+  }
+}
+
+.ladder-pill-arrow {
+  color: var(--primary-accent);
+  font-size: 1.15rem;
+  transition: transform 0.2s ease;
+}
+
+.discreet-ladder-pill:hover .ladder-pill-arrow {
+  transform: translateX(4px);
+}
+
 /* Footer Trust & Feature Highlights Strip */
 .lobby-features-strip {
   display: flex;
@@ -946,7 +1034,7 @@ body::after {
 }
 
 /* ==========================================================================
-   TIERS / STAKES LADDER
+   TIERS / STAKES LADDER (PILL FORMAT)
    ========================================================================== */
 
 .tier-list {
@@ -954,15 +1042,17 @@ body::after {
   flex-direction: column;
   gap: 10px;
   width: 100%;
-  max-width: 600px;
+  max-width: 620px;
   margin-bottom: 18px;
 }
 
 .tier-item {
   background: var(--bg-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
-  padding: 14px 18px;
+  border-radius: var(--radius-full);
+  padding: 12px 22px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -972,8 +1062,9 @@ body::after {
 
 .tier-item:hover, .tier-item.selected {
   border-color: var(--split-color);
-  background: rgba(255, 255, 255, 0.05);
-  transform: translateX(4px);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 16px var(--primary-glow);
+  transform: translateX(3px);
 }
 
 .tier-item.locked {
