@@ -1,9 +1,13 @@
 /**
  * High-Fidelity Procedural Sound & Tension Engine - The Dilemma
- * Web Audio API procedural synthesizer featuring:
+ * Designed with World-Class Game Audio Direction:
  * - Studio Master FX Chain (DynamicsCompressor + Stereo Delay Space + Dynamic Filter)
- * - Continuous Analog Background Drone Beds for seamless theme immersion
- * - 5 Distinct Cinematic Procedural Soundtracks (Trading Floor, High Stakes Arena, Hotel Room, Cash Vault, Black Ops)
+ * - 5 Engaging Thematic Soundtracks with Infectious Grooves & Cinematic Swagger:
+ *    1. Trading Floor: Wall Street Neo-Soul / Cyberpunk Swagger (Daft Punk / French House Groove + Cha-Ching)
+ *    2. High Stakes Arena: Ocean's 11 Acid Jazz / Vegas Lounge (Fender Rhodes + Swung Walking Bass + Finger Snaps)
+ *    3. Hotel Room: The White Lotus / Succession Theatrical Dark Comedy Waltz (3/4 Baroque Piano + Pizzicato)
+ *    4. Cash Vault: Funky 70s Spy-Heist Groove (Slap Bass + Safe Tumbler Rhythms)
+ *    5. Black Ops: 007 / Mission Impossible Espionage Spy Funk (Chromatic 007 Chords + Spy Brass Stabs)
  * - Thematic Phone, Rotary, Intercom & Walkie-Talkie Matchup Comms
  * - Dynamic Real-Time Deal Room Tension & Heartbeat Escalation
  * - High-Impact Game Theory Reveal & Outcome Crescendos
@@ -46,6 +50,7 @@ class TensionSoundEngine {
   setTheme(themeId) {
     if (this.theme === themeId) return;
     this.theme = themeId;
+    this.musicStep = 0;
     this.updateDroneTheme();
     if (this.isMusicEnabled && !this.isMuted) {
       this.restartAmbientMusic();
@@ -82,29 +87,29 @@ class TensionSoundEngine {
     try {
       // 1. Studio Mastering Compressor
       this.masterCompressor = this.ctx.createDynamicsCompressor();
-      this.masterCompressor.threshold.setValueAtTime(-18, this.ctx.currentTime);
-      this.masterCompressor.knee.setValueAtTime(10, this.ctx.currentTime);
-      this.masterCompressor.ratio.setValueAtTime(4, this.ctx.currentTime);
-      this.masterCompressor.attack.setValueAtTime(0.004, this.ctx.currentTime);
-      this.masterCompressor.release.setValueAtTime(0.22, this.ctx.currentTime);
+      this.masterCompressor.threshold.setValueAtTime(-16, this.ctx.currentTime);
+      this.masterCompressor.knee.setValueAtTime(12, this.ctx.currentTime);
+      this.masterCompressor.ratio.setValueAtTime(4.5, this.ctx.currentTime);
+      this.masterCompressor.attack.setValueAtTime(0.005, this.ctx.currentTime);
+      this.masterCompressor.release.setValueAtTime(0.24, this.ctx.currentTime);
       this.masterCompressor.connect(this.ctx.destination);
 
-      // 2. Dynamic Tension Lowpass Filter
+      // 2. Dynamic Tension Lowpass Filter (Rounded warmth, never piercing)
       this.masterFilter = this.ctx.createBiquadFilter();
       this.masterFilter.type = 'lowpass';
-      this.masterFilter.frequency.setValueAtTime(2400, this.ctx.currentTime);
-      this.masterFilter.Q.setValueAtTime(1.2, this.ctx.currentTime);
+      this.masterFilter.frequency.setValueAtTime(2200, this.ctx.currentTime);
+      this.masterFilter.Q.setValueAtTime(1.1, this.ctx.currentTime);
       this.masterFilter.connect(this.masterCompressor);
 
-      // 3. Spatial Stereo Delay (Ambient width & reverb tail)
+      // 3. Spatial Stereo Delay (Lush room depth & reverb tail)
       this.spatialDelay = this.ctx.createDelay(1.0);
-      this.spatialDelay.delayTime.setValueAtTime(0.28, this.ctx.currentTime);
+      this.spatialDelay.delayTime.setValueAtTime(0.26, this.ctx.currentTime);
       this.delayGain = this.ctx.createGain();
-      this.delayGain.gain.setValueAtTime(0.28, this.ctx.currentTime);
+      this.delayGain.gain.setValueAtTime(0.26, this.ctx.currentTime);
 
       const delayDampFilter = this.ctx.createBiquadFilter();
       delayDampFilter.type = 'lowpass';
-      delayDampFilter.frequency.setValueAtTime(1600, this.ctx.currentTime);
+      delayDampFilter.frequency.setValueAtTime(1500, this.ctx.currentTime);
 
       this.spatialDelay.connect(delayDampFilter);
       delayDampFilter.connect(this.delayGain);
@@ -137,11 +142,11 @@ class TensionSoundEngine {
     if (!this.ctx || this.droneGain) return;
     try {
       this.droneGain = this.ctx.createGain();
-      this.droneGain.gain.setValueAtTime(0.06, this.ctx.currentTime);
+      this.droneGain.gain.setValueAtTime(0.05, this.ctx.currentTime);
 
       const droneFilter = this.ctx.createBiquadFilter();
       droneFilter.type = 'lowpass';
-      droneFilter.frequency.setValueAtTime(320, this.ctx.currentTime);
+      droneFilter.frequency.setValueAtTime(280, this.ctx.currentTime);
 
       this.droneOsc1 = this.ctx.createOscillator();
       this.droneOsc2 = this.ctx.createOscillator();
@@ -166,9 +171,9 @@ class TensionSoundEngine {
   getThemeRootFreq(themeId) {
     switch (themeId) {
       case 'poker_tournament': return 43.65; // Low F1
-      case 'hotel_lobby': return 49.00;      // Low G1
-      case 'bank_vault': return 32.70;       // Seismic C1
-      case 'military_intelligence': return 36.71; // Deep D1
+      case 'hotel_lobby': return 55.00;      // Low A1
+      case 'bank_vault': return 41.20;       // Deep E1
+      case 'military_intelligence': return 41.20; // Deep E1
       case 'trading_desk':
       default: return 36.71;                 // Deep D1
     }
@@ -233,7 +238,7 @@ class TensionSoundEngine {
   }
 
   /* ==========================================================================
-     PROCEDURAL GENERATIVE AMBIENT MUSIC ENGINE (5 UNIVERSES)
+     ENGAGING PROCEDURAL SOUNDTRACK SUITE (5 SOPHISTICATED WORLDS)
      ========================================================================== */
 
   startAmbientMusic() {
@@ -274,137 +279,167 @@ class TensionSoundEngine {
     if (!this.isMusicEnabled || this.isMuted || !this.ctx) return;
 
     const t = this.ctx.currentTime;
-    let nextBarDelay = 3000;
+    let nextBarDelay = 2600;
 
     if (this.theme === 'poker_tournament') {
-      // ♠️ HIGH STAKES ARENA: VEGAS JAZZ LOUNGE (Warm Rhodes, Walking Bass & Velvet Chords)
-      nextBarDelay = 2800;
-      const chords = [
-        [174.61, 220.00, 261.63, 311.13, 392.00], // Fm9
-        [116.54, 174.61, 233.08, 277.18, 349.23], // Bbm9
-        [155.56, 196.00, 233.08, 277.18, 392.00], // Eb13
-        [130.81, 164.81, 196.00, 246.94, 329.63]  // C7#9
+      // ♠️ 1. OCEAN'S 11 / ACID JAZZ SWAGGER (108 BPM Swung Walking Bass, Rhodes Chords & Finger Snaps)
+      nextBarDelay = 2220; // 108 BPM cadence (4 beats per bar)
+      const beat = 0.555;
+
+      const progression = [
+        { bass: 87.31, chord: [174.61, 220.00, 261.63, 311.13, 392.00] }, // Fm9
+        { bass: 116.54, chord: [116.54, 174.61, 233.08, 277.18, 349.23] }, // Bbm9
+        { bass: 77.78, chord: [155.56, 196.00, 233.08, 277.18, 392.00] }, // Eb13
+        { bass: 65.41, chord: [130.81, 164.81, 196.00, 246.94, 329.63] }  // C7alt
       ];
-      const bassNotes = [87.31, 116.54, 77.78, 65.41];
 
-      const idx = this.musicStep % chords.length;
-      const chord = chords[idx];
-      const bass = bassNotes[idx];
+      const bar = progression[this.musicStep % progression.length];
 
-      this.playSynthVoice(bass, t, 2.4, 'triangle', 0.26, 450);
-      this.playSynthVoice(bass * 1.5, t + 1.4, 1.2, 'triangle', 0.16, 400);
+      // Swung Walking Acoustic Bassline (Beats 1, 2, 3, 4 with syncopation)
+      this.playSynthVoice(bar.bass, t, 0.45, 'triangle', 0.26, 420);
+      this.playSynthVoice(bar.bass * 1.25, t + beat, 0.40, 'triangle', 0.22, 400);
+      this.playSynthVoice(bar.bass * 1.5, t + beat * 2, 0.45, 'triangle', 0.24, 420);
+      this.playSynthVoice(bar.bass * 1.88, t + beat * 3 + 0.1, 0.35, 'triangle', 0.18, 380);
 
-      chord.forEach((freq, cIdx) => {
-        this.playSynthVoice(freq, t + cIdx * 0.08, 2.6, 'sine', 0.14, 1600);
-        this.playSynthVoice(freq * 1.003, t + cIdx * 0.08 + 0.01, 2.6, 'triangle', 0.08, 1200);
+      // Warm Fender Rhodes 9th Chords (Played with subtle swing)
+      bar.chord.forEach((freq, idx) => {
+        this.playSynthVoice(freq, t + 0.08 + idx * 0.03, 1.8, 'sine', 0.12, 1400);
+        this.playSynthVoice(freq * 1.003, t + 0.08 + idx * 0.03, 1.8, 'triangle', 0.07, 1200);
+
+        // Syncopated off-beat chord stab on beat 2-and
+        this.playSynthVoice(freq, t + beat * 1.6 + idx * 0.02, 0.6, 'sine', 0.09, 1200);
       });
 
-      this.playBrushTap(t + 0.7);
-      this.playBrushTap(t + 2.1);
+      // Sassy Jazzy Finger Snaps on beats 2 and 4
+      this.playFingerSnap(t + beat);
+      this.playFingerSnap(t + beat * 3);
 
     } else if (this.theme === 'hotel_lobby') {
-      // 🛎️ HOTEL ROOM: ART DECO CONTINENTAL GRAND SALON (3/4 Elegant Waltz)
-      nextBarDelay = 3000;
-      const chords = [
-        [196.00, 246.94, 293.66, 369.99, 440.00], // Gmaj9
-        [123.47, 185.00, 220.00, 277.18, 329.63], // Bm7(11)
-        [130.81, 164.81, 196.00, 246.94, 329.63], // Cmaj9
-        [146.83, 220.00, 277.18, 329.63, 440.00]  // D9
+      // 🛎️ 2. THE WHITE LOTUS / SUCCESSION THEATRICAL DARK COMEDY WALTZ (138 BPM 3/4 Baroque Piano & Pizzicato)
+      nextBarDelay = 1950; // 138 BPM 3/4 time (3 beats per measure: ~0.435s per beat)
+      const beat = 0.435;
+
+      const progression = [
+        { bass: 110.00, chord: [220.00, 261.63, 329.63, 440.00], melody: 523.25 }, // Am (A2 root, C5 top)
+        { bass: 73.42, chord: [146.83, 220.00, 293.66, 349.23], melody: 587.33 },  // Dm6 (D2 root, D5 top)
+        { bass: 123.47, chord: [246.94, 293.66, 369.99, 440.00], melody: 493.88 }, // Bdim7 (B2 root)
+        { bass: 82.41, chord: [164.81, 207.65, 246.94, 329.63], melody: 659.25 }  // E7b9 (E2 root)
       ];
-      const bassNotes = [98.00, 123.47, 130.81, 146.83];
 
-      const idx = this.musicStep % chords.length;
-      const chord = chords[idx];
-      const bass = bassNotes[idx];
+      const bar = progression[this.musicStep % progression.length];
 
-      this.playSynthVoice(bass, t, 2.8, 'sawtooth', 0.20, 380);
+      // Beat 1: Heavy Dramatic Grand Piano / Harpsichord Bass
+      this.playSynthVoice(bar.bass, t, 1.4, 'sawtooth', 0.22, 360);
+      this.playSynthVoice(bar.bass * 2, t, 1.2, 'triangle', 0.16, 480);
 
-      chord.forEach((f, cIdx) => {
-        this.playSynthVoice(f, t + 0.25 + cIdx * 0.04, 1.1, 'triangle', 0.14, 1400);
-        this.playSynthVoice(f, t + 1.10 + cIdx * 0.04, 1.1, 'triangle', 0.12, 1400);
+      // Beats 2 & 3: Playful Theatrical Chords
+      bar.chord.forEach((freq, idx) => {
+        this.playPizzicatoPluck(freq, t + beat + idx * 0.02, 0.10);
+        this.playPizzicatoPluck(freq, t + beat * 2 + idx * 0.02, 0.09);
       });
 
-      this.playSynthVoice(chord[3] * 2, t + 1.8, 1.2, 'sine', 0.08, 2200);
+      // Theatrical High Melodic Accents
+      this.playSynthVoice(bar.melody, t + 0.15, 0.7, 'triangle', 0.12, 1600);
 
-    } else if (this.theme === 'bank_vault') {
-      // 🔒 CASH VAULT: SUBTERRANEAN HEIST SOUNDSCAPE (Deep Seismic Sub & Minor-9th Stabs)
-      nextBarDelay = 3000;
-      const chords = [
-        [130.81, 155.56, 196.00, 293.66, 392.00], // Cm9
-        [103.83, 155.56, 207.65, 261.63, 311.13], // Abmaj7(#11)
-        [87.31, 130.81, 174.61, 261.63, 311.13],  // Fm9
-        [98.00, 146.83, 196.00, 293.66, 369.99]   // G7b9
-      ];
-      const bassNotes = [65.41, 51.91, 43.65, 49.00];
-
-      const idx = this.musicStep % chords.length;
-      const chord = chords[idx];
-      const bass = bassNotes[idx];
-
-      this.playSynthVoice(bass, t, 2.8, 'sine', 0.28, 220);
-      this.playSynthVoice(bass * 1.5, t + 0.05, 2.4, 'triangle', 0.16, 320);
-
-      chord.forEach((freq, cIdx) => {
-        this.playSynthVoice(freq, t + 0.18 + cIdx * 0.09, 2.2, 'sine', 0.15, 900);
-        this.playSynthVoice(freq * 1.004, t + 0.18 + cIdx * 0.09, 2.2, 'triangle', 0.09, 750);
-      });
-
-      this.playVaultTumbler(t + 1.4);
-
-    } else if (this.theme === 'military_intelligence') {
-      // 🎯 BLACK OPS: DEFCON 1 WAR ROOM (Covert Stealth Drones & Radar Pulse)
-      nextBarDelay = 3000;
-      const chords = [
-        [146.83, 174.61, 220.00, 293.66, 349.23], // Dm9
-        [116.54, 174.61, 233.08, 293.66, 349.23], // Bbmaj7(9)
-        [98.00, 146.83, 196.00, 293.66, 329.63],  // Gm9
-        [110.00, 164.81, 220.00, 277.18, 329.63]  // A7sus4
-      ];
-      const bassNotes = [73.42, 58.27, 49.00, 55.00];
-
-      const idx = this.musicStep % chords.length;
-      const chord = chords[idx];
-      const bass = bassNotes[idx];
-
-      this.playSynthVoice(bass, t, 2.8, 'sawtooth', 0.22, 280);
-      this.playSynthVoice(bass * 2, t + 0.1, 2.5, 'triangle', 0.14, 450);
-
-      chord.forEach((freq, cIdx) => {
-        this.playSynthVoice(freq, t + 0.2 + cIdx * 0.08, 2.4, 'triangle', 0.12, 700);
-      });
-
-      this.playSonarPing(t + 0.05);
-
-    } else {
-      // 📊 TRADING FLOOR: FAST-PACED HIGH-ENERGY CYBERPUNK WALL STREET (128 BPM Driving 16ths)
-      nextBarDelay = 1600;
-      const bassFreqs = [73.42, 65.41, 87.31, 55.00];
-      const padChords = [
-        [146.83, 220.00, 261.63, 329.63, 440.00], // Dm9
-        [130.81, 196.00, 246.94, 329.63, 392.00], // Cmaj9
-        [174.61, 220.00, 261.63, 349.23, 440.00], // Fmaj9
-        [110.00, 164.81, 220.00, 261.63, 329.63]  // Am9
-      ];
-
-      const barIdx = this.musicStep % bassFreqs.length;
-      const rootBass = bassFreqs[barIdx];
-      const chord = padChords[barIdx];
-
-      for (let i = 0; i < 8; i++) {
-        const noteFreq = (i === 3 || i === 7) ? rootBass * 1.5 : rootBass;
-        const pulseGain = (i % 2 === 0) ? 0.22 : 0.14;
-        this.playSynthVoice(noteFreq, t + i * 0.19, 0.16, 'sawtooth', pulseGain, 480);
+      // Amusing Champagne Bubble Pop on every 2nd bar
+      if (this.musicStep % 2 === 1) {
+        this.playChampagnePop(t + beat * 2.5);
       }
 
-      chord.forEach((freq, idx) => {
-        this.playSynthVoice(freq, t + 0.05 + idx * 0.02, 0.9, 'sawtooth', 0.13, 1600);
-        this.playSynthVoice(freq * 1.004, t + 0.05 + idx * 0.02, 0.9, 'triangle', 0.11, 1400);
-        this.playSynthVoice(freq, t + 0.8 + idx * 0.02, 0.6, 'sawtooth', 0.10, 1400);
+    } else if (this.theme === 'bank_vault') {
+      // 🔒 3. PAYDAY 2 / OCEANS FUNKY HEIST GROOVE (118 BPM Slap-Bass, Wah Chords & Safe Clicks)
+      nextBarDelay = 2030; // 118 BPM (4 beats: ~0.508s per beat)
+      const beat = 0.508;
+
+      const progression = [
+        { bass: 82.41, chord: [164.81, 246.94, 329.63, 392.00] }, // Em7 (E2 root)
+        { bass: 110.00, chord: [220.00, 277.18, 329.63, 440.00] }, // A13 (A2 root)
+        { bass: 65.41, chord: [130.81, 196.00, 246.94, 329.63] },  // Cmaj7 (C2 root)
+        { bass: 123.47, chord: [246.94, 311.13, 369.99, 493.88] }  // B7#9 (B2 root)
+      ];
+
+      const bar = progression[this.musicStep % progression.length];
+
+      // Funky Syncopated Slap Bass Rhythm
+      this.playSynthVoice(bar.bass, t, 0.35, 'sawtooth', 0.26, 520);
+      this.playSynthVoice(bar.bass * 2, t + beat * 0.5, 0.25, 'sawtooth', 0.18, 600);
+      this.playSynthVoice(bar.bass, t + beat * 1.5, 0.35, 'sawtooth', 0.22, 520);
+      this.playSynthVoice(bar.bass * 1.5, t + beat * 2.75, 0.28, 'sawtooth', 0.20, 560);
+
+      // Stealthy Wah-Wah Synth Stabs
+      bar.chord.forEach((freq, idx) => {
+        this.playSynthVoice(freq, t + beat * 1.0 + idx * 0.02, 0.45, 'sawtooth', 0.11, 1100);
+        this.playSynthVoice(freq, t + beat * 3.0 + idx * 0.02, 0.40, 'triangle', 0.09, 1000);
       });
 
-      for (let j = 0; j < 6; j++) {
-        const arpNote = chord[j % chord.length] * 2;
-        this.playClockTick(t + j * 0.25, arpNote);
+      // Rhythmic Safe Tumbler Combination Clicks
+      this.playVaultTumbler(t + beat * 2.0);
+
+    } else if (this.theme === 'military_intelligence') {
+      // 🎯 4. MISSION IMPOSSIBLE / 007 ESPIONAGE SPY FUNK (126 BPM Chromatic Spy Chords & Brass Stabs)
+      nextBarDelay = 1900; // 126 BPM (4 beats: ~0.476s per beat)
+      const beat = 0.476;
+
+      const progression = [
+        { bass: 82.41, chord: [164.81, 196.00, 246.94, 329.63] }, // Em (Classic 007 motif 1)
+        { bass: 82.41, chord: [164.81, 207.65, 246.94, 329.63] }, // Em#5 (Classic 007 motif 2)
+        { bass: 82.41, chord: [164.81, 220.00, 246.94, 329.63] }, // Em6 (Classic 007 motif 3)
+        { bass: 82.41, chord: [164.81, 207.65, 246.94, 329.63] }  // Em#5 (Classic 007 motif 4)
+      ];
+
+      const bar = progression[this.musicStep % progression.length];
+
+      // Iconic 007 Driving Espionage Bass (Dotted rhythm: Dum... da-da Dum... da-da)
+      this.playSynthVoice(bar.bass, t, 0.38, 'sawtooth', 0.28, 480);
+      this.playSynthVoice(bar.bass * 1.5, t + beat * 0.75, 0.22, 'triangle', 0.20, 440);
+      this.playSynthVoice(bar.bass * 1.41, t + beat * 1.5, 0.25, 'triangle', 0.18, 420);
+      this.playSynthVoice(bar.bass, t + beat * 2.25, 0.38, 'sawtooth', 0.26, 480);
+
+      // Dramatic Spy Brass Horn Stabs
+      this.playSpyBrassStab(t + beat * 1.0, bar.chord);
+
+      // Covert Sonar Radar Ping
+      if (this.musicStep % 2 === 0) {
+        this.playSonarPing(t + 0.05);
+      }
+
+    } else {
+      // 📊 5. WALL STREET NEO-SOUL / CYBERPUNK SWAGGER (124 BPM French Touch Funk & Cash Cha-Ching)
+      nextBarDelay = 1935; // 124 BPM (4 beats: ~0.484s per beat)
+      const beat = 0.484;
+
+      const progression = [
+        { bass: 73.42, chord: [146.83, 220.00, 261.63, 329.63, 440.00] }, // Dm9
+        { bass: 58.27, chord: [116.54, 174.61, 233.08, 293.66, 349.23] }, // Bbmaj9
+        { bass: 49.00, chord: [98.00, 146.83, 196.00, 246.94, 293.66] },  // Gm11
+        { bass: 55.00, chord: [110.00, 164.81, 220.00, 277.18, 329.63] }  // A7alt
+      ];
+
+      const bar = progression[this.musicStep % progression.length];
+
+      // Funky French House / Daft Punk Syncopated Bassline
+      this.playSynthVoice(bar.bass, t, 0.32, 'sawtooth', 0.26, 480);
+      this.playSynthVoice(bar.bass, t + beat * 0.75, 0.24, 'sawtooth', 0.20, 480);
+      this.playSynthVoice(bar.bass * 1.5, t + beat * 1.5, 0.30, 'sawtooth', 0.22, 520);
+      this.playSynthVoice(bar.bass * 2, t + beat * 2.5, 0.22, 'triangle', 0.18, 560);
+      this.playSynthVoice(bar.bass, t + beat * 3.25, 0.28, 'sawtooth', 0.24, 480);
+
+      // Lush Neo-Soul Electric Piano Stabs (Offbeat funk rhythm)
+      bar.chord.forEach((freq, idx) => {
+        this.playSynthVoice(freq, t + beat * 0.5 + idx * 0.02, 0.42, 'sine', 0.12, 1300);
+        this.playSynthVoice(freq * 1.003, t + beat * 0.5 + idx * 0.02, 0.42, 'triangle', 0.08, 1100);
+
+        this.playSynthVoice(freq, t + beat * 2.0 + idx * 0.02, 0.38, 'sine', 0.10, 1200);
+      });
+
+      // Liquid Financial Clock Ticker
+      for (let j = 0; j < 4; j++) {
+        this.playClockTick(t + j * beat, bar.chord[2] * 2);
+      }
+
+      // Amusing Cash Register "Cha-Ching" on 4th bar turnaround!
+      if (this.musicStep % 4 === 3) {
+        this.playChaChing(t + beat * 3.5);
       }
     }
 
@@ -413,6 +448,148 @@ class TensionSoundEngine {
     this.musicTimer = setTimeout(() => {
       this.scheduleMusicBar();
     }, nextBarDelay);
+  }
+
+  /* ==========================================================================
+     SOPHISTICATED INSTRUMENT & AMUSING GIMMICK SYNTHESIS
+     ========================================================================== */
+
+  /* 💰 Cash Register "Cha-Ching" (Trading Floor) */
+  playChaChing(t) {
+    if (!this.ctx || this.isMuted) return;
+    try {
+      const actualT = Math.max(this.ctx.currentTime, t);
+      [2093.00, 2637.02, 3135.96].forEach((freq, idx) => {
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, actualT + idx * 0.04);
+        gain.gain.setValueAtTime(0.12, actualT + idx * 0.04);
+        gain.gain.exponentialRampToValueAtTime(0.0001, actualT + idx * 0.04 + 0.6);
+        osc.connect(gain);
+        gain.connect(this.spatialDelay);
+        gain.connect(this.masterFilter);
+        osc.start(actualT + idx * 0.04);
+        osc.stop(actualT + idx * 0.04 + 0.6);
+
+        this.musicActiveNodes.push(osc);
+        setTimeout(() => {
+          const i = this.musicActiveNodes.indexOf(osc);
+          if (i > -1) this.musicActiveNodes.splice(i, 1);
+        }, 700);
+      });
+    } catch (e) {}
+  }
+
+  /* 🤌 Jazzy Finger Snap (Poker Arena) */
+  playFingerSnap(t) {
+    if (!this.ctx || this.isMuted) return;
+    try {
+      const actualT = Math.max(this.ctx.currentTime, t);
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(1600, actualT);
+      osc.frequency.exponentialRampToValueAtTime(350, actualT + 0.035);
+      gain.gain.setValueAtTime(0.15, actualT);
+      gain.gain.exponentialRampToValueAtTime(0.001, actualT + 0.035);
+      osc.connect(gain);
+      gain.connect(this.sfxMasterGain);
+      osc.start(actualT);
+      osc.stop(actualT + 0.035);
+    } catch (e) {}
+  }
+
+  /* 🎻 Bouncy Pizzicato String Pluck (Hotel Room) */
+  playPizzicatoPluck(freq, t, gainVal = 0.12) {
+    if (!this.ctx || this.isMuted) return;
+    try {
+      const actualT = Math.max(this.ctx.currentTime, t);
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      const filter = this.ctx.createBiquadFilter();
+
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(freq, actualT);
+
+      filter.type = 'lowpass';
+      filter.frequency.setValueAtTime(1800, actualT);
+      filter.frequency.exponentialRampToValueAtTime(400, actualT + 0.22);
+
+      gain.gain.setValueAtTime(gainVal, actualT);
+      gain.gain.exponentialRampToValueAtTime(0.0001, actualT + 0.22);
+
+      osc.connect(filter);
+      filter.connect(gain);
+      gain.connect(this.musicMasterGain);
+
+      osc.start(actualT);
+      osc.stop(actualT + 0.22);
+
+      this.musicActiveNodes.push(osc);
+      setTimeout(() => {
+        const i = this.musicActiveNodes.indexOf(osc);
+        if (i > -1) this.musicActiveNodes.splice(i, 1);
+      }, 350);
+    } catch (e) {}
+  }
+
+  /* 🍾 Champagne Cork Pop (Hotel Room) */
+  playChampagnePop(t) {
+    if (!this.ctx || this.isMuted) return;
+    try {
+      const actualT = Math.max(this.ctx.currentTime, t);
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(320, actualT);
+      osc.frequency.exponentialRampToValueAtTime(90, actualT + 0.06);
+      gain.gain.setValueAtTime(0.18, actualT);
+      gain.gain.exponentialRampToValueAtTime(0.001, actualT + 0.06);
+      osc.connect(gain);
+      gain.connect(this.sfxMasterGain);
+      osc.start(actualT);
+      osc.stop(actualT + 0.06);
+    } catch (e) {}
+  }
+
+  /* 🎺 Dramatic Spy Brass Horn Stab (Black Ops) */
+  playSpyBrassStab(t, chord) {
+    if (!this.ctx || this.isMuted) return;
+    try {
+      const actualT = Math.max(this.ctx.currentTime, t);
+      chord.forEach((freq, idx) => {
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        const filter = this.ctx.createBiquadFilter();
+
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(freq, actualT);
+
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(800, actualT);
+        filter.frequency.linearRampToValueAtTime(2400, actualT + 0.08);
+        filter.frequency.exponentialRampToValueAtTime(600, actualT + 0.45);
+
+        gain.gain.setValueAtTime(0.001, actualT);
+        gain.gain.linearRampToValueAtTime(0.14, actualT + 0.06);
+        gain.gain.exponentialRampToValueAtTime(0.0001, actualT + 0.45);
+
+        osc.connect(filter);
+        filter.connect(gain);
+        gain.connect(this.spatialDelay);
+        gain.connect(this.masterFilter);
+
+        osc.start(actualT);
+        osc.stop(actualT + 0.45);
+
+        this.musicActiveNodes.push(osc);
+        setTimeout(() => {
+          const i = this.musicActiveNodes.indexOf(osc);
+          if (i > -1) this.musicActiveNodes.splice(i, 1);
+        }, 550);
+      });
+    } catch (e) {}
   }
 
   /* ==========================================================================
@@ -428,7 +605,6 @@ class TensionSoundEngine {
       if (this.isMuted || !this.ctx) return;
 
       if (currentTheme === 'trading_desk') {
-        // 📞 TRADING DESK: Wall Street Dual-Tone Telephone Ring (440Hz + 480Hz)
         this.playTradingPhoneRing();
         setTimeout(() => {
           if (!this.matchupAmbienceTimer) return;
@@ -436,7 +612,6 @@ class TensionSoundEngine {
         }, 3200);
 
       } else if (currentTheme === 'poker_tournament') {
-        // 🍸 POKER: Vintage Casino Rotary Phone & High-Roller Chips
         this.playCasinoRotaryPhone();
         setTimeout(() => {
           if (!this.matchupAmbienceTimer) return;
@@ -444,7 +619,6 @@ class TensionSoundEngine {
         }, 2800);
 
       } else if (currentTheme === 'hotel_lobby') {
-        // 🛎️ HOTEL: Vintage European Concierge Rotary Ring & Grandfather Chimes
         this.playHotelRotaryRing();
         setTimeout(() => {
           if (!this.matchupAmbienceTimer) return;
@@ -452,7 +626,6 @@ class TensionSoundEngine {
         }, 3000);
 
       } else if (currentTheme === 'bank_vault') {
-        // 📻 CASH VAULT: Getaway Driver Radio Squelch & Safe Dial Spin
         this.playWalkieTalkieSquelch();
         setTimeout(() => {
           if (!this.matchupAmbienceTimer) return;
@@ -460,7 +633,6 @@ class TensionSoundEngine {
         }, 2600);
 
       } else if (currentTheme === 'military_intelligence') {
-        // 🔴 BLACK OPS: Pentagon Emergency Red Phone Hotline & SATCOM
         this.playRedPhoneHotline();
         setTimeout(() => {
           if (!this.matchupAmbienceTimer) return;
@@ -492,7 +664,7 @@ class TensionSoundEngine {
     } catch (e) {}
   }
 
-  /* 📞 Phone Pickup Click (Receiver lifted) */
+  /* 📞 Phone Pickup Click */
   playPhonePickup() {
     if (!this.ctx || this.isMuted) return;
     try {
@@ -583,7 +755,6 @@ class TensionSoundEngine {
       whiteNoise.start(t);
       whiteNoise.stop(t + 0.18);
 
-      // Keypad beep after squelch
       setTimeout(() => {
         if (!this.ctx) return;
         const beepT = this.ctx.currentTime;
@@ -775,13 +946,13 @@ class TensionSoundEngine {
      CORE SYNTHESIS VOICE GENERATOR
      ========================================================================== */
 
-  playSynthVoice(freq, startTime, duration, type, gainVal, filterFreq = 2500) {
+  playSynthVoice(freq, startTime, duration, type, gainVal, filterFreq = 2200) {
     if (!this.ctx || this.isMuted) return;
 
     try {
       const now = this.ctx.currentTime;
       const actualStart = Math.max(now, startTime);
-      const attack = Math.min(0.12, duration * 0.2);
+      const attack = Math.min(0.08, duration * 0.15);
       const stopTime = actualStart + duration;
 
       const osc = this.ctx.createOscillator();
@@ -823,12 +994,12 @@ class TensionSoundEngine {
       const gain = this.ctx.createGain();
       osc.type = 'sine';
       osc.frequency.setValueAtTime(freq, actualT);
-      gain.gain.setValueAtTime(0.05, actualT);
-      gain.gain.exponentialRampToValueAtTime(0.0001, actualT + 0.08);
+      gain.gain.setValueAtTime(0.04, actualT);
+      gain.gain.exponentialRampToValueAtTime(0.0001, actualT + 0.06);
       osc.connect(gain);
       gain.connect(this.musicMasterGain);
       osc.start(actualT);
-      osc.stop(actualT + 0.08);
+      osc.stop(actualT + 0.06);
     } catch (e) {}
   }
 
@@ -958,7 +1129,7 @@ class TensionSoundEngine {
 
   stopTensionDrone() {
     if (this.ctx && this.masterFilter) {
-      this.masterFilter.frequency.setTargetAtTime(2400, this.ctx.currentTime, 0.5);
+      this.masterFilter.frequency.setTargetAtTime(2200, this.ctx.currentTime, 0.5);
     }
   }
 
