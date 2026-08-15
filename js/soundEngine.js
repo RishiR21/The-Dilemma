@@ -57,14 +57,17 @@ class TensionSoundEngine {
 
   ensureContext() {
     if (!this.ctx) {
-      const AudioContext = window.AudioContext || window.webkitAudioContext;
-      if (AudioContext) {
-        this.ctx = new AudioContext();
+      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+      if (AudioContextClass) {
+        this.ctx = new AudioContextClass();
         this.setupMusicBus();
       }
     }
     if (this.ctx && this.ctx.state === 'suspended') {
-      this.ctx.resume();
+      this.ctx.resume().catch(() => {});
+    }
+    if (!this.musicMasterGain && this.ctx) {
+      this.setupMusicBus();
     }
   }
 
@@ -72,7 +75,7 @@ class TensionSoundEngine {
     if (!this.ctx) return;
     try {
       this.musicMasterGain = this.ctx.createGain();
-      this.musicMasterGain.gain.setValueAtTime(0.06, this.ctx.currentTime);
+      this.musicMasterGain.gain.setValueAtTime(0.18, this.ctx.currentTime);
       this.musicMasterGain.connect(this.ctx.destination);
     } catch (e) {}
   }
@@ -88,7 +91,7 @@ class TensionSoundEngine {
       }
     } else {
       if (this.musicMasterGain && this.ctx) {
-        this.musicMasterGain.gain.setValueAtTime(0.06, this.ctx.currentTime);
+        this.musicMasterGain.gain.setValueAtTime(0.18, this.ctx.currentTime);
       }
       if (this.isMusicEnabled) {
         this.startAmbientMusic();
@@ -102,7 +105,7 @@ class TensionSoundEngine {
     this.isMusicEnabled = !this.isMusicEnabled;
     if (this.isMusicEnabled) {
       if (this.musicMasterGain && this.ctx) {
-        this.musicMasterGain.gain.setValueAtTime(0.06, this.ctx.currentTime);
+        this.musicMasterGain.gain.setValueAtTime(0.18, this.ctx.currentTime);
       }
       this.startAmbientMusic();
     } else {
@@ -153,52 +156,62 @@ class TensionSoundEngine {
     if (!this.isMusicEnabled || this.isMuted || !this.ctx) return;
 
     const t = this.ctx.currentTime;
-    let nextBarDelay = 7500; // 7.5s calm swells
+    let nextBarDelay = 3200; // ~3.2s per bar for smooth, rich atmospheric flow
 
     if (this.theme === 'poker_tournament') {
-      nextBarDelay = 7500;
+      // ♠️ HIGH STAKES ARENA: VEGAS JAZZ LOUNGE (Warm Rhodes & Upright Bass)
+      nextBarDelay = 3000;
       const chords = [
-        [174.61, 261.63, 311.13, 392.00], // Fm7
-        [116.54, 233.08, 277.18, 349.23], // Bbm7
-        [155.56, 233.08, 311.13, 392.00], // Eb7
-        [130.81, 196.00, 246.94, 329.63]  // C7
+        [174.61, 261.63, 311.13, 392.00], // Fm9
+        [116.54, 233.08, 277.18, 349.23], // Bbm9
+        [155.56, 233.08, 311.13, 392.00], // Eb13
+        [130.81, 196.00, 246.94, 329.63]  // C7#9
       ];
-      const bassNotes = [87.31, 116.54, 77.78, 65.41];
+      const bassNotes = [87.31, 116.54, 77.78, 65.41]; // F, Bb, Eb, C
 
       const chordIdx = this.musicStep % chords.length;
       const chord = chords[chordIdx];
       const bass = bassNotes[chordIdx];
 
-      this.playSynthNote(bass, t, 5.5, 'triangle', 0.12, 380);
+      // Warm Acoustic Upright Bass
+      this.playSynthNote(bass, t, 2.6, 'triangle', 0.24, 450);
+
+      // Smooth Electric Piano Chord
       chord.forEach((freq, idx) => {
-        this.playSynthNote(freq, t + idx * 0.25, 5.0, 'sine', 0.08, 1200);
+        this.playSynthNote(freq, t + idx * 0.12, 2.4, 'sine', 0.15, 1400);
       });
 
     } else if (this.theme === 'trading_desk') {
-      nextBarDelay = 7500;
+      // 📊 TRADING FLOOR: WALL STREET CYBER AMBIENT (Lush Rhodes Pads & Deep Sub-Bass)
+      nextBarDelay = 3200;
       const bassFreqs = [73.42, 65.41, 87.31, 55.00]; // D2, C2, F2, A1
       const padChords = [
-        [146.83, 220.00, 261.63, 329.63], // Dm9
-        [130.81, 196.00, 246.94, 329.63], // Cmaj7
-        [174.61, 220.00, 261.63, 349.23], // Fmaj7
-        [110.00, 164.81, 220.00, 261.63]  // Am7
+        [146.83, 220.00, 261.63, 329.63], // Dm9 (D3, A3, C4, E4)
+        [130.81, 196.00, 246.94, 329.63], // Cmaj7 (C3, G3, B3, E4)
+        [174.61, 220.00, 261.63, 349.23], // Fmaj7 (F3, A3, C4, F4)
+        [110.00, 164.81, 220.00, 261.63]  // Am7 (A2, E3, A3, C4)
       ];
 
       const barIdx = this.musicStep % bassFreqs.length;
       const bass = bassFreqs[barIdx];
       const pad = padChords[barIdx];
 
-      // Soft Sub-Bass
-      this.playSynthNote(bass, t, 5.5, 'sine', 0.12, 220);
+      // Deep Warm Sub-Bass Pulse (Lowpass 220Hz)
+      this.playSynthNote(bass, t, 2.8, 'sine', 0.22, 220);
 
-      // Warm Analog Rhodes Pad
+      // Lush Analog Rhodes Pad Chords (Lowpass 650Hz)
       pad.forEach((freq, idx) => {
-        this.playSynthNote(freq, t + idx * 0.2, 5.2, 'triangle', 0.07, 420);
+        this.playSynthNote(freq, t + idx * 0.15, 2.6, 'triangle', 0.12, 650);
       });
 
+      // Subtle Liquid Arpeggio
+      if (this.musicStep % 2 === 0) {
+        this.playSynthNote(pad[3] * 1.5, t + 1.2, 1.2, 'sine', 0.06, 1200);
+      }
+
     } else if (this.theme === 'hotel_lobby') {
-      // 🛎️ GRAND CONTINENTAL ART DECO PIANO WALTZ (3/4 time warm chords)
-      nextBarDelay = 2600;
+      // 🛎️ HOTEL ROOM: ART DECO CONTINENTAL SALON (3/4 Elegant Waltz)
+      nextBarDelay = 3200;
       const chords = [
         [196.00, 246.94, 293.66, 369.99], // Gmaj7
         [123.47, 185.00, 220.00, 277.18], // Bm7
@@ -208,67 +221,61 @@ class TensionSoundEngine {
       const bassNotes = [98.00, 123.47, 130.81, 146.83];
 
       const idx = this.musicStep % chords.length;
-      this.playSynthNote(bassNotes[idx], t, 2.2, 'sine', 0.32, 500);
+      this.playSynthNote(bassNotes[idx], t, 2.6, 'sine', 0.22, 400);
 
-      // 3/4 Waltz cadence (Beat 1, 2, 3)
+      // Elegant Waltz Cadence (Beat 1, Beat 2, Beat 3)
       chords[idx].forEach((f) => {
-        this.playSynthNote(f, t + 0.35, 1.0, 'triangle', 0.18, 2200);
-        this.playSynthNote(f, t + 1.15, 1.0, 'triangle', 0.16, 2200);
+        this.playSynthNote(f, t + 0.3, 1.2, 'triangle', 0.14, 1200);
+        this.playSynthNote(f, t + 1.1, 1.2, 'triangle', 0.12, 1200);
       });
 
     } else if (this.theme === 'bank_vault') {
-      // 🔒 CASH VAULT: SUBTERRANEAN HEIST AMBIENT (Deep Warm Sub-Bass & Lush Rhodes Chords)
-      nextBarDelay = 2600;
+      // 🔒 CASH VAULT: SUBTERRANEAN HEIST SOUNDSCAPE (Deep 45Hz Sub & Heist Chords)
+      nextBarDelay = 3200;
       const chords = [
-        [130.81, 155.56, 196.00, 293.66], // Cm9 (C3, Eb3, G3, D4)
-        [103.83, 155.56, 207.65, 261.63], // Abmaj7 (Ab2, Eb3, Ab3, C4)
-        [87.31, 130.81, 174.61, 261.63],  // Fm9 (F2, C3, F3, C4)
-        [98.00, 146.83, 196.00, 293.66]   // Gsus4 (G2, D3, G3, D4)
+        [130.81, 155.56, 196.00, 293.66], // Cm9
+        [103.83, 155.56, 207.65, 261.63], // Abmaj7
+        [87.31, 130.81, 174.61, 261.63],  // Fm9
+        [98.00, 146.83, 196.00, 293.66]   // Gsus4
       ];
-      const bassNotes = [65.41, 51.91, 43.65, 49.00]; // Deep Sub C2, Ab1, F1, G1
+      const bassNotes = [65.41, 51.91, 43.65, 49.00];
 
       const idx = this.musicStep % chords.length;
       const chord = chords[idx];
       const bass = bassNotes[idx];
 
-      // Warm Subterranean Velvet Sub Bass (Lowpass 280Hz)
-      this.playSynthNote(bass, t, 2.4, 'triangle', 0.28, 280);
-      this.playSynthNote(bass * 2, t, 2.0, 'sine', 0.14, 380);
+      // Velvet Sub Bass (Lowpass 240Hz)
+      this.playSynthNote(bass, t, 2.8, 'triangle', 0.24, 240);
 
-      // Lush Warm Rhodes Heist Chords (Gentle Arpeggio, Soft Filter 800Hz)
+      // Rhodes Heist Chords (Lowpass 750Hz)
       chord.forEach((freq, cIdx) => {
-        this.playSynthNote(freq, t + 0.2 + (cIdx * 0.16), 1.8, 'sine', 0.14, 800);
+        this.playSynthNote(freq, t + 0.2 + (cIdx * 0.14), 2.2, 'sine', 0.14, 750);
       });
 
     } else {
-      // 🎯 BLACK OPS: STEALTH COVERT AMBIENCE (Warm Cello Drone & Dark Cinematic Pad Swell)
-      nextBarDelay = 2600;
-      
+      // 🎯 BLACK OPS: STEALTH COVERT AMBIENCE (Deep Drone & Espionage Pad Swell)
+      nextBarDelay = 3200;
       const chords = [
-        [146.83, 174.61, 220.00, 293.66], // Dm7 (D3, F3, A3, D4)
-        [116.54, 174.61, 233.08, 293.66], // Bbmaj7 (Bb2, F3, Bb3, D4)
-        [98.00, 146.83, 196.00, 293.66],  // Gm7 (G2, D3, G3, D4)
-        [110.00, 164.81, 220.00, 277.18]  // A7sus4 (A2, E3, A3, C#4)
+        [146.83, 174.61, 220.00, 293.66], // Dm7
+        [116.54, 174.61, 233.08, 293.66], // Bbmaj7
+        [98.00, 146.83, 196.00, 293.66],  // Gm7
+        [110.00, 164.81, 220.00, 277.18]  // A7sus4
       ];
-      const bassNotes = [73.42, 58.27, 49.00, 55.00]; // D2, Bb1, G1, A1
+      const bassNotes = [73.42, 58.27, 49.00, 55.00];
 
       const idx = this.musicStep % chords.length;
       const chord = chords[idx];
       const bass = bassNotes[idx];
 
-      // 1. Deep Warm Analog Drone (Sub + Cello Octave, Soft Lowpass 320Hz)
-      this.playSynthNote(bass, t, 2.4, 'triangle', 0.26, 320);
-      this.playSynthNote(bass * 1.5, t + 0.1, 2.1, 'sine', 0.12, 450);
+      // Deep Stealth Drone (Lowpass 300Hz)
+      this.playSynthNote(bass, t, 2.8, 'triangle', 0.22, 300);
 
-      // 2. Muffled Covert Heartbeat Thump (Soft Sub Pulse)
-      this.playSynthNote(48.0, t, 0.35, 'sine', 0.26, 120);
-      if (this.musicStep % 2 === 1) {
-        this.playSynthNote(42.0, t + 0.9, 0.30, 'sine', 0.18, 110);
-      }
+      // Muffled Sonar Sub-Thump
+      this.playSynthNote(48.0, t, 0.4, 'sine', 0.20, 120);
 
-      // 3. Cinematic Espionage Pad Swell (Warm, Soft Attack, No Piercing Frequencies)
+      // Espionage Pad Swell (Lowpass 650Hz)
       chord.forEach((freq, cIdx) => {
-        this.playSynthNote(freq, t + 0.25 + (cIdx * 0.12), 1.9, 'triangle', 0.09, 700);
+        this.playSynthNote(freq, t + 0.25 + (cIdx * 0.12), 2.2, 'triangle', 0.11, 650);
       });
     }
 

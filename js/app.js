@@ -47,9 +47,10 @@ class TheDilemmaApp {
       if (window.soundEngine.isMusicEnabled && !window.soundEngine.isMuted) {
         window.soundEngine.startAmbientMusic();
       }
+      this.syncMusicButtons();
     };
 
-    ['pointerdown', 'touchstart', 'mousedown', 'keydown'].forEach(evt => {
+    ['pointerdown', 'touchstart', 'mousedown', 'keydown', 'click', 'pointerup'].forEach(evt => {
       window.addEventListener(evt, unlockAudio, { once: false, passive: true });
     });
   }
@@ -497,6 +498,23 @@ class TheDilemmaApp {
     });
   }
 
+  syncMusicButtons() {
+    const isPlaying = window.soundEngine.isMusicEnabled && !window.soundEngine.isMuted;
+    
+    const btnHdr = document.getElementById('btnHeaderMusic');
+    if (btnHdr) {
+      btnHdr.classList.toggle('active', isPlaying);
+      btnHdr.title = isPlaying ? 'Toggle Ambient Music (Currently ON)' : 'Toggle Ambient Music (Currently OFF)';
+      btnHdr.innerHTML = isPlaying ? '🎵' : '🔇';
+    }
+
+    const settingMusic = document.getElementById('settingMusicToggle');
+    if (settingMusic) {
+      settingMusic.textContent = isPlaying ? 'ON' : 'OFF';
+      settingMusic.classList.toggle('active', isPlaying);
+    }
+  }
+
   showScreen(screenId) {
     document.querySelectorAll('.view-screen').forEach(s => s.classList.add('hidden'));
     const target = document.getElementById(screenId);
@@ -575,13 +593,21 @@ class TheDilemmaApp {
       }
     }
 
+    // Quick Header Ambient Music Toggle
+    const btnHdrMusic = document.getElementById('btnHeaderMusic');
+    if (btnHdrMusic) {
+      btnHdrMusic.addEventListener('click', () => {
+        const isMusicOn = window.soundEngine.toggleMusic();
+        this.syncMusicButtons();
+      });
+    }
+
     // Settings Audio Toggles inside Settings Modal
     const settingMusic = document.getElementById('settingMusicToggle');
     if (settingMusic) {
       settingMusic.addEventListener('click', () => {
         const isMusicOn = window.soundEngine.toggleMusic();
-        settingMusic.textContent = isMusicOn ? 'ON' : 'OFF';
-        settingMusic.classList.toggle('active', isMusicOn);
+        this.syncMusicButtons();
       });
     }
 
