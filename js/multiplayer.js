@@ -112,7 +112,7 @@ class MultiplayerEngine {
   }
 
   createRoom(jackpot = 50000, hostName = null) {
-    if (hostName) this.playerName = hostName;
+    this.playerName = hostName || window.gameMatrix?.stats?.username || this.playerName;
     this.roomCode = this.generateRoomCode();
     this.isHost = true;
     this.opponent = null;
@@ -144,8 +144,8 @@ class MultiplayerEngine {
   }
 
   joinRoom(roomCode, guestName = null) {
-    if (guestName) this.playerName = guestName;
     this.roomCode = roomCode.toUpperCase().trim();
+    this.playerName = guestName || window.gameMatrix?.stats?.username || this.playerName;
     this.isHost = false;
 
     // Check localStorage fallback

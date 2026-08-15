@@ -57,6 +57,20 @@ class GameMatrix {
     this.activeWager = 0;
   }
 
+  generateDefaultUsername(theme = this.currentTheme) {
+    const prefixes = {
+      poker_tournament: ['ApexShark', 'VegasWhale', 'BluffKing', 'PocketAces', 'FinalTabler', 'GTO_Wizard'],
+      trading_desk: ['QuantTrader', 'WallStTitan', 'ArbitrageKing', 'AlphaSeeker', 'BullishRider', 'OrderFlow'],
+      hotel_lobby: ['ContinentalVIP', 'GoldConcierge', 'DiplomatElite', 'SuiteHighRoller', 'SterlingGuest'],
+      bank_vault: ['VaultBreaker', 'GoldReserve', 'FortressLock', 'TitaniumHeist', 'SafeCracker'],
+      military_intelligence: ['CipherAgent', 'BlackOpsLead', 'DEFCON_One', 'GhostOperator', 'StratComLead']
+    };
+    const list = prefixes[theme] || prefixes.poker_tournament;
+    const base = list[Math.floor(Math.random() * list.length)];
+    const num = Math.floor(100 + Math.random() * 900);
+    return `@${base}_${num}`;
+  }
+
   setTheme(themeId) {
     this.currentTheme = themeId;
   }
@@ -73,6 +87,10 @@ class GameMatrix {
 
   loadStats() {
     const defaults = {
+      username: this.generateDefaultUsername(),
+      pin: null,
+      isClaimed: false,
+      claimedAt: null,
       bankroll: 50000,
       totalWon: 0,
       totalLost: 0,
@@ -91,7 +109,11 @@ class GameMatrix {
     try {
       const saved = localStorage.getItem('dilemma_game_stats_v5');
       if (saved) {
-        return { ...defaults, ...JSON.parse(saved) };
+        const parsed = JSON.parse(saved);
+        if (!parsed.username || !parsed.username.startsWith('@')) {
+          parsed.username = this.generateDefaultUsername();
+        }
+        return { ...defaults, ...parsed };
       }
     } catch (_) {}
 
@@ -101,7 +123,108 @@ class GameMatrix {
   saveStats() {
     try {
       localStorage.setItem('dilemma_game_stats_v5', JSON.stringify(this.stats));
+      if (this.stats.isClaimed && this.stats.pin && this.stats.username) {
+        const savedProfiles = this.getSavedProfiles();
+        const key = this.stats.username.toLowerCase();
+        savedProfiles[key] = {
+          username: this.stats.username,
+          pin: this.stats.pin,
+          updatedAt: new Date().toISOString(),
+          stats: JSON.parse(JSON.stringify(this.stats))
+        };
+        localStorage.setItem('dilemma_saved_profiles', JSON.stringify(savedProfiles));
+      }
     } catch (_) {}
+  }
+
+  getSavedProfiles() {
+    try {
+      const raw = localStorage.getItem('dilemma_saved_profiles');
+      return raw ? JSON.parse(raw) : {};
+    } catch (_) {
+      return {};
+    }
+  }
+
+  formatUsername(raw) {
+    if (!raw) return '';
+    let clean = raw.trim();
+    if (!clean.startsWith('@')) {
+      clean = '@' + clean;
+    }
+    const handleBody = clean.slice(1).replace(/[^a-zA-Z0-9_]/g, '');
+    return '@' + handleBody;
+  }
+
+  claimProfile(rawUsername, pin) {
+    const formatted = this.formatUsername(rawUsername);
+    if (!formatted || formatted.length < 3) {
+      return { success: false, error: 'Username must be at least 2 characters (e.g. @Ace)' };
+    }
+    if (formatted.length > 20) {
+      return { success: false, error: 'Username cannot exceed 20 characters' };
+    }
+    if (!/^\d{4}$/.test(pin)) {
+      return { success: false, error: 'PIN must be exactly 4 digits (e.g. 1234)' };
+    }
+
+    const savedProfiles = this.getSavedProfiles();
+    const key = formatted.toLowerCase();
+    const existing = savedProfiles[key];
+
+    if (existing && existing.pin !== pin) {
+      return {
+        success: false,
+        error: `Handle ${formatted} is already registered. Enter the matching 4-digit PIN to load or update this profile, or choose a different handle.`
+      };
+    }
+
+    this.stats.username = formatted;
+    this.stats.pin = pin;
+    this.stats.isClaimed = true;
+    this.stats.claimedAt = new Date().toISOString();
+    this.saveStats();
+
+    return {
+      success: true,
+      username: formatted,
+      message: `Profile secured and claimed as ${formatted} with PIN protection!`
+    };
+  }
+
+  loginProfile(rawUsername, pin) {
+    const formatted = this.formatUsername(rawUsername);
+    if (!/^\d{4}$/.test(pin)) {
+      return { success: false, error: 'PIN must be exactly 4 digits (e.g. 1234)' };
+    }
+
+    const savedProfiles = this.getSavedProfiles();
+    const key = formatted.toLowerCase();
+    const saved = savedProfiles[key];
+
+    if (!saved) {
+      return { success: false, error: `No saved profile found for ${formatted}. You can claim this handle to start fresh!` };
+    }
+
+    if (saved.pin !== pin) {
+      return { success: false, error: `Incorrect 4-digit PIN for ${formatted}.` };
+    }
+
+    this.stats = {
+      ...this.loadStats(),
+      ...saved.stats,
+      username: saved.username,
+      pin: saved.pin,
+      isClaimed: true
+    };
+    this.saveStats();
+
+    return {
+      success: true,
+      username: saved.username,
+      stats: this.stats,
+      message: `Welcome back, ${saved.username}! All career progress restored.`
+    };
   }
 
   /**

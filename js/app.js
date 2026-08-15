@@ -408,13 +408,37 @@ class TheDilemmaApp {
     document.getElementById('statMatches').textContent = stats.matchesPlayed;
     document.getElementById('statHeists').textContent = stats.successfulHeists;
 
+    // Populate security inputs
+    const inputHandle = document.getElementById('inputPlayerHandle');
+    if (inputHandle) inputHandle.value = stats.username || window.gameMatrix.generateDefaultUsername();
+    const inputPin = document.getElementById('inputPlayerPin');
+    if (inputPin) inputPin.value = stats.pin || '';
+
+    const claimMsg = document.getElementById('secClaimMessage');
+    if (claimMsg) {
+      if (stats.isClaimed) {
+        claimMsg.className = 'sec-feedback-msg success';
+        claimMsg.textContent = `✓ Profile claimed & secured as ${stats.username}`;
+      } else {
+        claimMsg.className = 'sec-feedback-msg';
+        claimMsg.textContent = 'Enter a 4-digit PIN to secure your career progress across devices.';
+      }
+    }
+
+    const restoreMsg = document.getElementById('secRestoreMessage');
+    if (restoreMsg) {
+      restoreMsg.textContent = '';
+      restoreMsg.className = 'sec-feedback-msg';
+    }
+
     this.renderBallSkins();
     this.renderAchievements();
     document.getElementById('profileModal').classList.remove('hidden');
   }
 
   updateHeaderBankroll() {
-    const roll = window.gameMatrix.stats.bankroll;
+    const stats = window.gameMatrix.stats;
+    const roll = stats.bankroll;
     const bankrollElem = document.getElementById('bankrollValue');
     if (bankrollElem) bankrollElem.textContent = `$${roll.toLocaleString()}`;
 
@@ -422,6 +446,15 @@ class TheDilemmaApp {
     const arch = window.gameMatrix.getPlayerArchetype();
     const avatar = document.getElementById('lobbyPlayerAvatar');
     if (avatar) avatar.textContent = arch.icon;
+
+    const handleElem = document.getElementById('lobbyPlayerHandle');
+    if (handleElem) handleElem.textContent = stats.username || '@Player';
+
+    const claimBadge = document.getElementById('lobbyClaimStatusBadge');
+    if (claimBadge) {
+      claimBadge.textContent = stats.isClaimed ? '🟢 Secured' : '🔒 Claim Profile';
+      claimBadge.classList.toggle('claimed', !!stats.isClaimed);
+    }
 
     const title = document.getElementById('lobbyPlayerArchetype');
     if (title) {
@@ -433,7 +466,7 @@ class TheDilemmaApp {
     if (trust) trust.textContent = `${window.gameMatrix.getTrustScore()}%`;
 
     const matches = document.getElementById('lobbyMatchesCount');
-    if (matches) matches.textContent = window.gameMatrix.stats.matchesPlayed;
+    if (matches) matches.textContent = stats.matchesPlayed;
   }
 
   setupCanvas() {
@@ -551,6 +584,123 @@ class TheDilemmaApp {
         this.openProfileModal();
       }
     });
+
+    // Profile Security Tabs & PIN Authentication
+    const tabClaim = document.getElementById('tabClaimProfile');
+    const tabRestore = document.getElementById('tabRestoreProfile');
+    const panelClaim = document.getElementById('secClaimPanel');
+    const panelRestore = document.getElementById('secRestorePanel');
+
+    if (tabClaim && tabRestore && panelClaim && panelRestore) {
+      tabClaim.addEventListener('click', () => {
+        tabClaim.classList.add('active');
+        tabRestore.classList.remove('active');
+        panelClaim.classList.remove('hidden');
+        panelRestore.classList.add('hidden');
+      });
+
+      tabRestore.addEventListener('click', () => {
+        tabRestore.classList.add('active');
+        tabClaim.classList.remove('active');
+        panelRestore.classList.remove('hidden');
+        panelClaim.classList.add('hidden');
+      });
+    }
+
+    // Randomize handle button
+    const btnRnd = document.getElementById('btnRandomHandle');
+    if (btnRnd) {
+      btnRnd.addEventListener('click', () => {
+        const input = document.getElementById('inputPlayerHandle');
+        if (input) {
+          input.value = window.gameMatrix.generateDefaultUsername();
+          window.soundEngine.playClick();
+        }
+      });
+    }
+
+    // Auto-ensure @ prefix while typing handle
+    const inputHandle = document.getElementById('inputPlayerHandle');
+    if (inputHandle) {
+      inputHandle.addEventListener('input', (e) => {
+        let val = e.target.value;
+        if (val && !val.startsWith('@')) {
+          e.target.value = '@' + val.replace(/@/g, '');
+        }
+      });
+    }
+
+    const inputRestoreHandle = document.getElementById('inputRestoreHandle');
+    if (inputRestoreHandle) {
+      inputRestoreHandle.addEventListener('input', (e) => {
+        let val = e.target.value;
+        if (val && !val.startsWith('@')) {
+          e.target.value = '@' + val.replace(/@/g, '');
+        }
+      });
+    }
+
+    // Save & Claim Profile Button
+    const btnSaveClaim = document.getElementById('btnSaveClaimProfile');
+    if (btnSaveClaim) {
+      btnSaveClaim.addEventListener('click', () => {
+        const handle = document.getElementById('inputPlayerHandle').value;
+        const pin = document.getElementById('inputPlayerPin').value;
+        const msgElem = document.getElementById('secClaimMessage');
+
+        const res = window.gameMatrix.claimProfile(handle, pin);
+        if (res.success) {
+          window.soundEngine.playSplitChoice();
+          msgElem.className = 'sec-feedback-msg success';
+          msgElem.textContent = `✓ ${res.message}`;
+          this.updateHeaderBankroll();
+        } else {
+          window.soundEngine.playStealChoice();
+          msgElem.className = 'sec-feedback-msg error';
+          msgElem.textContent = `✕ ${res.error}`;
+        }
+      });
+    }
+
+    // Restore Profile Button
+    const btnRestore = document.getElementById('btnRestoreProfile');
+    if (btnRestore) {
+      btnRestore.addEventListener('click', () => {
+        const handle = document.getElementById('inputRestoreHandle').value;
+        const pin = document.getElementById('inputRestorePin').value;
+        const msgElem = document.getElementById('secRestoreMessage');
+
+        const res = window.gameMatrix.loginProfile(handle, pin);
+        if (res.success) {
+          window.soundEngine.playSplitChoice();
+          msgElem.className = 'sec-feedback-msg success';
+          msgElem.textContent = `✓ ${res.message}`;
+          this.updateHeaderBankroll();
+          this.openProfileModal();
+        } else {
+          window.soundEngine.playStealChoice();
+          msgElem.className = 'sec-feedback-msg error';
+          msgElem.textContent = `✕ ${res.error}`;
+        }
+      });
+    }
+
+    // Click on lobby claim badge or player handle opens profile modal
+    const lobbyClaimBadge = document.getElementById('lobbyClaimStatusBadge');
+    if (lobbyClaimBadge) {
+      lobbyClaimBadge.addEventListener('click', () => {
+        window.soundEngine.playClick();
+        this.openProfileModal();
+      });
+    }
+
+    const lobbyHandle = document.getElementById('lobbyPlayerHandle');
+    if (lobbyHandle) {
+      lobbyHandle.addEventListener('click', () => {
+        window.soundEngine.playClick();
+        this.openProfileModal();
+      });
+    }
 
     // Lobby Quick Theme Switcher Pills
     document.querySelectorAll('.theme-pill-btn').forEach(btn => {
@@ -858,7 +1008,7 @@ class TheDilemmaApp {
 
   startAIGameplay() {
     const ai = window.aiEngine.getPersonality(this.selectedAI);
-    this.p1Name = 'You';
+    this.p1Name = window.gameMatrix.stats.username || 'You';
     this.p2Name = ai.name;
     this.p1Choice = null;
     this.p2Choice = null;
@@ -879,8 +1029,8 @@ class TheDilemmaApp {
     window.gameMatrix.deductWager(this.currentStake);
     this.updateHeaderBankroll();
 
-    document.getElementById('p1Avatar').textContent = '💼';
-    document.getElementById('p1Name').textContent = 'You';
+    document.getElementById('p1Avatar').textContent = window.gameMatrix.getPlayerArchetype().icon || '💼';
+    document.getElementById('p1Name').textContent = this.p1Name;
     document.getElementById('p1Trust').textContent = `Trust Rating: ${window.gameMatrix.getTrustScore()}%`;
 
     document.getElementById('p2Avatar').textContent = ai.avatar;

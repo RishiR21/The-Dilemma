@@ -112,9 +112,14 @@
           <div class="player-quick-left">
             <div class="player-quick-avatar" id="lobbyPlayerAvatar">💼</div>
             <div>
-              <div class="player-quick-title" id="lobbyPlayerArchetype">Managing Partner</div>
+              <div class="player-handle-row">
+                <span class="player-quick-handle" id="lobbyPlayerHandle">@ApexShark409</span>
+                <button class="claim-status-pill" id="lobbyClaimStatusBadge" title="Click to secure progress with a 4-digit PIN">Claim Profile</button>
+              </div>
               <div class="player-quick-meta">
-                <span>Trust Rating: <strong id="lobbyTrustPercent" style="color: var(--split-color);">100%</strong></span>
+                <span id="lobbyPlayerArchetype">Managing Partner</span>
+                <span class="meta-separator">•</span>
+                <span>Trust: <strong id="lobbyTrustPercent" style="color: var(--split-color);">100%</strong></span>
                 <span class="meta-separator">•</span>
                 <span>Matches: <strong id="lobbyMatchesCount">0</strong></span>
               </div>
@@ -497,6 +502,62 @@
           <div class="stat-item">
             <div class="stat-label">Successful Steals</div>
             <div class="stat-val" id="statHeists">0</div>
+          </div>
+        </div>
+
+        <!-- Profile Handle & PIN Security Module -->
+        <div class="profile-security-card">
+          <div class="profile-security-header">
+            <div class="security-header-title">
+              <span class="security-shield-icon">🛡️</span>
+              <div>
+                <h4 style="margin: 0; font-family: var(--font-display); font-size: 0.95rem; color: #fff;">Career Profile & Security</h4>
+                <p style="margin: 0; font-size: 0.72rem; color: var(--text-muted); font-family: var(--font-mono);">Save progress and switch accounts with a 4-digit PIN</p>
+              </div>
+            </div>
+            <div class="profile-security-tabs">
+              <button class="sec-tab-btn active" id="tabClaimProfile">Claim / Save</button>
+              <button class="sec-tab-btn" id="tabRestoreProfile">Restore Account</button>
+            </div>
+          </div>
+
+          <!-- Tab 1: Claim / Update -->
+          <div id="secClaimPanel" class="sec-panel">
+            <div class="sec-input-row">
+              <div class="sec-input-group" style="flex: 1;">
+                <label for="inputPlayerHandle">Handle (starts with @):</label>
+                <div class="handle-input-wrapper">
+                  <input type="text" id="inputPlayerHandle" maxlength="20" placeholder="@YourHandle" spellcheck="false" autocomplete="off">
+                  <button type="button" class="btn-rnd-handle" id="btnRandomHandle" title="Generate Random Handle">🎲</button>
+                </div>
+              </div>
+              <div class="sec-input-group" style="width: 140px;">
+                <label for="inputPlayerPin">4-Digit PIN:</label>
+                <input type="password" id="inputPlayerPin" maxlength="4" placeholder="••••" inputmode="numeric" pattern="[0-9]*" autocomplete="off">
+              </div>
+            </div>
+            <button class="btn btn-primary btn-full" id="btnSaveClaimProfile" style="margin-top: 8px;">
+              🔒 Save & Claim Profile
+            </button>
+            <div id="secClaimMessage" class="sec-feedback-msg"></div>
+          </div>
+
+          <!-- Tab 2: Restore / Sign In -->
+          <div id="secRestorePanel" class="sec-panel hidden">
+            <div class="sec-input-row">
+              <div class="sec-input-group" style="flex: 1;">
+                <label for="inputRestoreHandle">Claimed @Handle:</label>
+                <input type="text" id="inputRestoreHandle" maxlength="20" placeholder="@YourHandle" spellcheck="false" autocomplete="off">
+              </div>
+              <div class="sec-input-group" style="width: 140px;">
+                <label for="inputRestorePin">4-Digit PIN:</label>
+                <input type="password" id="inputRestorePin" maxlength="4" placeholder="••••" inputmode="numeric" pattern="[0-9]*" autocomplete="off">
+              </div>
+            </div>
+            <button class="btn btn-primary btn-full" id="btnRestoreProfile" style="margin-top: 8px;">
+              🔑 Restore Career Progress
+            </button>
+            <div id="secRestoreMessage" class="sec-feedback-msg"></div>
           </div>
         </div>
 

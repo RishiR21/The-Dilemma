@@ -658,6 +658,50 @@ body::after {
   flex-shrink: 0;
 }
 
+.player-handle-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 2px;
+  flex-wrap: wrap;
+}
+
+.player-quick-handle {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--primary-accent);
+  letter-spacing: 0.5px;
+}
+
+.claim-status-pill {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  background: rgba(234, 179, 8, 0.12);
+  color: #eab308;
+  border: 1px solid rgba(234, 179, 8, 0.3);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.claim-status-pill:hover {
+  background: rgba(234, 179, 8, 0.22);
+  border-color: #eab308;
+  transform: translateY(-1px);
+}
+
+.claim-status-pill.claimed {
+  background: rgba(34, 197, 94, 0.12);
+  color: #22c55e;
+  border-color: rgba(34, 197, 94, 0.3);
+}
+
 .player-quick-title {
   font-family: var(--font-display);
   font-size: 1rem;
@@ -1799,6 +1843,149 @@ body::after {
 
 .modal-close:hover {
   color: #fff;
+}
+
+/* Profile Handle & 4-Digit PIN Security Module */
+.profile-security-card {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  margin: 16px 0;
+}
+
+.profile-security-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+
+.security-header-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.security-shield-icon {
+  font-size: 1.4rem;
+}
+
+.profile-security-tabs {
+  display: flex;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 3px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-subtle);
+}
+
+.sec-tab-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.sec-tab-btn.active {
+  background: var(--primary-accent);
+  color: var(--bg-core);
+}
+
+.sec-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sec-input-row {
+  display: flex;
+  gap: 10px;
+  align-items: flex-end;
+}
+
+@media (max-width: 480px) {
+  .sec-input-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+.sec-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sec-input-group label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+.handle-input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.handle-input-wrapper input,
+.sec-input-group input {
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: #fff;
+  outline: none;
+  width: 100%;
+  transition: border-color 0.2s ease;
+}
+
+.handle-input-wrapper input:focus,
+.sec-input-group input:focus {
+  border-color: var(--primary-accent);
+}
+
+.btn-rnd-handle {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 7px 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-rnd-handle:hover {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: var(--primary-accent);
+  transform: scale(1.05);
+}
+
+.sec-feedback-msg {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  line-height: 1.4;
+  margin-top: 4px;
+  min-height: 18px;
+}
+
+.sec-feedback-msg.success {
+  color: var(--split-color);
+}
+
+.sec-feedback-msg.error {
+  color: var(--steal-color);
 }
 
 /* Theme Picker Cards */
