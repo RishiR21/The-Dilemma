@@ -221,63 +221,59 @@ class TensionSoundEngine {
       });
 
     } else if (this.theme === 'bank_vault') {
-      // 🔒 SUBTERRANEAN INFILTRATION DRONE (Dark Sub Bass & Heavy Metal Resonance)
-      nextBarDelay = 2800;
-      const drones = [55.0, 48.0, 52.0, 44.0];
-      const metalTicks = [587.33, 880.00, 1174.66, 440.00];
-
-      const idx = this.musicStep % drones.length;
-      this.playSynthNote(drones[idx], t, 2.7, 'sawtooth', 0.38, 280);
-      this.playSynthNote(metalTicks[idx], t + 0.8, 0.12, 'triangle', 0.12, 3800);
-      this.playSynthNote(metalTicks[(idx + 1) % 4], t + 1.8, 0.12, 'triangle', 0.12, 3800);
-
-    } else {
-      // 🎯 BLACK OPS / DEFCON 1 ESPIONAGE CINEMATIC (Sub-Bass Grate, Tactical Radar Arp & DEFCON Warning Stabs)
-      nextBarDelay = 1900;
-      
-      // D minor / Eb Phrygian Espionage Progression (D -> Eb -> C -> C#)
-      const bassRoots = [36.71, 38.89, 32.70, 34.65]; // D1, Eb1, C1, C#1 (Ultra Sub)
-      const droneHarmonics = [73.42, 77.78, 65.41, 69.30]; // D2, Eb2, C2, C#2
-      const stealthTensionChords = [
-        [146.83, 220.00, 311.13, 370.00], // D dim / Tension
-        [155.56, 233.08, 311.13, 392.00], // Eb sus4
-        [130.81, 196.00, 293.66, 349.23], // C minor add9
-        [138.59, 207.65, 311.13, 370.00]  // C# dim
+      // 🔒 CASH VAULT: SUBTERRANEAN HEIST AMBIENT (Deep Warm Sub-Bass & Lush Rhodes Chords)
+      nextBarDelay = 2600;
+      const chords = [
+        [130.81, 155.56, 196.00, 293.66], // Cm9 (C3, Eb3, G3, D4)
+        [103.83, 155.56, 207.65, 261.63], // Abmaj7 (Ab2, Eb3, Ab3, C4)
+        [87.31, 130.81, 174.61, 261.63],  // Fm9 (F2, C3, F3, C4)
+        [98.00, 146.83, 196.00, 293.66]   // Gsus4 (G2, D3, G3, D4)
       ];
-      const tacticalArp = [293.66, 311.13, 349.23, 440.00, 493.88, 587.33, 440.00, 349.23]; // D4, Eb4, F4, A4, B4, D5
-      const sonarPings = [1760.0, 2349.32, 1975.53, 2637.02]; // A6, D7, B6, E7
+      const bassNotes = [65.41, 51.91, 43.65, 49.00]; // Deep Sub C2, Ab1, F1, G1
 
-      const idx = this.musicStep % bassRoots.length;
-      const root = bassRoots[idx];
-      const harmonic = droneHarmonics[idx];
-      const chord = stealthTensionChords[idx];
-      const sonar = sonarPings[idx];
+      const idx = this.musicStep % chords.length;
+      const chord = chords[idx];
+      const bass = bassNotes[idx];
 
-      // 1. Deep Detuned Dual Sub-Bass Drones
-      this.playSynthNote(root, t, 1.85, 'sawtooth', 0.30, 260);
-      this.playSynthNote(harmonic * 1.004, t, 1.8, 'triangle', 0.22, 380);
+      // Warm Subterranean Velvet Sub Bass (Lowpass 280Hz)
+      this.playSynthNote(bass, t, 2.4, 'triangle', 0.28, 280);
+      this.playSynthNote(bass * 2, t, 2.0, 'sine', 0.14, 380);
 
-      // 2. Sub-Bass Tactical Heartbeat Impact
-      this.playSynthNote(55.0, t, 0.4, 'sine', 0.35, 180);
-      if (this.musicStep % 2 === 1) {
-        this.playSynthNote(49.0, t + 0.95, 0.35, 'sine', 0.26, 160);
-      }
-
-      // 3. Cinematic Espionage Chord Swell
+      // Lush Warm Rhodes Heist Chords (Gentle Arpeggio, Soft Filter 800Hz)
       chord.forEach((freq, cIdx) => {
-        this.playSynthNote(freq, t + 0.15 + (cIdx * 0.04), 1.5, 'sawtooth', 0.10, 1400);
+        this.playSynthNote(freq, t + 0.2 + (cIdx * 0.16), 1.8, 'sine', 0.14, 800);
       });
 
-      // 4. Tactical Radar / Clock-Tick 16th Arpeggiator (8 pulses)
-      for (let i = 0; i < 8; i++) {
-        const note = tacticalArp[(i + idx * 2) % tacticalArp.length];
-        const gain = (i % 2 === 0) ? 0.12 : 0.07;
-        this.playSynthNote(note, t + (i * 0.22), 0.16, 'sawtooth', gain, 2200);
+    } else {
+      // 🎯 BLACK OPS: STEALTH COVERT AMBIENCE (Warm Cello Drone & Dark Cinematic Pad Swell)
+      nextBarDelay = 2600;
+      
+      const chords = [
+        [146.83, 174.61, 220.00, 293.66], // Dm7 (D3, F3, A3, D4)
+        [116.54, 174.61, 233.08, 293.66], // Bbmaj7 (Bb2, F3, Bb3, D4)
+        [98.00, 146.83, 196.00, 293.66],  // Gm7 (G2, D3, G3, D4)
+        [110.00, 164.81, 220.00, 277.18]  // A7sus4 (A2, E3, A3, C#4)
+      ];
+      const bassNotes = [73.42, 58.27, 49.00, 55.00]; // D2, Bb1, G1, A1
+
+      const idx = this.musicStep % chords.length;
+      const chord = chords[idx];
+      const bass = bassNotes[idx];
+
+      // 1. Deep Warm Analog Drone (Sub + Cello Octave, Soft Lowpass 320Hz)
+      this.playSynthNote(bass, t, 2.4, 'triangle', 0.26, 320);
+      this.playSynthNote(bass * 1.5, t + 0.1, 2.1, 'sine', 0.12, 450);
+
+      // 2. Muffled Covert Heartbeat Thump (Soft Sub Pulse)
+      this.playSynthNote(48.0, t, 0.35, 'sine', 0.26, 120);
+      if (this.musicStep % 2 === 1) {
+        this.playSynthNote(42.0, t + 0.9, 0.30, 'sine', 0.18, 110);
       }
 
-      // 5. SATCOM Sonar Pings (High Recon with Echo)
-      this.playSynthNote(sonar, t + 0.35, 0.45, 'sine', 0.16, 4800);
-      this.playSynthNote(sonar * 0.75, t + 0.75, 0.25, 'sine', 0.09, 4200);
+      // 3. Cinematic Espionage Pad Swell (Warm, Soft Attack, No Piercing Frequencies)
+      chord.forEach((freq, cIdx) => {
+        this.playSynthNote(freq, t + 0.25 + (cIdx * 0.12), 1.9, 'triangle', 0.09, 700);
+      });
     }
 
     this.musicStep++;
@@ -357,31 +353,31 @@ class TensionSoundEngine {
       osc.start(t);
       osc.stop(t + 0.25);
     } else if (this.theme === 'bank_vault') {
-      // Heavy subterranean titanium deadbolt lock with pneumatic hiss
+      // Soft subterranean vault mechanical latch (Warm low-frequency thud)
       const osc = this.ctx.createOscillator();
       const gain = this.ctx.createGain();
-      osc.type = 'sawtooth';
-      osc.frequency.setValueAtTime(160, t);
-      osc.frequency.exponentialRampToValueAtTime(30, t + 0.12);
-      gain.gain.setValueAtTime(0.4, t);
-      gain.gain.exponentialRampToValueAtTime(0.001, t + 0.12);
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(140, t);
+      osc.frequency.exponentialRampToValueAtTime(45, t + 0.06);
+      gain.gain.setValueAtTime(0.22, t);
+      gain.gain.exponentialRampToValueAtTime(0.001, t + 0.06);
       osc.connect(gain);
       gain.connect(this.ctx.destination);
       osc.start(t);
-      osc.stop(t + 0.12);
+      osc.stop(t + 0.06);
     } else if (this.theme === 'military_intelligence') {
-      // Tactical SATCOM radio squelch & radar ping
+      // Muted tactical covert toggle (Soft low-register click)
       const osc = this.ctx.createOscillator();
       const gain = this.ctx.createGain();
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(1800, t);
-      osc.frequency.exponentialRampToValueAtTime(900, t + 0.05);
-      gain.gain.setValueAtTime(0.28, t);
-      gain.gain.exponentialRampToValueAtTime(0.001, t + 0.05);
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(450, t);
+      osc.frequency.exponentialRampToValueAtTime(160, t + 0.04);
+      gain.gain.setValueAtTime(0.18, t);
+      gain.gain.exponentialRampToValueAtTime(0.001, t + 0.04);
       osc.connect(gain);
       gain.connect(this.ctx.destination);
       osc.start(t);
-      osc.stop(t + 0.05);
+      osc.stop(t + 0.04);
     } else {
       // Trading Terminal mechanical keystroke
       const osc = this.ctx.createOscillator();
