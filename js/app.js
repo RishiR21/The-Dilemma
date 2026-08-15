@@ -884,7 +884,14 @@ class TheDilemmaApp {
       this.cleanupGameSession();
       this.currentStake *= 2;
       window.soundEngine.speakHost(`Double stakes rematch! $${this.currentStake.toLocaleString()} now in the pot!`, true);
-      this.startAIGameplay();
+      
+      if (this.currentMode === 'pass_play') {
+        this.startPassAndPlay();
+      } else if (this.currentMode === 'multiplayer') {
+        this.startMultiplayerMatch(45);
+      } else {
+        this.startAIGameplay();
+      }
     });
 
     this.setupMultiplayerListeners();
@@ -895,7 +902,19 @@ class TheDilemmaApp {
     reading.innerHTML = '<span style="color: var(--primary-accent);">Analyzing counterparty cadence & tell signals...</span>';
 
     setTimeout(() => {
-      const scan = window.gameMatrix.runPolygraphScan(this.selectedAI, this.timeRemaining, this.chatHistory.length);
+      let scan;
+      if (this.currentMode === 'multiplayer') {
+        const msgs = this.chatHistory.length;
+        const deceptionProb = Math.min(92, Math.max(12, Math.floor(25 + msgs * 9 + (Math.random() * 24 - 12))));
+        scan = {
+          deceptionProbability: deceptionProb,
+          stressLevel: deceptionProb > 60 ? 'HIGH DEVIATION DETECTED' : 'STEADY LIVE CADENCE',
+          tellNote: `Analyzing live counterparty response time (${this.timeRemaining}s remaining, ${msgs} packets exchanged).`
+        };
+      } else {
+        scan = window.gameMatrix.runPolygraphScan(this.selectedAI, this.timeRemaining, this.chatHistory.length);
+      }
+
       const color = scan.deceptionProbability > 60 ? '#f87171' : scan.deceptionProbability < 35 ? '#34d399' : '#fbbf24';
       reading.innerHTML = `
         <strong style="color: ${color};">${scan.deceptionProbability}% Deception Probability</strong> (${scan.stressLevel}) - <em>${scan.tellNote}</em>
@@ -912,13 +931,12 @@ class TheDilemmaApp {
 
     window.multiplayerEngine.on('onPlayerJoined', (opponent) => {
       window.soundEngine.playClick();
-      document.getElementById('hostStatusMsg').textContent = `✅ Player [${opponent.name}] connected!`;
-      document.getElementById('btnHostStartMatch').classList.remove('hidden');
-      
-      if (!window.multiplayerEngine.isHost) {
-        this.p1Name = window.multiplayerEngine.playerName;
+      if (window.multiplayerEngine.isHost) {
+        document.getElementById('hostStatusMsg').textContent = `✅ Player [${opponent.name}] connected! Ready to launch.`;
+        document.getElementById('btnHostStartMatch').classList.remove('hidden');
+      } else {
         this.p2Name = opponent.name;
-        this.startMultiplayerMatch(45);
+        document.getElementById('hostStatusMsg').textContent = `✅ Connected to Host [${opponent.name}]! Awaiting host to launch match...`;
       }
     });
 
@@ -1000,8 +1018,9 @@ class TheDilemmaApp {
       window.soundEngine.playClick();
       window.multiplayerEngine.joinRoom(val);
       this.p1Name = window.multiplayerEngine.playerName;
-      this.p2Name = 'Host';
-      this.startMultiplayerMatch(45);
+      this.p2Name = window.multiplayerEngine.opponent?.name || 'Host';
+      document.getElementById('displayRoomCode').textContent = val;
+      document.getElementById('hostStatusMsg').textContent = `Connecting to room ${val}... Awaiting host to launch.`;
     };
 
     document.getElementById('btnHostStartMatch').onclick = () => {
@@ -1090,6 +1109,16 @@ class TheDilemmaApp {
     this.selectedBall = null;
     this.chatHistory = [];
 
+    // Ensure adequate bankroll before match
+    if (window.gameMatrix.stats.bankroll < this.currentStake / 2) {
+      if (window.gameMatrix.stats.bankroll <= 0) {
+        window.gameMatrix.stats.bankroll = 25000;
+        window.gameMatrix.saveStats();
+      } else {
+        this.currentStake = Math.max(25000, window.gameMatrix.stats.bankroll * 2);
+      }
+    }
+
     // Deduct wager immediately
     window.gameMatrix.deductWager(this.currentStake);
     this.updateHeaderBankroll();
@@ -1127,11 +1156,21 @@ class TheDilemmaApp {
     this.selectedBall = null;
     this.chatHistory = [];
 
+    // Ensure adequate bankroll before match
+    if (window.gameMatrix.stats.bankroll < this.currentStake / 2) {
+      if (window.gameMatrix.stats.bankroll <= 0) {
+        window.gameMatrix.stats.bankroll = 25000;
+        window.gameMatrix.saveStats();
+      } else {
+        this.currentStake = Math.max(25000, window.gameMatrix.stats.bankroll * 2);
+      }
+    }
+
     // Deduct wager immediately
     window.gameMatrix.deductWager(this.currentStake);
     this.updateHeaderBankroll();
 
-    document.getElementById('p1Avatar').textContent = '💼';
+    document.getElementById('p1Avatar').textContent = window.gameMatrix.getPlayerArchetype().icon || '💼';
     document.getElementById('p1Name').textContent = this.p1Name;
     document.getElementById('p1Trust').textContent = `Trust: ${window.gameMatrix.getTrustScore()}%`;
 
@@ -1143,6 +1182,7 @@ class TheDilemmaApp {
     document.getElementById('negotiationPanel').classList.remove('hidden');
     document.getElementById('quickBluffBar').classList.remove('hidden');
     document.getElementById('chatInputRow').classList.remove('hidden');
+    document.getElementById('polygraphReading').textContent = 'Awaiting counterparty telemetry...';
 
     this.applyEquippedSkin();
     this.resetBallSelectionUI();
@@ -1150,7 +1190,7 @@ class TheDilemmaApp {
 
     window.soundEngine.startTensionDrone();
     window.soundEngine.startHeartbeat(70);
-    window.soundEngine.speakHost(`Live room connected. 45 seconds to reveal.`, true);
+    window.soundEngine.speakHost(`Live deal room connected. 45 seconds to reveal.`, true);
 
     this.startNegotiationTimer(duration, () => {});
   }
@@ -1186,8 +1226,8 @@ class TheDilemmaApp {
         
         if (!this.selectedBall) {
           this.selectedBall = 'SPLIT';
-          this.handleLockChoice();
         }
+        this.handleLockChoice();
       }
     }, 1000);
   }
