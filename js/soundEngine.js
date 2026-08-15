@@ -29,19 +29,25 @@ class TensionSoundEngine {
 
   setTheme(themeId) {
     this.theme = themeId;
-    if (this.isMusicEnabled && this.ctx) {
+    if (this.isMusicEnabled) {
+      this.ensureContext();
       this.restartAmbientMusic();
     }
   }
 
   init() {
-    if (this.ctx) return;
+    if (this.ctx && this.ctx.state !== 'closed') {
+      if (this.ctx.state === 'suspended') {
+        this.ctx.resume().catch(() => {});
+      }
+      return;
+    }
     try {
       const AudioContextClass = window.AudioContext || window.webkitAudioContext;
       this.ctx = new AudioContextClass();
       this.hasInteracted = true;
       this.setupMusicBus();
-      if (this.isMusicEnabled) {
+      if (this.isMusicEnabled && !this.isMuted) {
         this.startAmbientMusic();
       }
     } catch (e) {
@@ -50,20 +56,28 @@ class TensionSoundEngine {
   }
 
   ensureContext() {
-    if (!this.ctx) this.init();
+    if (!this.ctx) {
+      this.init();
+    }
     if (this.ctx && this.ctx.state === 'suspended') {
-      this.ctx.resume();
+      this.ctx.resume().catch(() => {});
+    }
+    if (!this.musicMasterGain && this.ctx) {
+      this.setupMusicBus();
     }
   }
 
   setupMusicBus() {
     if (!this.ctx) return;
-    this.musicMasterGain = this.ctx.createGain();
-    this.musicMasterGain.gain.setValueAtTime(0.16, this.ctx.currentTime);
-    this.musicMasterGain.connect(this.ctx.destination);
+    try {
+      this.musicMasterGain = this.ctx.createGain();
+      this.musicMasterGain.gain.setValueAtTime(0.35, this.ctx.currentTime);
+      this.musicMasterGain.connect(this.ctx.destination);
+    } catch (e) {}
   }
 
   toggleMute() {
+    this.ensureContext();
     this.isMuted = !this.isMuted;
     if (this.isMuted) {
       this.stopHeartbeat();
@@ -73,15 +87,22 @@ class TensionSoundEngine {
       }
     } else {
       if (this.musicMasterGain && this.ctx) {
-        this.musicMasterGain.gain.setValueAtTime(0.16, this.ctx.currentTime);
+        this.musicMasterGain.gain.setValueAtTime(0.35, this.ctx.currentTime);
+      }
+      if (this.isMusicEnabled) {
+        this.startAmbientMusic();
       }
     }
     return this.isMuted;
   }
 
   toggleMusic() {
+    this.ensureContext();
     this.isMusicEnabled = !this.isMusicEnabled;
     if (this.isMusicEnabled) {
+      if (this.musicMasterGain && this.ctx) {
+        this.musicMasterGain.gain.setValueAtTime(0.35, this.ctx.currentTime);
+      }
       this.startAmbientMusic();
     } else {
       this.stopAmbientMusic();
@@ -148,11 +169,11 @@ class TensionSoundEngine {
       const bass = bassNotes[chordIdx];
 
       // Play Upright Bass Note
-      this.playSynthNote(bass, t, 1.8, 'triangle', 0.28, 400);
+      this.playSynthNote(bass, t, 1.9, 'triangle', 0.35, 600);
 
       // Play Rhodes Piano Chord (Arpeggiated)
       chord.forEach((freq, idx) => {
-        this.playSynthNote(freq, t + idx * 0.12, 1.6, 'sine', 0.14, 1800);
+        this.playSynthNote(freq, t + idx * 0.14, 1.7, 'sine', 0.22, 2400);
       });
 
     } else if (this.theme === 'trading_desk') {
@@ -171,12 +192,12 @@ class TensionSoundEngine {
       const arp = arpNotes[barIdx];
 
       // Deep Analog Bass Pulse
-      this.playSynthNote(bass, t, 1.5, 'sawtooth', 0.22, 280);
+      this.playSynthNote(bass, t, 1.6, 'sawtooth', 0.28, 450);
 
       // Cyber Arpeggio pulses
       for (let i = 0; i < 8; i++) {
         const note = arp[i % arp.length];
-        this.playSynthNote(note, t + i * 0.22, 0.18, 'sawtooth', 0.08, 2200);
+        this.playSynthNote(note, t + i * 0.22, 0.2, 'sawtooth', 0.12, 2800);
       }
 
     } else if (this.theme === 'hotel_lobby') {
@@ -191,24 +212,24 @@ class TensionSoundEngine {
       const bassNotes = [98.00, 123.47, 130.81, 146.83];
 
       const idx = this.musicStep % chords.length;
-      this.playSynthNote(bassNotes[idx], t, 2.2, 'sine', 0.25, 350);
+      this.playSynthNote(bassNotes[idx], t, 2.2, 'sine', 0.32, 500);
 
       // 3/4 Waltz cadence (Beat 1, 2, 3)
       chords[idx].forEach((f) => {
-        this.playSynthNote(f, t + 0.35, 0.9, 'triangle', 0.12, 1600);
-        this.playSynthNote(f, t + 1.15, 0.9, 'triangle', 0.10, 1600);
+        this.playSynthNote(f, t + 0.35, 1.0, 'triangle', 0.18, 2200);
+        this.playSynthNote(f, t + 1.15, 1.0, 'triangle', 0.16, 2200);
       });
 
     } else if (this.theme === 'bank_vault') {
       // 🔒 SUBTERRANEAN INFILTRATION DRONE (Dark Sub Bass & Heavy Metal Resonance)
       nextBarDelay = 2800;
-      const drones = [45.0, 42.5, 48.0, 38.0];
+      const drones = [55.0, 48.0, 52.0, 44.0];
       const metalTicks = [587.33, 880.00, 1174.66, 440.00];
 
       const idx = this.musicStep % drones.length;
-      this.playSynthNote(drones[idx], t, 2.6, 'sawtooth', 0.32, 140);
-      this.playSynthNote(metalTicks[idx], t + 0.8, 0.08, 'triangle', 0.06, 3200);
-      this.playSynthNote(metalTicks[(idx + 1) % 4], t + 1.8, 0.08, 'triangle', 0.06, 3200);
+      this.playSynthNote(drones[idx], t, 2.7, 'sawtooth', 0.38, 280);
+      this.playSynthNote(metalTicks[idx], t + 0.8, 0.12, 'triangle', 0.12, 3800);
+      this.playSynthNote(metalTicks[(idx + 1) % 4], t + 1.8, 0.12, 'triangle', 0.12, 3800);
 
     } else {
       // 🎯 MILITARY INTELLIGENCE DEFCON RECON (Stealth Minor Radar Sweep)
@@ -217,10 +238,10 @@ class TensionSoundEngine {
       const pings = [1760.0, 1975.5, 2093.0, 1567.98];
 
       const idx = this.musicStep % basses.length;
-      this.playSynthNote(basses[idx], t, 2.0, 'triangle', 0.28, 240);
+      this.playSynthNote(basses[idx], t, 2.0, 'triangle', 0.34, 380);
 
       // Radar Sonar Ping
-      this.playSynthNote(pings[idx], t + 0.4, 0.35, 'sine', 0.10, 3500);
+      this.playSynthNote(pings[idx], t + 0.4, 0.4, 'sine', 0.18, 4200);
     }
 
     this.musicStep++;
@@ -230,7 +251,7 @@ class TensionSoundEngine {
     }, nextBarDelay);
   }
 
-  playSynthNote(freq, startTime, duration, type, gainVal, filterFreq = 2000) {
+  playSynthNote(freq, startTime, duration, type, gainVal, filterFreq = 2500) {
     if (!this.ctx || this.isMuted) return;
 
     try {
@@ -245,12 +266,12 @@ class TensionSoundEngine {
       filter.frequency.setValueAtTime(filterFreq, startTime);
 
       gain.gain.setValueAtTime(0.0001, startTime);
-      gain.gain.linearRampToValueAtTime(gainVal, startTime + 0.06);
+      gain.gain.linearRampToValueAtTime(gainVal, startTime + 0.05);
       gain.gain.exponentialRampToValueAtTime(0.0001, startTime + duration);
 
       osc.connect(filter);
       filter.connect(gain);
-      gain.connect(this.musicMasterGain);
+      gain.connect(this.musicMasterGain || this.ctx.destination);
 
       osc.start(startTime);
       osc.stop(startTime + duration);
@@ -281,7 +302,7 @@ class TensionSoundEngine {
       osc.type = 'triangle';
       osc.frequency.setValueAtTime(1400, t);
       osc.frequency.exponentialRampToValueAtTime(300, t + 0.04);
-      gain.gain.setValueAtTime(0.3, t);
+      gain.gain.setValueAtTime(0.35, t);
       gain.gain.exponentialRampToValueAtTime(0.001, t + 0.04);
       osc.connect(gain);
       gain.connect(this.ctx.destination);
@@ -293,7 +314,7 @@ class TensionSoundEngine {
       const gain = this.ctx.createGain();
       osc.type = 'sine';
       osc.frequency.setValueAtTime(2400, t);
-      gain.gain.setValueAtTime(0.18, t);
+      gain.gain.setValueAtTime(0.22, t);
       gain.gain.exponentialRampToValueAtTime(0.001, t + 0.25);
       osc.connect(gain);
       gain.connect(this.ctx.destination);
@@ -306,7 +327,7 @@ class TensionSoundEngine {
       osc.type = 'sawtooth';
       osc.frequency.setValueAtTime(160, t);
       osc.frequency.exponentialRampToValueAtTime(30, t + 0.12);
-      gain.gain.setValueAtTime(0.35, t);
+      gain.gain.setValueAtTime(0.4, t);
       gain.gain.exponentialRampToValueAtTime(0.001, t + 0.12);
       osc.connect(gain);
       gain.connect(this.ctx.destination);
@@ -319,7 +340,7 @@ class TensionSoundEngine {
       osc.type = 'sine';
       osc.frequency.setValueAtTime(1800, t);
       osc.frequency.exponentialRampToValueAtTime(900, t + 0.05);
-      gain.gain.setValueAtTime(0.22, t);
+      gain.gain.setValueAtTime(0.28, t);
       gain.gain.exponentialRampToValueAtTime(0.001, t + 0.05);
       osc.connect(gain);
       gain.connect(this.ctx.destination);
@@ -332,7 +353,7 @@ class TensionSoundEngine {
       osc.type = 'sine';
       osc.frequency.setValueAtTime(950, t);
       osc.frequency.exponentialRampToValueAtTime(250, t + 0.03);
-      gain.gain.setValueAtTime(0.18, t);
+      gain.gain.setValueAtTime(0.22, t);
       gain.gain.exponentialRampToValueAtTime(0.001, t + 0.03);
       osc.connect(gain);
       gain.connect(this.ctx.destination);
@@ -375,7 +396,7 @@ class TensionSoundEngine {
     osc.frequency.setValueAtTime(400, t);
     osc.frequency.exponentialRampToValueAtTime(650, t + 0.06);
 
-    gain.gain.setValueAtTime(0.05, t);
+    gain.gain.setValueAtTime(0.08, t);
     gain.gain.exponentialRampToValueAtTime(0.001, t + 0.06);
 
     osc.connect(gain);
@@ -397,13 +418,13 @@ class TensionSoundEngine {
       osc.type = 'sawtooth';
       osc.frequency.setValueAtTime(240, t);
       osc.frequency.exponentialRampToValueAtTime(140, t + 0.2);
-      gain.gain.setValueAtTime(0.25, t);
+      gain.gain.setValueAtTime(0.3, t);
       gain.gain.exponentialRampToValueAtTime(0.001, t + 0.2);
     } else {
       osc.type = 'triangle';
       osc.frequency.setValueAtTime(440, t);
       osc.frequency.exponentialRampToValueAtTime(880, t + 0.2);
-      gain.gain.setValueAtTime(0.2, t);
+      gain.gain.setValueAtTime(0.25, t);
       gain.gain.exponentialRampToValueAtTime(0.001, t + 0.2);
     }
 

@@ -1,11 +1,11 @@
 /**
- * ThemeContent - Complete Thematic Data & Copywriting Engine for The Dilemma
- * 5 Full Worlds:
- * 1. poker_tournament: Vegas High Roller Poker Room
- * 2. trading_desk: Bloomberg Executive Trading Floor
- * 3. hotel_lobby: Art Deco Grand Continental Hotel
- * 4. bank_vault: Armored Titanium Swiss Safe
- * 5. military_intelligence: Pentagon War Room & Black Ops Bunker
+ * ThemeContent - The Dilemma Theme Worlds & Copywriting Engine
+ * 5 Rich Worlds tailored with light atmospheric accents emphasizing core Split or Steal mechanics:
+ * 1. poker_tournament: Vegas High-Roller Poker Room (Chop vs All-In)
+ * 2. trading_desk: Wall Street Trading Floor (Split vs Steal)
+ * 3. hotel_lobby: Art Deco Grand Hotel (Split vs Seize)
+ * 4. bank_vault: Armored Cash Vault (Share vs Raid)
+ * 5. military_intelligence: DEFCON Command Bunker (Honor Pact vs Strike)
  */
 
 const THEMES_DATA = {
@@ -14,144 +14,142 @@ const THEMES_DATA = {
     name: 'Poker Tournament',
     icon: '♠️',
     brandTitle: 'THE SHOWDOWN',
-    brandBadge: 'WSOP HIGH ROLLER',
-    heroSubtitle: 'Vegas High Roller Heads-Up Championship',
+    brandBadge: 'HIGH ROLLER',
+    heroSubtitle: 'Vegas Final Table Duel',
     heroHeadline: 'THE SHOWDOWN',
-    heroTagline: 'Two poker players at the final table. One massive championship chip pot. Will you chop the pot 50/50, or push ALL-IN to steal the whole stack?',
+    heroTagline: 'Two poker players. One massive chip pot. Will you chop the pot 50/50, or push ALL-IN to steal the whole stack?',
     currencyName: 'Chips',
-    currencyLabel: 'STACK:',
-    potLabel: 'CHAMPIONSHIP CHIP POT',
-    splitLabel: '50% Chop Pot',
-    stealLabel: '100% All-In Steal',
+    currencyLabel: 'CHIPS:',
+    potLabel: 'CHIP JACKPOT',
+    splitLabel: '50% Chop',
+    stealLabel: '100% All-In',
     ballSplitText: 'CHOP',
     ballStealText: 'ALL-IN',
-    decisionPrompt: '♠️ Select Secret Hand Order',
-    scanBtnLabel: '♠ Read Opponent Tells',
+    decisionPrompt: '♠️ Lock In Secret Poker Decision',
+    scanBtnLabel: '🔍 Read Tells',
     scanTitle: 'Live Player Tell Analysis',
     modes: {
-      ai: { title: 'Heads-Up Gauntlet', desc: 'Face 5 legendary poker sharks, GTO solvers, and loose-aggressive maniacs.' },
-      multiplayer: { title: 'Private Poker Room', desc: 'Invite another player to a real-time 1v1 heads-up online table.' },
-      pass_play: { title: 'Table Pass & Play', desc: 'Lock in secret all-in/chop bets on one device before the showdown.' },
-      ladder: { title: 'High Roller Ladder', desc: 'Climb from $25,000 Micro Stakes to the $10,000,000 Super High Roller.' }
+      ai: { title: 'Heads-Up AI Duel', desc: 'Face 5 distinct poker personalities from solid rocks to aggressive sharks.' },
+      multiplayer: { title: 'Private Poker Room', desc: 'Create or join a private 1v1 heads-up room with a friend in real time.' },
+      pass_play: { title: 'Local Table Duel', desc: 'Play on one device. Pass the phone and lock in secret decisions before showdown.' },
+      ladder: { title: 'High-Roller Ladder', desc: 'Climb from $25,000 Micro Stakes to the $10,000,000 Championship.' }
     },
     bluffs: [
-      { text: "I'm checking this down. 100% locking in the CHOP.", label: "♠️ '100% Chop Pot'" },
-      { text: "If you push all-in to steal, we both bust out with $0.", label: "⚠️ 'All-in = $0 Bust'" },
-      { text: "I am shoving ALL-IN. Your only positive EV is to take the chop.", label: "🃏 'Shoving All-in, take chop'" },
-      { text: "Let's split the bracelet 50/50 and walk with the cash!", label: "🏆 'Split the Bracelet!'" }
+      { text: "I'm checking down to chop. Lock in the 50/50!", label: "♠️ '100% Chop Pot'" },
+      { text: "If we both shove all-in, we both bust with $0.", label: "⚠️ 'Both Steal = $0'" },
+      { text: "I am pushing all-in. Your only smart move is to chop.", label: "🃏 'Shoving All-In'" },
+      { text: "Let's split the prize and walk away winners!", label: "🏆 'Split the Prize!'" }
     ],
     ticker: [
-      { text: '♠ WSOP HEADS-UP TABLE 1', type: 'neutral' },
-      { text: '▲ BLINDS: 10,000 / 20,000', type: 'up' },
-      { text: '▲ CHIP LEADER: $2,500,000 STACK', type: 'up' },
-      { text: '◈ TIME BANK: 45 SECONDS', type: 'neutral' },
-      { text: '▼ BOUNTY: ALL-IN SHOWDOWN', type: 'down' },
-      { text: '▲ HOLE CARDS: ACE-KING SUITED', type: 'up' }
+      { text: '♠ FINAL TABLE HEADS-UP', type: 'neutral' },
+      { text: '▲ CHIP LEADER: $2,500,000', type: 'up' },
+      { text: '◈ SHOWDOWN CLOCK: 45 SECONDS', type: 'neutral' },
+      { text: '▲ 50/50 CHOP OR SOLO ALL-IN STEAL', type: 'up' }
     ],
     tiers: [
-      { id: 'tier1', name: 'Micro Stakes Heads-Up', stake: 25000, minBankroll: 0, desc: 'Casual underground card room to build your bankroll.', icon: '♣️' },
-      { id: 'tier2', name: 'Vegas Bellagio High Roller', stake: 100000, minBankroll: 25000, desc: 'Televised heads-up match under the bright Vegas spotlights.', icon: '♦️' },
-      { id: 'tier3', name: 'Monte Carlo Invitational', stake: 500000, minBankroll: 150000, desc: 'European high-stakes cash game with world champions.', icon: '♥️' },
-      { id: 'tier4', name: 'Macau Big Game', stake: 2000000, minBankroll: 750000, desc: 'Ultra-exclusive private room with seven-figure chip swings.', icon: '♠️' },
-      { id: 'tier5', name: 'WSOP $10M Championship Main Event', stake: 10000000, minBankroll: 2500000, desc: 'The ultimate heads-up duel for $10,000,000 and the gold bracelet.', icon: '👑' }
+      { id: 'tier1', name: 'Micro Stakes Table', stake: 25000, minBankroll: 0, desc: 'Casual friendly card game to test your reads.', icon: '♣️' },
+      { id: 'tier2', name: 'Bellagio High Roller', stake: 100000, minBankroll: 25000, desc: 'Heads-up battle under the bright Vegas spotlights.', icon: '♦️' },
+      { id: 'tier3', name: 'Monte Carlo Invitational', stake: 500000, minBankroll: 150000, desc: 'Prestigious cash game with high-stakes players.', icon: '♥️' },
+      { id: 'tier4', name: 'Macau Big Game', stake: 2000000, minBankroll: 750000, desc: 'Exclusive VIP room with seven-figure chip swings.', icon: '♠️' },
+      { id: 'tier5', name: '$10M World Championship', stake: 10000000, minBankroll: 2500000, desc: 'The ultimate heads-up showdown for $10,000,000.', icon: '👑' }
     ],
     archetypes: {
       novice: { title: 'Calling Station', icon: '🃏', color: '#94a3b8' },
       saint: { title: 'Honorable Card Shark', icon: '🏆', color: '#22c55e' },
       thief: { title: 'Ruthless Bluff King', icon: '🦈', color: '#ef4444' },
       predator: { title: 'All-In Bully', icon: '⚡', color: '#eab308' },
-      balancer: { title: 'GTO Game Theorist', icon: '⚖️', color: '#38bdf8' }
+      balancer: { title: 'GTO Strategist', icon: '⚖️', color: '#38bdf8' }
     },
     ai: {
       nick: {
-        name: 'Nick "The Shove" Corrigan',
-        title: 'The All-In Table Bully',
+        name: 'Nick "The Bully" Corrigan',
+        title: 'The Table Bully',
         avatar: '🤠',
-        difficulty: 'Apex Bully',
-        quote: '"I am pushing ALL-IN every single time. Take the chop or we both leave empty-handed."',
-        bio: 'Aggressive tournament pro who uses stack leverage to force counterparties into taking the chop.',
-        initialDialogue: "Look at my chip stack. I am pushing ALL-IN. You have zero fold equity. Accept the 50/50 chop, or we both bust out with $0.",
-        tellNote: 'Checked hole cards once with steady pulse. Unshakable posture.',
+        difficulty: 'Aggressive Bully',
+        quote: '"I am locking in All-In every single time. Take the chop or we both get $0."',
+        bio: 'Aggressive player who tells you upfront he is stealing to force you into splitting.',
+        initialDialogue: "Look, I am shoving ALL-IN. Take the 50/50 chop, or we both leave empty-handed.",
+        tellNote: 'Steady posture, unflinching eye contact.',
         bluffs: [
-          "My chips are in the middle. I never fold.",
-          "If you try to steal from me, we both bust with zero chips.",
-          "Every player who called my bluff is on the rail right now.",
-          "Take the chop and stay alive in the tournament."
+          "My decision is locked on All-In.",
+          "If you try to steal too, we both bust with $0.",
+          "Take the chop and walk away with your half.",
+          "I don't fold. Ever."
         ]
       },
       sarah: {
-        name: 'Sarah "The Rock" Evans',
-        title: 'The GTO Bracelet Winner',
+        name: 'Sarah Evans',
+        title: 'The Trusted Pro',
         avatar: '👑',
-        difficulty: 'Fiduciary Pro',
-        quote: '"Game theory optimal play means honoring the chop. Let us divide the pot fairly."',
-        bio: 'Calculated tournament champion who respects the etiquette of chopping, but permanently punishes angle-shooters.',
-        initialDialogue: "We fought hard to reach heads-up play. A 50/50 chop guarantees both of us six-figure payouts. I am locking in CHOP.",
-        tellNote: 'Steady breathing and calm table presence. Zero deception detected.',
+        difficulty: 'Honest Partner',
+        quote: '"Let us split the pot 50/50. Fair play is always the best move."',
+        bio: 'Reliable and fair player who prefers mutual splits, but will remember if you betray her.',
+        initialDialogue: "We both played great to get here. Let's chop the pot 50/50 and walk away winners.",
+        tellNote: 'Calm breathing, relaxed table presence. Zero deception detected.',
         bluffs: [
-          "My poker reputation is on the line. I always honor the chop.",
-          "Let's take our winnings and celebrate a clean finish.",
-          "Angle-shooting will get you blacklisted from high-roller games.",
-          "Greed costs tournaments. Let's chop it up."
+          "I promise I am choosing the Chop.",
+          "Let's both take our winnings home.",
+          "Greed ruins everything. Let's split it.",
+          "I'm keeping my word."
         ]
       },
       damian: {
-        name: 'Damian "The Grifter" Vance',
-        title: 'The River Bluff Master',
+        name: 'Damian Vance',
+        title: 'The Smooth Hustler',
         avatar: '🐺',
-        difficulty: 'Predatory Shark',
-        quote: '"I swear on my WSOP bracelet, I am checking down to chop!"',
-        bio: 'Charming hustler who promises a gentleman\'s chop while silently pushing all-in to scoop the whole pot.',
-        initialDialogue: "What a game! We both played brilliantly. On my mother's life, I've got my chips set on CHOP. Lock it in with me!",
-        tellNote: 'Glancing repeatedly at the pot with dilated pupils. High deception tell.',
+        difficulty: 'Sneaky Hustler',
+        quote: '"On my honor, I am choosing the chop! Lock it in with me!"',
+        bio: 'Charismatic hustler who promises a clean split while secretly planning to steal.',
+        initialDialogue: "Great game, partner! On my honor, I'm locking in CHOP right now. Let's do this together!",
+        tellNote: 'Glancing at the prize pool with dilated pupils. High deception tell.',
         bluffs: [
-          "I already pushed the Chop button, partner!",
-          "I would never angle-shoot a fellow pro at this table.",
+          "I already locked in Chop, trust me!",
           "We both walk away rich today. Just hit Chop.",
-          "Don't let paranoia ruin an easy payday."
+          "Why would I lie to you? Let's split it!",
+          "Don't overthink it, partner!"
         ]
       },
       jax: {
-        name: 'Jax "Wildcard" Vega',
-        title: 'The Loose-Aggressive Maniac',
+        name: 'Jax Vega',
+        title: 'The Wildcard',
         avatar: '⚡',
-        difficulty: 'Wild Chaos',
-        quote: '"Seven-deuce offsuit and pure gamble! Let\'s see who has the guts!"',
-        bio: 'Unpredictable adrenaline gambler who plays pure instinct and sudden all-in shoves.',
-        initialDialogue: "The adrenaline in this heads-up room is electric! Are we chopping the prize or gambling for glory?! Let's roll!",
-        tellNote: 'Restless chip shuffling and rapid pulse spikes.',
+        difficulty: 'Unpredictable',
+        quote: '"Pure gamble! Let us see who has the courage!"',
+        bio: 'Unpredictable player who thrives on high tension and sudden moves.',
+        initialDialogue: "The tension is wild! Are we splitting the jackpot or going for glory?! Let's find out!",
+        tellNote: 'Rapid chip shuffling and sudden pulse spikes.',
         bluffs: [
-          "All-in or bust! That's how legends are made!",
-          "Maybe I chop, maybe I take your whole stack on the river!",
-          "Can you feel the tension?! What's your gut telling you?!",
-          "Gamblers gamble! Show me what you've got!"
+          "All-in or split, what does your gut say?!",
+          "Maybe I split, maybe I take it all!",
+          "High stakes, big moves!",
+          "Show me what you've got!"
         ]
       },
       nash: {
         name: 'Dr. Arthur Nash',
-        title: 'The Solver Quant Pro',
+        title: 'The Mathematician',
         avatar: '📊',
-        difficulty: 'Grandmaster Solver',
-        quote: '"GTO Solvers prove (Chop, Chop) maximizes collective equity."',
-        bio: 'Mathematician who analyzes pot odds, range distribution, and Nash Equilibrium heads-up chops.',
-        initialDialogue: "According to Monte Carlo simulation, a 50/50 chop yields positive expected value. Defection introduces mutual bankruptcy risk.",
-        tellNote: 'Flatline heart rate. Mechanical mathematical calculation.',
+        difficulty: 'Game Theorist',
+        quote: '"Game theory shows (Split, Split) maximizes collective profit."',
+        bio: 'Analytical player who follows clean expected value calculations.',
+        initialDialogue: "A 50/50 split gives both of us positive profit. Stealing introduces mutual $0 risk.",
+        tellNote: 'Composed posture, steady heartbeat.',
         bluffs: [
-          "My solver gives your steal probability a 68% frequency.",
-          "Shoving here gives you negative EV against my range.",
-          "A 50/50 chop preserves tournament variance.",
-          "Mathematical discipline always beats emotional tilt."
+          "Mathematical logic favors a clean 50/50 split.",
+          "Stealing creates negative expected value for both sides.",
+          "Let's make the rational choice and split.",
+          "Discipline beats emotion."
         ]
       }
     },
     announcements: {
-      roundStart: "Heads-up for the championship! Call the chop or push all-in!",
-      tenSeconds: "Ten seconds in the time bank! Make your decision!",
-      reveal: "Three, two, one, showdown!",
-      splitWin: "Chop pot! Both players split the chips equally!",
-      stealWin: "All-in scoop! You take down the entire championship pot!",
-      stealLose: "Cold deck! Opponent scoops the entire chip pot!",
-      mutualLose: "Double bust! Both players walk away with zero chips!"
+      roundStart: "Final table showdown! Will you Split or will you Steal?",
+      tenSeconds: "Ten seconds left! Lock in your secret decision!",
+      reveal: "Three, two, one, reveal!",
+      splitWin: "Pot split! Both players share the prize equally!",
+      stealWin: "Solo steal! You take 100% of the jackpot!",
+      stealLose: "Betrayal! Opponent takes the whole jackpot!",
+      mutualLose: "Both stole! Mutual collapse, both get $0!"
     }
   },
 
@@ -160,144 +158,142 @@ const THEMES_DATA = {
     name: 'Trading Desk',
     icon: '📊',
     brandTitle: 'THE DILEMMA',
-    brandBadge: 'TERMINAL V2',
-    heroSubtitle: 'High-Conviction Liquidity Execution',
+    brandBadge: 'TRADING FLOOR',
+    heroSubtitle: 'High-Stakes Trading Floor',
     heroHeadline: 'THE DILEMMA',
-    heroTagline: 'Two counterparties. One institutional capital pool. Will you syndicate the 50/50 merger, or execute a ruthless hostile takeover?',
+    heroTagline: 'Two traders. One capital pool. Will you syndicate the 50/50 split, or execute a hostile takeover to take 100%?',
     currencyName: 'NAV',
-    currencyLabel: 'NAV:',
-    potLabel: 'CAPITAL POOL LIQUIDITY',
-    splitLabel: '50% Syndicate Split',
-    stealLabel: '100% Hostile Takeover',
+    currencyLabel: 'ESCROW:',
+    potLabel: 'CAPITAL POOL',
+    splitLabel: '50% Split',
+    stealLabel: '100% Steal',
     ballSplitText: 'SPLIT',
     ballStealText: 'STEAL',
-    decisionPrompt: '🔒 Select Confidential Execution Order',
-    scanBtnLabel: '🔍 Scan Order Flow Risk',
-    scanTitle: 'Order Flow Biometric Telemetry',
+    decisionPrompt: '🔒 Lock In Secret Trade Decision',
+    scanBtnLabel: '🔍 Scan Risk',
+    scanTitle: 'Live Telemetry Risk Scan',
     modes: {
-      ai: { title: 'Counterparty Gauntlet', desc: 'Negotiate against 5 Wall Street sharks, activist raiders, and algorithmic quants.' },
-      multiplayer: { title: 'Private Deal Room', desc: 'Host or join encrypted trade rooms with counterparties across desks.' },
-      pass_play: { title: 'Floor Terminal (1 Device)', desc: 'Execute secret trade orders on the same terminal before market reveal.' },
-      ladder: { title: 'Tranche Ladder', desc: 'Climb from $25,000 Angel Syndicates to the $10,000,000 Megamerger tranche.' }
+      ai: { title: 'Trading Desk AI Duel', desc: 'Negotiate deals against 5 Wall Street trading personalities.' },
+      multiplayer: { title: 'Private Deal Room', desc: 'Create an encrypted trade room with another player in real time.' },
+      pass_play: { title: 'Local Floor Duel', desc: 'Play on one device. Pass the phone and enter secret trade decisions.' },
+      ladder: { title: 'Capital Stakes Ladder', desc: 'Climb from $25,000 Seed Capital to the $10,000,000 Mega Fund.' }
     },
     bluffs: [
-      { text: "I promise on my firm's honor we are locking in SPLIT.", label: "🤝 '100% Syndicate SPLIT'" },
-      { text: "If you attempt a hostile steal, we both default to ZERO.", label: "⚠️ 'Hostile steal = $0 Default'" },
-      { text: "I am executing a HOSTILE STEAL. You must take the SPLIT.", label: "🏢 'Executing STEAL, take split'" },
-      { text: "Let's execute a clean 50/50 institutional merger!", label: "📈 'Clean 50/50 Merger!'" }
+      { text: "I am locking in the 50/50 SPLIT. Let's close the deal.", label: "🤝 '100% Split'" },
+      { text: "If we both steal, the trade fails and we both get $0.", label: "⚠️ 'Both Steal = $0'" },
+      { text: "I am taking the steal. Your only safe move is to split.", label: "💼 'Locking in Steal'" },
+      { text: "Let's share the profit 50/50 and close out green!", label: "📈 'Split the Profit!'" }
     ],
     ticker: [
-      { text: '▲ BTC/USD $98,450 (+4.8%)', type: 'up' },
-      { text: '▲ S&P 500 5,890 (+1.2%)', type: 'up' },
-      { text: '▲ NVDA $142.80 (+3.9%)', type: 'up' },
-      { text: '◈ DILEMMA POOL: $10,000,000 TRANCHE', type: 'neutral' },
-      { text: '▼ US10Y 4.18% (-0.8%)', type: 'down' },
-      { text: '▲ ETH/USD $3,820 (+5.1%)', type: 'up' }
+      { text: '▲ S&P DEAL DESK ACTIVE', type: 'up' },
+      { text: '◈ ESCROW LIQUIDITY: $500,000', type: 'neutral' },
+      { text: '▲ 50/50 SYNDICATE OR 100% TAKEOVER', type: 'up' },
+      { text: '◈ DECISION TIMER: 45 SECONDS', type: 'neutral' }
     ],
     tiers: [
-      { id: 'tier1', name: 'Angel Syndicate Round', stake: 25000, minBankroll: 0, desc: 'Seed stage deal room where junior venture partners prove conviction.', icon: '💼' },
-      { id: 'tier2', name: 'Series A Venture Tranche', stake: 100000, minBankroll: 25000, desc: 'Competitive venture round with high institutional scrutiny.', icon: '📊' },
-      { id: 'tier3', name: 'Wall Street Trading Floor', stake: 500000, minBankroll: 150000, desc: 'High-frequency institutional derivatives block trade.', icon: '🏛️' },
-      { id: 'tier4', name: 'Sovereign Wealth Allocation', stake: 2000000, minBankroll: 750000, desc: 'Eight-figure private wealth mandate with global sovereign funds.', icon: '💎' },
-      { id: 'tier5', name: 'Hostile Megamerger Acquisition', stake: 10000000, minBankroll: 2500000, desc: 'The ultimate $10,000,000 hostile takeover on live financial news.', icon: '👑' }
+      { id: 'tier1', name: 'Seed Capital Desk', stake: 25000, minBankroll: 0, desc: 'Introductory trade pool to build your balance.', icon: '🌱' },
+      { id: 'tier2', name: 'Growth Syndicate', stake: 100000, minBankroll: 25000, desc: 'Mid-tier investment desk with six-figure stakes.', icon: '📊' },
+      { id: 'tier3', name: 'Institutional Block', stake: 500000, minBankroll: 150000, desc: 'Heavy institutional deal desk.', icon: '🏢' },
+      { id: 'tier4', name: 'Hedge Fund Pool', stake: 2000000, minBankroll: 750000, desc: 'High-conviction portfolio allocation.', icon: '⚡' },
+      { id: 'tier5', name: '$10M Mega Fund', stake: 10000000, minBankroll: 2500000, desc: 'The ultimate $10,000,000 trading showdown.', icon: '👑' }
     ],
     archetypes: {
-      novice: { title: 'Junior Desk Analyst', icon: '💼', color: '#94a3b8' },
-      saint: { title: 'Syndicate Managing Partner', icon: '📈', color: '#34d399' },
-      thief: { title: 'Apex Corporate Raider', icon: '🦈', color: '#f87171' },
-      predator: { title: 'Predatory Short Seller', icon: '📉', color: '#fbbf24' },
-      balancer: { title: 'Quantitative Arbitrageur', icon: '⚖️', color: '#38bdf8' }
+      novice: { title: 'Junior Analyst', icon: '💼', color: '#94a3b8' },
+      saint: { title: 'Fiduciary Partner', icon: '📈', color: '#22c55e' },
+      thief: { title: 'Hostile Raider', icon: '🦈', color: '#ef4444' },
+      predator: { title: 'Market Maker', icon: '⚡', color: '#eab308' },
+      balancer: { title: 'Portfolio Manager', icon: '⚖️', color: '#38bdf8' }
     },
     ai: {
       nick: {
         name: 'Nick Corrigan',
-        title: 'The Corporate Raider',
-        avatar: '🏢',
-        difficulty: 'Apex Shark',
-        quote: '"I am executing a 100% HOSTILE LIQUIDATION. Settle for SPLIT or we both get liquidated to zero."',
-        bio: 'Brutal M&A activist investor. Declares an immediate hostile liquidation to force your hand into a 50/50 syndicate settlement.',
-        initialDialogue: "Listen carefully. I am executing a 100% HOSTILE LIQUIDATION order. Take the 50/50 syndicate split, or watch our entire pool vaporize to $0.",
-        tellNote: 'Cold steel composure (52 BPM). Ruthless activist posture.',
+        title: 'The Activist Raider',
+        avatar: '🤠',
+        difficulty: 'Hostile Raider',
+        quote: '"I am executing a takeover. Take the split or we both walk away with zero."',
+        bio: 'Aggressive dealmaker who uses strongarm tactics to force counterparties into splitting.',
+        initialDialogue: "I am locking in STEAL. Your only rational move is to SPLIT and take half. If you steal too, we both get $0.",
+        tellNote: 'Cold baseline, no hesitation.',
         bluffs: [
-          "My order is already queued for HOSTILE STEAL. Do not test my conviction.",
-          "If you try to steal from my desk, we BOTH walk away bankrupt with $0.",
-          "Every junior analyst who challenged this strategy had their fund wiped out.",
-          "Just execute the Split and keep your fund solvent."
+          "My order is in for Steal.",
+          "Don't blow up the trade for both of us.",
+          "Split the pot and secure your profit.",
+          "I never flinch."
         ]
       },
       sarah: {
         name: 'Sarah Evans',
-        title: 'The Institutional ESG Titan',
-        avatar: '📈',
-        difficulty: 'Fiduciary Partner',
-        quote: '"Sustainable alpha requires fiduciary trust. Let us execute the 50/50 syndicate."',
-        bio: 'Institutional venture partner managing billions. Believes in long-term covenant value, but blacklists defectors forever.',
-        initialDialogue: "Our firms have built substantial equity to reach this transaction. A 50/50 syndicate creates sustainable long-term value for both balance sheets. I am committing to SPLIT.",
-        tellNote: 'Institutional compliance confirmed. Calm vocal cadence.',
+        title: 'The Managing Partner',
+        avatar: '👑',
+        difficulty: 'Honest Partner',
+        quote: '"A clean 50/50 split is the best outcome for both sides. Let us close it."',
+        bio: 'Principled investor who values mutual profit and fair partnerships.',
+        initialDialogue: "We can both make great returns here. I am locking in SPLIT. Let's finish this clean.",
+        tellNote: 'Calm and steady, zero deception signs.',
         bluffs: [
-          "My fund’s reputation is worth ten times this pool. I will not betray our covenant.",
-          "Let's execute a textbook clean syndicate. Equal equity for both partners.",
-          "I trust our mutual incentives. Do not compromise your market reputation.",
-          "Predatory greed destroys market liquidity. Let's close this transaction together."
+          "I always honor the split.",
+          "Let's share the returns fairly.",
+          "A solid deal benefits both desks.",
+          "Lock in Split with me."
         ]
       },
       damian: {
         name: 'Damian Vance',
-        title: 'The Wolf of Wall Street',
+        title: 'The Arbitrageur',
         avatar: '🐺',
-        difficulty: 'Ruthless Predator',
-        quote: '"I swear on my fund’s NAV, we are sharing this alpha."',
-        bio: 'Predatory high-frequency trader. Overwhelming charm and promises of mutual riches, while aggressively shorting your position.',
-        initialDialogue: "Look at the numbers on that board! Half of this liquidity pool is enough to fund both our next funds. On my firm's honor, I am 1000% executing SPLIT.",
-        tellNote: 'Predatory front-running pattern detected in vocal cadence.',
+        difficulty: 'Sneaky Trader',
+        quote: '"Trust me on this one, I have already locked in the split!"',
+        bio: 'Silver-tongued trader who feigns partnership while aiming to take 100%.',
+        initialDialogue: "We have an incredible deal on the table. I'm 100% on SPLIT. Lock it in with me!",
+        tellNote: 'Restless eye movements. High deception probability.',
         bluffs: [
-          "I just keyed in SPLIT on my terminal. Check the order book!",
-          "I swear on my entire portfolio, I would never rug-pull a partner like you.",
-          "We're printing money together today. Don't overthink it, just hit Split.",
-          "Imagine the reputational hit if you tried a hostile grab on me! Be smart."
+          "Split is locked in on my side!",
+          "We both profit today. Just choose Split.",
+          "Don't worry, this is an easy win-win.",
+          "Trust the process!"
         ]
       },
       jax: {
         name: 'Jax Vega',
-        title: 'The 0DTE Volatility Whale',
+        title: 'The Momentum Trader',
         avatar: '⚡',
-        difficulty: 'Unhedged Chaos',
-        quote: '"Maximum leverage on zero-day expiry! Who flinches first?!"',
-        bio: 'High-frequency momentum trader. Operates on pure market adrenaline, sudden liquidation cascades, and impulsive bets.',
-        initialDialogue: "The volatility on this pool is off the charts! Are you taking the safe yield or are you going for the total liquidation wipeout?! Let's trade!",
-        tellNote: 'Extreme adrenaline spikes detected on trading desk.',
+        difficulty: 'Unpredictable',
+        quote: '"Big volatility, big reward! Let us see what happens!"',
+        bio: 'High-speed trader who loves chaotic moves and sudden surprises.',
+        initialDialogue: "Market is flying! Are we splitting the profits or going for the whole bag?!",
+        tellNote: 'High pulse fluctuations.',
         bluffs: [
-          "Full port on leverage! You only trade this cycle once!",
-          "Maybe I split the liquidity, maybe I trigger a hostile squeeze at the bell!",
-          "Can you feel the order flow sweating?! This is peak market alpha!",
-          "High conviction, high risk! What is your algorithm telling you?!"
+          "Split or steal, let's ride the wave!",
+          "Anything can happen on this floor!",
+          "Make your call!",
+          "Fortune favors the bold!"
         ]
       },
       nash: {
         name: 'Dr. Arthur Nash',
-        title: 'The Algorithmic Quant Strategist',
+        title: 'The Quantitative Analyst',
         avatar: '📊',
-        difficulty: 'Grandmaster Quant',
-        quote: '"In single-stage transactions, Defection is strictly dominant. Alter the payoff matrix."',
-        bio: 'Chief Quant managing proprietary arbitrage models. Evaluates your order history against Nash Equilibrium pay-offs.',
-        initialDialogue: "In standard non-cooperative game theory, (Hostile, Hostile) yields zero surplus. We must determine if mutual syndication achieves mathematical optimality.",
-        tellNote: 'Bayesian mathematical optimization model in execution.',
+        difficulty: 'Game Theorist',
+        quote: '"Equilibrium confirms a 50/50 split is the optimal strategy."',
+        bio: 'Mathematical strategist focused on risk-adjusted outcomes.',
+        initialDialogue: "Game theory proves a mutual split maximizes expected returns. Defection introduces total capital loss.",
+        tellNote: 'Steady telemetry, purely analytical.',
         bluffs: [
-          "My algorithm calculates your defection risk probability at 64.2%.",
-          "Liquidating your position maximizes individual expected utility at this volume.",
-          "A 50/50 syndicate yields an expected value of 0.5 * Pool.",
-          "Your order entry cadence indicates heightened uncertainty on this tick."
+          "A 50/50 split protects both balances.",
+          "Stealing creates unnecessary drawdown risk.",
+          "Rational trading requires splitting.",
+          "Follow the data."
         ]
       }
     },
     announcements: {
-      roundStart: "Deal room initialized. Capital pool open for trade execution.",
-      tenSeconds: "Ten seconds to market close! Enter your order!",
-      reveal: "Executing orders at the market bell. Three, two, one!",
-      splitWin: "Syndicate closed! 50/50 merger equity disbursed to both desks!",
-      stealWin: "Hostile takeover executed! You absorbed the entire capital pool!",
-      stealLose: "Predatory liquidation! Counterparty absorbed the capital pool!",
-      mutualLose: "Margin call default! Both desks wipe out to zero dollars!"
+      roundStart: "Showdown on the floor! Will you Split or will you Steal?",
+      tenSeconds: "Ten seconds left! Lock in your trade decision!",
+      reveal: "Three, two, one, reveal!",
+      splitWin: "Deal closed! Both traders share the pool equally!",
+      stealWin: "Takeover successful! You seize 100% of the pool!",
+      stealLose: "Hostile takeover! Counterparty took the whole pool!",
+      mutualLose: "Both stole! Deal collapsed, both get $0!"
     }
   },
 
@@ -305,144 +301,143 @@ const THEMES_DATA = {
     id: 'hotel_lobby',
     name: 'Hotel Lobby',
     icon: '🛎️',
-    brandTitle: 'THE CONTINENTAL',
-    brandBadge: 'GRAND ESCROW',
-    heroSubtitle: 'High-Society Escrow Negotiations',
-    heroHeadline: 'THE ESCROW',
-    heroTagline: 'Two distinguished patrons. One sealed escrow deposit in the Grand Continental safe. Will you honor the gentleman\'s agreement, or seize the full chest?',
-    currencyName: 'Escrow',
-    currencyLabel: 'ESCROW:',
-    potLabel: 'PRIVATE ESCROW DEPOSIT',
-    splitLabel: 'Honor Covenant (50%)',
-    stealLabel: 'Seize Escrow (100%)',
-    ballSplitText: 'HONOR',
+    brandTitle: 'GRAND CONTINENTAL',
+    brandBadge: 'VIP LOUNGE',
+    heroSubtitle: 'Grand Continental VIP Suite',
+    heroHeadline: 'THE DILEMMA',
+    heroTagline: 'Two guests. One sealed deposit box. Will you split the funds 50/50, or seize the entire prize for yourself?',
+    currencyName: 'Deposit',
+    currencyLabel: 'DEPOSIT:',
+    potLabel: 'SEALED DEPOSIT POOL',
+    splitLabel: '50% Split',
+    stealLabel: '100% Seize',
+    ballSplitText: 'SPLIT',
     ballStealText: 'SEIZE',
-    decisionPrompt: '🗝️ Seal Wax Key Decision',
-    scanBtnLabel: '🛎️ Inquire Concierge Intel',
-    scanTitle: 'Discreet Concierge Dossier',
+    decisionPrompt: '🛎️ Lock In Confidential Suite Order',
+    scanBtnLabel: '🔍 Read Composure',
+    scanTitle: 'Guest Composure Analysis',
     modes: {
-      ai: { title: 'Patron Gauntlet', desc: 'Negotiate with 5 cunning diplomats, aristocratic grifters, and the Grand Concierge.' },
-      multiplayer: { title: 'Private Suite Room', desc: 'Meet another guest in a confidential private parlor room.' },
-      pass_play: { title: 'Suite Pass & Play', desc: 'Enter secret wax-sealed decisions on one terminal in total discretion.' },
-      ladder: { title: 'Executive Suite Ladder', desc: 'Climb from $25,000 Salon Stakes to the $10,000,000 Sovereign Trust.' }
+      ai: { title: 'VIP Lounge AI Duel', desc: 'Negotiate over sealed deposits against 5 refined hotel guests.' },
+      multiplayer: { title: 'Private Suite Room', desc: 'Create a private suite room with another player in real time.' },
+      pass_play: { title: 'Local Table Duel', desc: 'Pass the device across the table to enter secret decisions.' },
+      ladder: { title: 'Continental Stakes', desc: 'Climb from $25,000 Salon Stakes to the $10,000,000 Penthouse Suite.' }
     },
     bluffs: [
-      { text: "By the rules of the Continental, I am honoring the 50/50 covenant.", label: "🛎️ 'Honor Covenant'" },
-      { text: "If you break sanctuary and steal, the deposit is forfeited to $0.", label: "⚠️ 'Breach = Total Forfeit'" },
-      { text: "I intend to claim the full escrow. Surrender with the split.", label: "🗝️ 'Claiming Full Escrow'" },
-      { text: "A gentleman's agreement: we divide the deposit equally.", label: "👑 'Gentleman's Agreement'" }
+      { text: "I am honoring the 50/50 SPLIT. Let's enjoy our winnings.", label: "🛎️ '100% Split'" },
+      { text: "If we both try to seize it, the house claims everything ($0).", label: "⚠️ 'Both Seize = $0'" },
+      { text: "I am taking the full deposit. Your only return is to split.", label: "💼 'Seizing the Box'" },
+      { text: "A gentleman's agreement: split the prize 50/50!", label: "🥂 'Split 50/50!'" }
     ],
     ticker: [
-      { text: '👑 THE GRAND CONTINENTAL LOBBY', type: 'neutral' },
-      { text: '▲ PRESIDENTIAL SUITE: OCCUPIED', type: 'up' },
-      { text: '◈ ESCROW VAULT: SANCTUARY GUARANTEED', type: 'neutral' },
-      { text: '▲ CONCIERGE DESK: LEVEL 5 DISCRETION', type: 'up' },
-      { text: '▼ COVENANT AUDIT: IN PROGRESS', type: 'down' }
+      { text: '🛎 VIP LOUNGE ESCROW ACTIVE', type: 'neutral' },
+      { text: '▲ PENTHOUSE VAULT: $1,000,000', type: 'up' },
+      { text: '◈ DECISION CLOCK: 45 SECONDS', type: 'neutral' },
+      { text: '▲ SPLIT THE BOX OR SEIZE 100%', type: 'up' }
     ],
     tiers: [
-      { id: 'tier1', name: 'Boutique Salon Escrow', stake: 25000, minBankroll: 0, desc: 'Quiet parlor deposit with visiting diplomats.', icon: '🗝️' },
-      { id: 'tier2', name: 'Executive Penthouse Escrow', stake: 100000, minBankroll: 25000, desc: 'High-stakes dispute in the Presidential suite.', icon: '🛎️' },
-      { id: 'tier3', name: 'Grand Ballroom Gala Trust', stake: 500000, minBankroll: 150000, desc: 'Multimillion-dollar auction trust under chandelier lights.', icon: '🍸' },
-      { id: 'tier4', name: 'Continental Sovereign Trust', stake: 2000000, minBankroll: 750000, desc: 'Confidential treaty deposit overseen by the High Table.', icon: '💎' },
-      { id: 'tier5', name: 'Imperial Grand Continental Reserve', stake: 10000000, minBankroll: 2500000, desc: 'The legendary $10,000,000 master vault of the hotel founders.', icon: '👑' }
+      { id: 'tier1', name: 'Private Salon', stake: 25000, minBankroll: 0, desc: 'Quiet fireside table in the private salon.', icon: '🕯️' },
+      { id: 'tier2', name: 'Crystal Ballroom', stake: 100000, minBankroll: 25000, desc: 'High-society gathering under crystal chandeliers.', icon: '🥂' },
+      { id: 'tier3', name: 'Ambassador Suite', stake: 500000, minBankroll: 150000, desc: 'Exclusive suite overlooking the city skyline.', icon: '🏛️' },
+      { id: 'tier4', name: 'Presidential Penthouse', stake: 2000000, minBankroll: 750000, desc: 'Private penthouse with top-tier stakes.', icon: '💎' },
+      { id: 'tier5', name: 'Imperial Grand Reserve', stake: 10000000, minBankroll: 2500000, desc: 'The historic $10,000,000 Continental showdown.', icon: '👑' }
     ],
     archetypes: {
-      novice: { title: 'First-Time Guest', icon: '🛎️', color: '#94a3b8' },
-      saint: { title: 'High Patron of Honor', icon: '👑', color: '#34d399' },
-      thief: { title: 'Aristocratic Swindler', icon: '🍷', color: '#ef4444' },
-      predator: { title: 'Ruthless Diplomat', icon: '🎩', color: '#d4af37' },
-      balancer: { title: 'Continental Arbiter', icon: '⚖️', color: '#38bdf8' }
+      novice: { title: 'Hotel Guest', icon: '🛎️', color: '#94a3b8' },
+      saint: { title: 'Gentleman Benefactor', icon: '🥂', color: '#22c55e' },
+      thief: { title: 'Artful Infiltrator', icon: '🦈', color: '#ef4444' },
+      predator: { title: 'Continental Syndicate', icon: '⚡', color: '#eab308' },
+      balancer: { title: 'Diplomatic Negotiator', icon: '⚖️', color: '#38bdf8' }
     },
     ai: {
       nick: {
-        name: 'Monsieur Nick Corrigan',
-        title: 'The Ruthless Landlord',
-        avatar: '🎩',
-        difficulty: 'Uncompromising Diplomat',
-        quote: '"I will seize 100% of this escrow. Agree to the honor split or leave with nothing."',
-        bio: 'Iron-willed hotel magnate who demands total deference at the negotiation table.',
-        initialDialogue: "Good evening. Under hotel bylaws, I am declaring full claim to this escrow. Take your 50% split and depart in peace, or we both forfeit the funds to the house.",
-        tellNote: 'Firm grip on his gold-headed cane. Zero hesitation.',
+        name: 'Nick Corrigan',
+        title: 'The Continental Broker',
+        avatar: '🤠',
+        difficulty: 'Ruthless Broker',
+        quote: '"I am taking the full deposit. Accept the split or we both leave with nothing."',
+        bio: 'Uncompromising negotiator who states his intent to seize the pot to force a split.',
+        initialDialogue: "I am locking in SEIZE. Take the 50/50 split and walk away with your half. If you seize too, neither of us gets a dime.",
+        tellNote: 'Impeccable poise, relaxed grip on his champagne flute.',
         bluffs: [
-          "My wax seal is already stamped. I do not negotiate backwards.",
-          "Attempting to steal from my estate forfeits every single cent.",
-          "Generations of patrons have learned not to test my resolve.",
-          "Accept the honor split and retain your standing in the Continental."
+          "My choice is locked on Seize.",
+          "Don't lose your half out of stubbornness.",
+          "Accept the split and enjoy your payout.",
+          "I never change my mind."
         ]
       },
       sarah: {
-        name: 'Lady Sarah Evans',
-        title: 'The High Patron of the House',
+        name: 'Sarah Evans',
+        title: 'The Diplomat',
         avatar: '👑',
-        difficulty: 'Noble Fiduciary',
-        quote: '"Sanctuary and honor are the foundation of the Continental. I commit to HONOR."',
-        bio: 'Distinguished benefactress who values high-society reputation above petty theft.',
-        initialDialogue: "We are guests of honor here tonight. A fair 50/50 division upholds the dignity of our names. I am choosing HONOR.",
-        tellNote: 'Elegant posture and candid gaze. Pure integrity.',
+        difficulty: 'Honest Partner',
+        quote: '"Honor and trust make the best partnerships. Let us divide the deposit."',
+        bio: 'Gracious and honest guest who always respects agreements.',
+        initialDialogue: "It is a pleasure sharing this table with you. I am choosing SPLIT. Let's share the prize fairly.",
+        tellNote: 'Serene composure, perfectly steady pulse.',
         bluffs: [
-          "My name stands for absolute integrity across Europe.",
-          "Let us share this escrow like true partners of distinction.",
-          "A breach of sanctuary will close every grand door to you forever.",
-          "Greed is uncivilized. Let us settle this honorably."
+          "I give you my word, I am choosing Split.",
+          "Let's both walk away with our share.",
+          "Mutual trust is always the right move.",
+          "Lock in Split with me."
         ]
       },
       damian: {
-        name: 'Count Damian Vance',
-        title: 'The Aristocratic Swindler',
-        avatar: '🍷',
-        difficulty: 'Charming Impostor',
-        quote: '"On my family crest, I shall divide every coin with you, dear friend!"',
-        bio: 'Silver-tongued rogue in a velvet tuxedo who toasts your health while stealing the escrow keys.',
-        initialDialogue: "What a splendid evening! To our mutual prosperity! On my noble honor, my wax seal is set to HONOR. Raise your glass and do the same!",
-        tellNote: 'Subtle twitch of the mustache and nervous adjustment of cufflinks.',
+        name: 'Damian Vance',
+        title: 'The Smooth Operator',
+        avatar: '🐺',
+        difficulty: 'Charming Trickster',
+        quote: '"A toast to an easy partnership! I am locking in the split right now."',
+        bio: 'Charming socialite who acts like your best friend while secretly planning to steal.',
+        initialDialogue: "What a marvelous evening! On my honor, I'm choosing SPLIT. Lock it in with me and let's celebrate!",
+        tellNote: 'Subtle micro-sweat and quick glances at the deposit box.',
         bluffs: [
-          "I have already given my word to the concierge! We are dividing it!",
-          "Would a true gentleman ever swindle a friend? Never!",
-          "We shall drink vintage champagne tonight on our split fortunes!",
-          "Do not insult our friendship with doubt. Select Honor!"
+          "I already pushed Split, my friend!",
+          "We both win tonight. Just choose Split.",
+          "Why would I ruin such a wonderful evening?",
+          "Cheers to our win-win!"
         ]
       },
       jax: {
-        name: 'Jax "The Daredevil" Vega',
-        title: 'The High-Society Gambler',
+        name: 'Jax Vega',
+        title: 'The High-Roller Playmaker',
         avatar: '⚡',
-        difficulty: 'Wild High-Roller',
-        quote: '"Double the wager or lose it all! Let\'s see who dares!"',
-        bio: 'Billionaire playboy who treats international treaties as a thrilling game of chance.',
-        initialDialogue: "The tension in this parlor is delicious! Are we dividing the antique chest or playing for the whole treasury?! Let\'s find out!",
-        tellNote: 'Laughing heartily with erratic pulse spikes.',
+        difficulty: 'Bold Gambler',
+        quote: '"Where is the thrill in playing it safe?! Let us see who dares!"',
+        bio: 'Daring high-roller who loves testing the nerves of his counterparties.',
+        initialDialogue: "The stakes in this suite are unforgettable! Are we sharing the prize or fighting for all of it?!",
+        tellNote: 'Restless smile, lively energy.',
         bluffs: [
-          "Fortune favors the bold! Who wants the full prize?!",
-          "Maybe I honor the deal, maybe I take the whole escrow to Monaco!",
-          "Can you feel the pulse of the room?! Don\'t be boring!",
-          "High stakes, high thrills! What is your choice?!"
+          "Split or seize, what is your move?!",
+          "Let's make this round one to remember!",
+          "Trust your instincts!",
+          "Let the best hand win!"
         ]
       },
       nash: {
-        name: 'Chancellor Arthur Nash',
-        title: 'The Continental Arbiter',
-        avatar: '📜',
-        difficulty: 'Legal Arbiter',
-        quote: '"Article 4 of the Continental Codex establishes equal entitlement."',
-        bio: 'Master of hotel law and diplomatic protocol, calculating risk distributions.',
-        initialDialogue: "Under Article 7 of the Grand Protocol, mutual covenant preserves equal utility. Defection causes immediate total escrow confiscation.",
-        tellNote: 'Methodical review of parchment documents. Zero emotional variance.',
+        name: 'Dr. Arthur Nash',
+        title: 'The Game Theorist',
+        avatar: '📊',
+        difficulty: 'Rational Strategist',
+        quote: '"A mutual split minimizes risk and guarantees substantial returns."',
+        bio: 'Calculated scholar who values clean, low-variance splits.',
+        initialDialogue: "The mathematical payout strongly recommends a 50/50 split. Mutual defect results in total loss.",
+        tellNote: 'Steady breathing, focused analysis.',
         bluffs: [
-          "Statistical precedent indicates a 72% likelihood of mutual honor.",
-          "Attempting seizure introduces unacceptable asset forfeiture risk.",
-          "A 50/50 division is the sole Pareto-optimal treaty outcome.",
-          "Protocol must be respected above all personal ambition."
+          "Splitting guarantees an optimal payout.",
+          "Attempting to seize creates catastrophic failure risk.",
+          "Let us act rationally and split.",
+          "Logic always wins."
         ]
       }
     },
     announcements: {
-      roundStart: "Grand Continental escrow session is now convened.",
-      tenSeconds: "Ten seconds before the wax seal is set! Make your choice!",
-      reveal: "Breaking the wax seals. Three, two, one!",
-      splitWin: "Honor upheld! Both patrons receive equal shares of the escrow!",
-      stealWin: "Escrow seized! You claim the entire deposit for yourself!",
-      stealLose: "Betrayal in the parlor! Opponent seized the entire escrow!",
-      mutualLose: "Sanctuary broken! The house has confiscated the entire deposit to $0!"
+      roundStart: "Showdown in the VIP Lounge! Will you Split or will you Steal?",
+      tenSeconds: "Ten seconds remaining! Lock in your secret decision!",
+      reveal: "Three, two, one, reveal!",
+      splitWin: "Deposit divided! Both guests share the funds equally!",
+      stealWin: "Seized! You claim the entire deposit box!",
+      stealLose: "Seized! Opponent claimed the entire deposit box!",
+      mutualLose: "Both seized! Total default, neither guest receives a payout!"
     }
   },
 
@@ -451,143 +446,142 @@ const THEMES_DATA = {
     name: 'Bank / Cash Vault',
     icon: '🔒',
     brandTitle: 'THE VAULT',
-    brandBadge: 'SECTOR 9 VAULT',
-    heroSubtitle: 'Underground Armored Fortress Infiltration',
+    brandBadge: 'SECURE FORTRESS',
+    heroSubtitle: 'Subterranean Armored Vault',
     heroHeadline: 'THE VAULT',
-    heroTagline: 'Two master operatives at the subterranean titanium safe. One $10,000,000 cash reserve. Will you split the dual-key loot, or trigger a solo heist?',
+    heroTagline: 'Two infiltrators. One master cash vault. Will you share the gold 50/50, or trigger a solo heist to steal it all?',
     currencyName: 'Bullion',
     currencyLabel: 'VAULT:',
-    potLabel: 'SECURED CASH RESERVE',
-    splitLabel: 'Split Cash Reserve (50%)',
-    stealLabel: 'Crack & Heist (100%)',
-    ballSplitText: 'SPLIT',
-    ballStealText: 'HEIST',
-    decisionPrompt: '🔒 Turn Dual-Key Vault Dial',
-    scanBtnLabel: '🚨 Biometric Threat Scan',
-    scanTitle: 'Sub-Vault Biometric Scanner',
+    potLabel: 'VAULT GOLD RESERVES',
+    splitLabel: '50% Share',
+    stealLabel: '100% Raid',
+    ballSplitText: 'SHARE',
+    ballStealText: 'RAID',
+    decisionPrompt: '🔒 Enter Confidential Safe Code',
+    scanBtnLabel: '🔍 Read Biometrics',
+    scanTitle: 'Vault Biometric Security Scan',
     modes: {
-      ai: { title: 'Vault Infiltrator Gauntlet', desc: 'Duel 5 master safecrackers, security chiefs, and rogue operatives.' },
-      multiplayer: { title: 'Dual-Key Safe Network', desc: 'Link encrypted terminals with another operative in real time.' },
-      pass_play: { title: 'Safe Pass & Play', desc: 'Enter secret vault dials on one device before door release.' },
-      ladder: { title: 'Master Heist Ladder', desc: 'Advance from $25,000 Local Branch to the $10,000,000 Swiss Fortress.' }
+      ai: { title: 'Vault Infiltration Duel', desc: 'Crack the vault against 5 master safe-crackers and security pros.' },
+      multiplayer: { title: 'Private Vault Chamber', desc: 'Connect to an encrypted vault chamber with another player in real time.' },
+      pass_play: { title: 'Local Chamber Duel', desc: 'Pass the device to enter secret keypad codes before the time lock opens.' },
+      ladder: { title: 'Vault Security Ladder', desc: 'Work your way from $25,000 Safety Deposit to the $10,000,000 Central Reserve.' }
     },
     bluffs: [
-      { text: "Dual-key protocol engaged: locking in safe 50/50 split.", label: "🔒 'Dual-Key Split'" },
-      { text: "Tripping the silent alarm with a heist locks us both out at $0.", label: "🚨 'Heist = Alarm Lockdown'" },
-      { text: "I have cracked the master cipher. I am executing the HEIST.", label: "💰 'Master Heist Queued'" },
-      { text: "Let's disarm the charges and walk out with equal bullion!", label: "⚡ 'Clean Safe Evacuation'" }
+      { text: "I'm entering the 50/50 SHARE code. Let's split the gold.", label: "🤝 '100% Share'" },
+      { text: "If we both raid, the security lockdown triggers ($0 for both).", label: "⚠️ 'Both Raid = $0'" },
+      { text: "I am taking the full haul. Your only safe payout is to share.", label: "💼 'Raid in Progress'" },
+      { text: "50/50 share! We both get out rich with the gold.", label: "💰 'Split the Gold!'" }
     ],
     ticker: [
-      { text: '🔒 SWISS ARMORED VAULT SECTOR 9', type: 'neutral' },
-      { text: '▲ TIME-LOCK: 45 SECONDS TO SEAL', type: 'up' },
-      { text: '▲ BULLION RESERVE: $10,000,000 VERIFIED', type: 'up' },
-      { text: '▼ LASER GRID: ARMED', type: 'down' },
-      { text: '◈ BIOMETRICS: SCANNING DUAL KEYS', type: 'neutral' }
+      { text: '🔒 HYPER-ARMORED TIME LOCK ACTIVE', type: 'neutral' },
+      { text: '▲ CENTRAL RESERVE: $2,000,000 GOLD', type: 'up' },
+      { text: '◈ TIME LOCK DECAY: 45 SECONDS', type: 'neutral' },
+      { text: '▲ 50/50 MUTUAL SHARE OR 100% RAID', type: 'up' }
     ],
     tiers: [
-      { id: 'tier1', name: 'Suburban Branch Safe Deposit', stake: 25000, minBankroll: 0, desc: 'Quick drill job on a regional bank safety deposit box.', icon: '🏦' },
-      { id: 'tier2', name: 'Armored Transit Courier Convoy', stake: 100000, minBankroll: 25000, desc: 'Intercepting a fortified titanium transit shipment.', icon: '🚛' },
-      { id: 'tier3', name: 'Federal Reserve Bullion Depot', stake: 500000, minBankroll: 150000, desc: 'Cracking the laser-guarded federal gold vault.', icon: '💰' },
-      { id: 'tier4', name: 'Swiss Mountain Deep Bunkers', stake: 2000000, minBankroll: 750000, desc: 'Subterranean Alpine fortress carved into granite.', icon: '🏔️' },
-      { id: 'tier5', name: 'Fort Knox Sovereign Master Vault', stake: 10000000, minBankroll: 2500000, desc: 'The legendary $10,000,000 titanium time-lock master vault.', icon: '👑' }
+      { id: 'tier1', name: 'Safety Deposit Box', stake: 25000, minBankroll: 0, desc: 'Standard security box with modest cash stacks.', icon: '🗝️' },
+      { id: 'tier2', name: 'Armored Cash Transit', stake: 100000, minBankroll: 25000, desc: 'Heavily guarded cash shipment.', icon: '🚚' },
+      { id: 'tier3', name: 'Swiss Diamond Chamber', stake: 500000, minBankroll: 150000, desc: 'Subterranean diamond and bullion vault.', icon: '💎' },
+      { id: 'tier4', name: 'Federal Gold Depository', stake: 2000000, minBankroll: 750000, desc: 'Fort Knox grade titanium reserve.', icon: '🏛️' },
+      { id: 'tier5', name: 'Sovereign Central Reserve', stake: 10000000, minBankroll: 2500000, desc: 'The ultimate $10,000,000 gold bullion heist.', icon: '👑' }
     ],
     archetypes: {
-      novice: { title: 'Rookie Lookout', icon: '🔦', color: '#94a3b8' },
-      saint: { title: 'Honorable Syndicate Driver', icon: '🛡️', color: '#34d399' },
-      thief: { title: 'Master Infiltrator', icon: '🥷', color: '#ef4444' },
-      predator: { title: 'Rogue Safecracker', icon: '💣', color: '#f59e0b' },
-      balancer: { title: 'Cipher Specialist', icon: '⚙️', color: '#38bdf8' }
+      novice: { title: 'Rookie Safe-Cracker', icon: '🗝️', color: '#94a3b8' },
+      saint: { title: 'Master Partner', icon: '💰', color: '#22c55e' },
+      thief: { title: 'Apex Heist Master', icon: '🦈', color: '#ef4444' },
+      predator: { title: 'Vault Enforcer', icon: '⚡', color: '#eab308' },
+      balancer: { title: 'Security Architect', icon: '⚖️', color: '#38bdf8' }
     },
     ai: {
       nick: {
-        name: 'Nick "The Breaker" Corrigan',
-        title: 'The Mastermind Infiltrator',
-        avatar: '🥷',
-        difficulty: 'Mastermind Rogue',
-        quote: '"I have the bypass override. Take your 50% split or I trigger the lockdown on us both."',
-        bio: 'Ruthless heist leader who holds the master detonator and commands the split terms.',
-        initialDialogue: "Listen close. I have the master electronic bypass keyed to HEIST. Take the 50% split and bag your share, or I trip the halon gas and we both leave in handcuffs with $0.",
-        tellNote: 'Finger resting steadily on the remote detonator. Zero pulse flicker.',
+        name: 'Nick Corrigan',
+        title: 'The Enforcer',
+        avatar: '🤠',
+        difficulty: 'Ruthless Raider',
+        quote: '"I am taking the full haul. Share the pot or we both trigger the security alarm."',
+        bio: 'Tough vault raider who forces counterparties into taking the split.',
+        initialDialogue: "I am entering the RAID code. Enter SHARE to take half, or we both trigger lockdown and walk away with $0.",
+        tellNote: 'Heavy steady breathing, unblinking focus on the safe dial.',
         bluffs: [
-          "My electronic bypass is locked. Do not test my nerve.",
-          "If you try to screw me, the laser grid fries the whole cash reserve.",
-          "I've cracked 40 federal vaults. Take your cut and move.",
-          "Enter the split key and let's get to the getaway van."
+          "My code is set to Raid.",
+          "Don't trigger the security lockdown for nothing.",
+          "Take your half of the gold and walk.",
+          "I never back down."
         ]
       },
       sarah: {
-        name: 'Sarah "The Shield" Evans',
-        title: 'The Chief Security Specialist',
-        avatar: '🛡️',
-        difficulty: 'Loyal Crewmate',
-        quote: '"A clean job requires mutual trust. We split the bullion 50/50."',
-        bio: 'Professional syndicate specialist who believes in clean getaways and absolute loyalty to partners.',
-        initialDialogue: "We drilled through three feet of reinforced titanium to get here. 50/50 equal bags for both of us. I am turning my key to SPLIT.",
-        tellNote: 'Calm biometric reading. Focused on disarming the secondary timer.',
+        name: 'Sarah Evans',
+        title: 'The Master Hacker',
+        avatar: '👑',
+        difficulty: 'Honest Partner',
+        quote: '"Clean split, clean getaway. Let us share the gold 50/50."',
+        bio: 'Professional safe-cracker who values precision and fair cuts.',
+        initialDialogue: "The vault door is open. I am entering SHARE. Let's take our half and get out clean.",
+        tellNote: 'Calm biometrics, zero alarms detected.',
         bluffs: [
-          "I never betray a crew member. You have my word.",
-          "Let's bag the bullion and walk out clean.",
-          "Greedy rookies get caught. Professionals split the score.",
-          "Turn your key to split and let's beat the alarm."
+          "I am locking in Share, 100%.",
+          "Let's split the haul and celebrate.",
+          "Greed triggers alarms. Share the gold.",
+          "Count on me."
         ]
       },
       damian: {
-        name: 'Damian "Slick" Vance',
-        title: 'The Rogue Safecracker',
-        avatar: '💣',
-        difficulty: 'Predatory Traitor',
-        quote: '"I swear on the whole heist crew, I am turning the dial to SPLIT!"',
-        bio: 'Greedy demolitions expert who promises equal shares while planning to lock you inside the vault.',
-        initialDialogue: "Look at all those gold bars stacked to the ceiling! We are both millionaires tonight! I already keyed in SPLIT on my dial. Do it now!",
-        tellNote: 'Excessive thermal readings and sweaty palms on the vault wheel.',
+        name: 'Damian Vance',
+        title: 'The Grifter',
+        avatar: '🐺',
+        difficulty: 'Sneaky Infiltrator',
+        quote: '"On my life, I have entered the Share code! We are in this together!"',
+        bio: 'Fast-talking rogue who promises equal shares while pocketing everything.',
+        initialDialogue: "Jackpot! The gold is ours! I've already locked in SHARE. Enter Share with me!",
+        tellNote: 'Sweating palms, quick side-glances at the exit.',
         bluffs: [
-          "I just dialed SPLIT! Hear the click?!",
-          "I wouldn't leave a partner behind for anything!",
-          "We've got five minutes before security arrives! Hit Split!",
-          "Don't panic! The bags are already packed!"
+          "I already entered the Share code, partner!",
+          "We both get out rich today. Just hit Share.",
+          "Why would I cross a teammate? Let's split it!",
+          "Hurry before the timer runs out!"
         ]
       },
       jax: {
-        name: 'Jax "Dynamite" Vega',
-        title: 'The Demolitions Specialist',
+        name: 'Jax Vega',
+        title: 'The Demolitions Expert',
         avatar: '⚡',
-        difficulty: 'Wild Demolitions',
-        quote: '"Thermite is burning through the hinges! Let\'s grab everything!"',
-        bio: 'Explosives expert who thrives on alarms, flashing sirens, and reckless escapes.',
-        initialDialogue: "The sirens are howling outside! Do we take a safe split or blast open the master vault for the whole $10M jackpot?! Let's go!",
-        tellNote: 'Heart rate at 145 BPM. Adrenaline overdrive.',
+        difficulty: 'High-Voltage Rogue',
+        quote: '"Blow the hinges and take the loot! Let us see who grabs it!"',
+        bio: 'Chaotic infiltrator who loves explosive risks.',
+        initialDialogue: "The vault timer is counting down! Are we sharing the loot or grabbing the whole bag?!",
+        tellNote: 'Erratic pulse spikes.',
         bluffs: [
-          "Blast the hinges! Maximum payout!",
-          "Maybe I split the cash, maybe I blow the vault door off completely!",
-          "Hear those sirens?! Time is ticking!",
-          "Go big or go to prison! Turn the dial!"
+          "Share or raid, what is your call?!",
+          "Time is ticking down fast!",
+          "Make your move!",
+          "Big risks, big rewards!"
         ]
       },
       nash: {
-        name: 'Arthur "The Cipher" Nash',
-        title: 'The Cryptographic Architect',
-        avatar: '⚙️',
-        difficulty: 'Master Cryptographer',
-        quote: '"The dual-key encryption algorithm dictates a 50/50 cooperative extraction."',
-        bio: 'Former vault architect who designed the digital time-lock system and evaluates defection equations.',
-        initialDialogue: "The time-lock algorithm requires synchronized dual-key entry. Defection trips the dead-man switch and burns the cash reserves to ash.",
-        tellNote: 'Exact mathematical calculation. Thermal baseline stable.',
+        name: 'Dr. Arthur Nash',
+        title: 'The Cryptanalyst',
+        avatar: '📊',
+        difficulty: 'Math Strategist',
+        quote: '"Sharing the reserves eliminates all lockdown risk."',
+        bio: 'Mathematical cryptanalyst who designs optimal cipher splits.',
+        initialDialogue: "Cipher analysis shows a mutual share yields optimal returns. Raiding risks total vault lockdown.",
+        tellNote: 'Flatline pulse, purely analytical posture.',
         bluffs: [
-          "My decryption matrix indicates a 78% probability of successful split.",
-          "Defection guarantees immediate vault atmospheric lockdown.",
-          "A 50/50 haul maximizes post-escape laundering efficiency.",
-          "Execute the cooperative cipher key immediately."
+          "Sharing guarantees an optimal payout.",
+          "Raiding carries unacceptable lockdown risk.",
+          "Let's act logically and share the gold.",
+          "Data over greed."
         ]
       }
     },
     announcements: {
-      roundStart: "Subterranean vault door breached. Dual-key time-lock engaged.",
-      tenSeconds: "Ten seconds before the pneumatic seal closes! Enter the dial key!",
-      reveal: "Opening vault dual compartments. Three, two, one!",
-      splitWin: "Clean heist! Both operatives secure equal shares of the vault cash!",
-      stealWin: "Solo heist! You seized 100% of the vault cash reserve!",
-      stealLose: "Locked in the vault! Counterparty escaped with all the loot!",
-      mutualLose: "Alarm triggered! Vault locked down with all $0 cash trapped inside!"
+      roundStart: "Vault unlocked! Will you Share or will you Steal?",
+      tenSeconds: "Ten seconds before lockdown! Lock in your secret code!",
+      reveal: "Three, two, one, reveal!",
+      splitWin: "Gold shared! Both infiltrators split the reserves equally!",
+      stealWin: "Solo heist! You raided 100% of the vault gold!",
+      stealLose: "Betrayal! Opponent raided the entire vault!",
+      mutualLose: "Lockdown triggered! Both raided, neither gets a dime!"
     }
   },
 
@@ -595,145 +589,143 @@ const THEMES_DATA = {
     id: 'military_intelligence',
     name: 'Military Intelligence / Black Ops',
     icon: '🎯',
-    brandTitle: 'WAR ROOM: DEFCON',
-    brandBadge: 'BLACK OPS BUNKER',
-    heroSubtitle: 'Top-Secret Black Ops Exfiltration',
+    brandTitle: 'WAR ROOM',
+    brandBadge: 'DEFCON COMMAND',
+    heroSubtitle: 'DEFCON Subterranean War Room',
     heroHeadline: 'WAR ROOM: DEFCON',
-    heroTagline: 'Two covert operatives at the underground command console. One $10,000,000 classified black budget. Will you execute dual asset extraction, or go rogue and defect?',
+    heroTagline: 'Two commanders. One classified defense fund. Will you honor the joint pact, or launch a unilateral strike to seize 100%?',
     currencyName: 'Budget',
     currencyLabel: 'BUDGET:',
-    potLabel: 'CLASSIFIED BLACK BUDGET POOL',
-    splitLabel: 'Dual Extraction (50%)',
-    stealLabel: 'Rogue Defection (100%)',
-    ballSplitText: 'EXTRACT',
-    ballStealText: 'DEFECT',
-    decisionPrompt: '🎯 Turn Dual-Key Launch Dial',
-    scanBtnLabel: '🛰️ Intercept Signal Telemetry',
-    scanTitle: 'Covert Asset Satellite Telemetry',
+    potLabel: 'CLASSIFIED WAR CHEST',
+    splitLabel: '50% Pact',
+    stealLabel: '100% Strike',
+    ballSplitText: 'PACT',
+    ballStealText: 'STRIKE',
+    decisionPrompt: '🎯 Turn Secret Launch Key',
+    scanBtnLabel: '📡 Read Radar',
+    scanTitle: 'Tactical Deception Radar',
     modes: {
-      ai: { title: 'War Room Gauntlet', desc: 'Duel 5 rogue commanders, CIA handlers, and Pentagon game theory strategists.' },
-      multiplayer: { title: 'Encrypted SATCOM Link', desc: 'Establish direct satellite uplink with another covert field operative.' },
-      pass_play: { title: 'Bunker Pass & Play', desc: 'Enter classified launch coordinates on one terminal under strict red-line protocol.' },
-      ladder: { title: 'DEFCON Clearance Ladder', desc: 'Advance from $25,000 Field Recon to the $10,000,000 Pentagon Black Budget.' }
+      ai: { title: 'War Room AI Duel', desc: 'Engage in game-theoretic standoff against 5 high-ranking commanders.' },
+      multiplayer: { title: 'Encrypted Deal Room', desc: 'Establish a secure command link with another operative in real time.' },
+      pass_play: { title: 'Local Command Console', desc: 'Pass the tactical console to enter secret launch keys before reveal.' },
+      ladder: { title: 'DEFCON Stakes Ladder', desc: 'Advance from $25,000 Tactical Recon to the $10,000,000 Strategic Command.' }
     },
     bluffs: [
-      { text: "Mission protocol locked: executing 50/50 dual extraction.", label: "🛰️ 'Dual Extraction'" },
-      { text: "Going rogue triggers DEFCON 1 wipeout on both assets.", label: "⚠️ 'Defection = DEFCON Wipeout'" },
-      { text: "I hold the master cipher key. Take the extraction split.", label: "🎯 'Preemptive Strike Ready'" },
-      { text: "Let's exfiltrate the package together and secure our pensions.", label: "🎖️ 'Honor Mission Protocol'" }
+      { text: "I am locking in the 50/50 PACT. Let's maintain stability.", label: "🤝 '100% Joint Pact'" },
+      { text: "If we both strike, mutual destruction triggers ($0 for both).", label: "⚠️ 'Both Strike = $0'" },
+      { text: "I am launching the strike. Your only safe return is to pact.", label: "🎯 'Strike Armed'" },
+      { text: "Honor the pact and secure our equal shares!", label: "🎖️ 'Honor the Pact!'" }
     ],
     ticker: [
-      { text: '🛰️ NORAD SECTOR 4 UPLINK', type: 'neutral' },
-      { text: '▲ DEFCON STATUS: LEVEL 2', type: 'down' },
-      { text: '▲ SATELLITE ENCRYPTION: 4096-BIT', type: 'up' },
-      { text: '◈ EXTRACTION WINDOW: 45 SECONDS', type: 'neutral' },
-      { text: '▲ BLACK BUDGET: $10,000,000 APPROVED', type: 'up' },
-      { text: '▼ ASSET STATUS: ARMED & CLASSIFIED', type: 'down' }
+      { text: '🎯 DEFCON 1 RADAR ACTIVE', type: 'neutral' },
+      { text: '▲ DEFENSE FUND: $1,000,000', type: 'up' },
+      { text: '◈ LAUNCH WINDOW: 45 SECONDS', type: 'neutral' },
+      { text: '▲ 50/50 JOINT PACT OR 100% STRIKE', type: 'up' }
     ],
     tiers: [
-      { id: 'tier1', name: 'Field Reconnaissance Bounty', stake: 25000, minBankroll: 0, desc: 'Covert surveillance operation in hostile territory.', icon: '🎯' },
-      { id: 'tier2', name: 'Black Ops Asset Exfiltration', stake: 100000, minBankroll: 25000, desc: 'High-risk extraction behind enemy borders.', icon: '🚁' },
-      { id: 'tier3', name: 'NORAD Subterranean War Room', stake: 500000, minBankroll: 150000, desc: 'Classified standoff inside the Cheyenne Mountain bunker.', icon: '📡' },
-      { id: 'tier4', name: 'Pentagon Special Access Budget', stake: 2000000, minBankroll: 750000, desc: 'Multi-million dollar covert operations fund with sovereign clearance.', icon: '🛰️' },
-      { id: 'tier5', name: 'Top Secret DEFCON 1 Sovereign Protocol', stake: 10000000, minBankroll: 2500000, desc: 'The ultimate $10,000,000 black budget nuclear launch key duel.', icon: '👑' }
+      { id: 'tier1', name: 'Tactical Recon Desk', stake: 25000, minBankroll: 0, desc: 'Standard intelligence briefing to build tactical reserves.', icon: '📡' },
+      { id: 'tier2', name: 'Special Ops Division', stake: 100000, minBankroll: 25000, desc: 'Classified operations with six-figure defense budgets.', icon: '🎯' },
+      { id: 'tier3', name: 'Joint Chiefs Briefing', stake: 500000, minBankroll: 150000, desc: 'High-level war room operations.', icon: '🎖️' },
+      { id: 'tier4', name: 'Black Budget Vault', stake: 2000000, minBankroll: 750000, desc: 'Top-secret covert defense budget.', icon: '⚡' },
+      { id: 'tier5', name: 'Strategic Command $10M', stake: 10000000, minBankroll: 2500000, desc: 'The ultimate $10,000,000 DEFCON command showdown.', icon: '👑' }
     ],
     archetypes: {
-      novice: { title: 'Field Operative', icon: '🎯', color: '#94a3b8' },
-      saint: { title: 'Distinguished CIA Handler', icon: '🎖️', color: '#10b981' },
-      thief: { title: 'Rogue Infiltrator', icon: '🥷', color: '#ef4444' },
-      predator: { title: 'Rogue Warlord', icon: '💣', color: '#f59e0b' },
-      balancer: { title: 'Pentagon Strategist', icon: '🛰️', color: '#38bdf8' }
+      novice: { title: 'Field Operative', icon: '📡', color: '#94a3b8' },
+      saint: { title: 'Honorable Commander', icon: '🎖️', color: '#22c55e' },
+      thief: { title: 'Rogue Infiltrator', icon: '🦈', color: '#ef4444' },
+      predator: { title: 'DEFCON Enforcer', icon: '⚡', color: '#eab308' },
+      balancer: { title: 'Strategic Tactician', icon: '⚖️', color: '#38bdf8' }
     },
     ai: {
       nick: {
-        name: 'General Nick "Ironclad" Corrigan',
-        title: 'The Rogue Warlord',
-        avatar: '🎖️',
-        difficulty: 'Apex Commander',
-        quote: '"I have pre-targeted this position. Settle for 50% extraction or we both face court-martial at $0."',
-        bio: 'Battle-hardened black ops commander who commands total submission through overwhelming firepower ultimatum.',
-        initialDialogue: "Attention operative. I have pre-armed a preemptive rogue defection strike. You have zero tactical advantage. Accept the 50/50 extraction split, or we both get obliterated to $0.",
-        tellNote: 'Combat heart rate stable at 50 BPM. Unflinching tactical gaze.',
+        name: 'General Nick Corrigan',
+        title: 'The War Room Hawk',
+        avatar: '🤠',
+        difficulty: 'Dominant Hawk',
+        quote: '"I am turning the Strike key. Turn the Pact key or we both face total $0 wipeout."',
+        bio: 'Unyielding general who demands counterparties honor the pact while he strikes.',
+        initialDialogue: "I am turning the STRIKE key. Your only sensible play is to turn PACT and take half. Mutual strike means mutual destruction.",
+        tellNote: 'Unwavering gaze, rock-solid military posture.',
         bluffs: [
-          "My targeting telemetry is locked on DEFECT. Do not test my resolve.",
-          "If you try to go rogue against my squad, we both face total terminal default.",
-          "Every rookie who tried to double-cross me is classified as MIA.",
-          "Authorize the extraction key and exfiltrate in one piece."
+          "My launch key is turned to Strike.",
+          "Don't cause mutual wipeout for both commands.",
+          "Accept the pact and walk away with your half.",
+          "I never back down."
         ]
       },
       sarah: {
-        name: 'Agent Sarah "Specter" Evans',
-        title: 'The CIA Division Chief',
-        avatar: '🛰️',
-        difficulty: 'Loyal Handler',
-        quote: '"Mission success relies on operative covenant. I am authorizing DUAL EXTRACTION."',
-        bio: 'Senior intelligence chief who coordinates complex extractions with absolute fidelity to loyal agents.',
-        initialDialogue: "We crossed through contested airspace to recover this asset. A 50/50 extraction completes our mission directives and secures our standing. I am turning my key to EXTRACT.",
-        tellNote: 'Steady biometric signal on encrypted SATCOM. Zero deception.',
+        name: 'Agent Sarah Evans',
+        title: 'The Directorate Chief',
+        avatar: '👑',
+        difficulty: 'Honest Partner',
+        quote: '"Strategic stability requires honoring the joint pact. Let us share the budget."',
+        bio: 'Disciplined operative who always honors mutual pacts.',
+        initialDialogue: "Strategic stability is vital. I am locking in the PACT. Let's secure our shared objective.",
+        tellNote: 'Calm biometric telemetry, zero deception detected.',
         bluffs: [
-          "The Agency stands by our extraction covenant. I will not defect.",
-          "Let's complete this mission cleanly and secure our full pensions.",
-          "Going rogue will put you on every red-notice kill list worldwide.",
-          "Operatives don't leave partners behind. Authorize extraction."
+          "I am turning the Pact key, 100%.",
+          "Let's share the defense budget fairly.",
+          "Mutual trust guarantees success.",
+          "Stand with me on Pact."
         ]
       },
       damian: {
-        name: 'Major Damian "Ghost" Vance',
-        title: 'The Double Agent',
-        avatar: '🥷',
-        difficulty: 'Predatory Traitor',
-        quote: '"I swear on my Congressional Medal, I am turning the extraction key with you!"',
-        bio: 'Deceptive mercenary operating as a triple agent who promises safe extraction while transferring the black budget to an offshore shell.',
-        initialDialogue: "We did it, soldier! Ten million in black budget funds right on our console! On my military honor, my key is set to EXTRACT. Lock it in with me!",
-        tellNote: 'Pulse spike detected during voice transmission. High likelihood of defection.',
+        name: 'Major Damian Vance',
+        title: 'The Rogue Agent',
+        avatar: '🐺',
+        difficulty: 'Deceptive Rogue',
+        quote: '"Commander, on my rank, I have entered the Pact key! Turn Pact with me!"',
+        bio: 'Smooth rogue operative who feigns loyalty while aiming to seize the entire budget.',
+        initialDialogue: "Objective within reach! On my rank, I've turned the PACT key. Confirm Pact with me!",
+        tellNote: 'Spike in micro-sweat and elevated blink rate. High deception tell.',
         bluffs: [
-          "I just keyed in EXTRACT! Check the terminal uplink!",
-          "I would never leave a battle brother behind on hostile ground!",
-          "The chopper is inbound in two minutes! Confirm Extract!",
-          "Trust the chain of command! We both walk away rich!"
+          "I already confirmed the Pact key!",
+          "We both accomplish the mission today. Just hit Pact.",
+          "Why doubt an ally? Let's split it!",
+          "Time is running out on the radar!"
         ]
       },
       jax: {
-        name: 'Jax "Reaper" Vega',
-        title: 'The Combat Mercenary',
+        name: 'Jax Vega',
+        title: 'The Saboteur',
         avatar: '⚡',
-        difficulty: 'Wild Commando',
-        quote: '"Incoming artillery on our position! Who dares to pull the rogue trigger?!"',
-        bio: 'Heavy-weapons contractor who thrives in hot extraction zones, sirens, and chaotic shootouts.',
-        initialDialogue: "Perimeter alarms are blaring! Do we take the safe split or grab the whole black budget and shoot our way out?! Let's ride!",
-        tellNote: 'Adrenaline spike: 155 BPM. High combat agitation.',
+        difficulty: 'Wild Operative',
+        quote: '"All ciphers unlocked! Let us see who triggers the launch!"',
+        bio: 'High-octane operative who loves extreme-stakes chaos.',
+        initialDialogue: "Command radar is blazing! Are we honoring the pact or seizing the whole budget?!",
+        tellNote: 'Elevated heart rate and rapid movements.',
         bluffs: [
-          "Blow the bunker doors! All-out extraction!",
-          "Maybe I extract, maybe I seize the whole budget and vanish in the smoke!",
-          "Hear that gunfire outside?! Decide before the air strike hits!",
-          "No guts, no glory! Turn the launch dial!"
+          "Pact or strike, what does your gut say?!",
+          "Launch window is closing fast!",
+          "Make your move, Commander!",
+          "No risk, no glory!"
         ]
       },
       nash: {
         name: 'Colonel Arthur Nash',
-        title: 'The Pentagon War Games Strategist',
-        avatar: '📡',
-        difficulty: 'Pentagon Game Theorist',
-        quote: '"Deterrence theory dictates (Extract, Extract) as the sole stable Nash Equilibrium."',
-        bio: 'War games architect calculating nuclear deterrence, mutual assured destruction, and game-theoretic payoff matrixes.',
-        initialDialogue: "According to Pentagon crisis simulations, mutual defection results in Mutual Assured Destruction. A 50/50 dual extraction achieves mathematical mission optimality.",
-        tellNote: 'Cold calculated logic. Flatline baseline.',
+        title: 'The Strategic Analyst',
+        avatar: '📊',
+        difficulty: 'Game Theorist',
+        quote: '"Deterrence theory confirms mutual pact is the optimal Nash Equilibrium."',
+        bio: 'Military game theorist who calculates stability outcomes.',
+        initialDialogue: "Game theory models prove a mutual pact prevents mutual wipeout and secures substantial capital.",
+        tellNote: 'Composed, steady vital signs.',
         bluffs: [
-          "Strategic command models predict an 81% defection risk on uncoordinated keys.",
-          "Rogue strikes trigger automatic counter-battery liquidation.",
-          "A 50/50 extraction preserves strategic equilibrium.",
-          "Adhere to tactical deterrence protocols immediately."
+          "A mutual pact ensures strategic equilibrium.",
+          "Striking introduces unacceptable wipeout risk.",
+          "Follow the strategic analysis and choose Pact.",
+          "Discipline ensures victory."
         ]
       }
     },
     announcements: {
-      roundStart: "Classified war room session convened. Dual-key launch sequence armed.",
-      tenSeconds: "Ten seconds to satellite lockout! Enter your mission order!",
-      reveal: "Transmitting launch authorization. Three, two, one!",
-      splitWin: "Mission accomplished! Dual extraction executed: budget disbursed equally!",
-      stealWin: "Rogue defection! You seized 100% of the classified black budget!",
-      stealLose: "Ambushed by double agent! Counterparty defected with the entire budget!",
-      mutualLose: "DEFCON 1 total wipeout! Mutual defection triggered complete asset self-destruct!"
+      roundStart: "Commanders at the console! Will you honor the Pact or launch a Strike?",
+      tenSeconds: "Ten seconds in the launch window! Lock in your secret key!",
+      reveal: "Three, two, one, reveal!",
+      splitWin: "Joint pact honored! Both commanders share the budget equally!",
+      stealWin: "Unilateral strike! You seized 100% of the defense budget!",
+      stealLose: "Rogue strike! Opponent seized the entire defense budget!",
+      mutualLose: "Mutual strike! Both fired, total destruction, both receive $0!"
     }
   }
 };

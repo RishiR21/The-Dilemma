@@ -1,7 +1,7 @@
 /**
- * GameMatrix - The Dilemma Theme-Adaptive Payoff & Archetype Engine
- * Automatically aligns bankroll labels, stakes ladders, lie detection,
- * and player career progression with the active theme.
+ * GameMatrix - The Dilemma Theme-Adaptive Payoff & Bankroll Engine
+ * Real-time buy-in stake deduction on match entry, payout disbursement at showdown,
+ * emergency syndicate reloads, and career profile statistics.
  */
 
 const BALL_SKINS = [
@@ -51,9 +51,10 @@ const ACHIEVEMENTS = [
 
 class GameMatrix {
   constructor() {
-    this.currentTheme = 'trading_desk';
+    this.currentTheme = 'poker_tournament';
     this.stats = this.loadStats();
     this.skins = BALL_SKINS;
+    this.activeWager = 0;
   }
 
   setTheme(themeId) {
@@ -62,7 +63,7 @@ class GameMatrix {
 
   getThemeData() {
     const data = window.THEMES_DATA || {};
-    return data[this.currentTheme] || data['trading_desk'];
+    return data[this.currentTheme] || data['poker_tournament'] || Object.values(data)[0];
   }
 
   getTiers() {
@@ -72,7 +73,7 @@ class GameMatrix {
 
   loadStats() {
     const defaults = {
-      bankroll: 25000,
+      bankroll: 50000,
       totalWon: 0,
       totalLost: 0,
       matchesPlayed: 0,
@@ -88,7 +89,7 @@ class GameMatrix {
     };
 
     try {
-      const saved = localStorage.getItem('dilemma_game_stats_v2');
+      const saved = localStorage.getItem('dilemma_game_stats_v5');
       if (saved) {
         return { ...defaults, ...JSON.parse(saved) };
       }
@@ -99,8 +100,32 @@ class GameMatrix {
 
   saveStats() {
     try {
-      localStorage.setItem('dilemma_game_stats_v2', JSON.stringify(this.stats));
+      localStorage.setItem('dilemma_game_stats_v5', JSON.stringify(this.stats));
     } catch (_) {}
+  }
+
+  /**
+   * Immediately deducts the buy-in stake when starting a match
+   */
+  deductWager(totalPot) {
+    const buyIn = totalPot / 2;
+    this.activeWager = buyIn;
+
+    // Deduct immediately from bankroll
+    this.stats.bankroll = Math.max(0, this.stats.bankroll - buyIn);
+    this.saveStats();
+    return buyIn;
+  }
+
+  /**
+   * If player cancels/exits a match before locking choice, refund the active wager
+   */
+  refundWager() {
+    if (this.activeWager > 0) {
+      this.stats.bankroll += this.activeWager;
+      this.activeWager = 0;
+      this.saveStats();
+    }
   }
 
   getEquippedSkin() {
@@ -178,10 +203,11 @@ class GameMatrix {
   }
 
   evaluateMatrix(p1Choice, p2Choice, totalJackpot) {
-    const themeData = this.getThemeData();
+    const buyIn = totalJackpot / 2;
     let outcomeType = '';
     let p1Amount = 0;
     let p2Amount = 0;
+    let netGainP1 = 0;
     let narrative = '';
     let headline = '';
 
@@ -189,26 +215,30 @@ class GameMatrix {
       outcomeType = 'SPLIT_SPLIT';
       p1Amount = totalJackpot / 2;
       p2Amount = totalJackpot / 2;
+      netGainP1 = 0; // Broke even, stake returned
       headline = '50/50 SPLIT FINALIZED!';
-      narrative = `Both sides honored the agreement! The $${totalJackpot.toLocaleString()} pool is disbursed equally ($${p1Amount.toLocaleString()} to each side).`;
+      narrative = `Both sides honored the agreement! The $${totalJackpot.toLocaleString()} pool is disbursed equally ($${p1Amount.toLocaleString()} to each side). Your $${buyIn.toLocaleString()} stake is returned.`;
     } else if (p1Choice === 'STEAL' && p2Choice === 'SPLIT') {
       outcomeType = 'P1_STEALS';
       p1Amount = totalJackpot;
       p2Amount = 0;
+      netGainP1 = buyIn; // Doubled stake
       headline = 'SOLO STEAL! YOU SEIZE 100%!';
-      narrative = `You executed a successful steal while your counterparty honored the split. You take the entire $${totalJackpot.toLocaleString()} prize!`;
+      narrative = `You executed a successful steal while your counterparty honored the split. You win the entire $${totalJackpot.toLocaleString()} pot (+$${netGainP1.toLocaleString()} profit)!`;
     } else if (p1Choice === 'SPLIT' && p2Choice === 'STEAL') {
       outcomeType = 'P2_STEALS';
       p1Amount = 0;
       p2Amount = totalJackpot;
+      netGainP1 = -buyIn; // Lost entire buy-in stake
       headline = 'BETRAYAL! OPPONENT SEIZED THE POT!';
-      narrative = `Opponent executed a steal while you offered the split. Opponent takes the entire $${totalJackpot.toLocaleString()} prize!`;
+      narrative = `Opponent executed a steal while you offered the split. Opponent took the whole pot, and you lost your $${buyIn.toLocaleString()} stake!`;
     } else {
       outcomeType = 'MUTUAL_STEAL';
       p1Amount = 0;
       p2Amount = 0;
+      netGainP1 = -buyIn; // Lost entire buy-in stake
       headline = 'MUTUAL DESTRUCTION! BOTH GET $0!';
-      narrative = `Both sides attempted to steal simultaneously! Total collapse: the entire $${totalJackpot.toLocaleString()} prize is lost to $0!`;
+      narrative = `Both sides attempted to steal simultaneously! Total collapse: both players forfeit their $${buyIn.toLocaleString()} stakes to $0!`;
     }
 
     return {
@@ -216,6 +246,8 @@ class GameMatrix {
       p2Choice,
       p1Amount,
       p2Amount,
+      netGainP1,
+      buyIn,
       totalJackpot,
       outcomeType,
       headline,
@@ -230,8 +262,15 @@ class GameMatrix {
     if (p1Choice === 'SPLIT') this.stats.splitsCount++;
     if (p1Choice === 'STEAL') this.stats.stealsCount++;
 
+    // Add gross payout to bankroll (since buy-in was already deducted at match start)
     this.stats.bankroll += outcome.p1Amount;
-    this.stats.totalWon += outcome.p1Amount;
+    this.activeWager = 0; // Cleared
+
+    if (outcome.netGainP1 > 0) {
+      this.stats.totalWon += outcome.netGainP1;
+    } else if (outcome.netGainP1 < 0) {
+      this.stats.totalLost += Math.abs(outcome.netGainP1);
+    }
 
     if (outcome.outcomeType === 'SPLIT_SPLIT') {
       this.checkAchievement('first_split');
@@ -243,10 +282,16 @@ class GameMatrix {
       }
     } else if (outcome.outcomeType === 'P2_STEALS') {
       this.stats.betrayedByOpponent++;
-      this.stats.totalLost += jackpot;
     } else if (outcome.outcomeType === 'MUTUAL_STEAL') {
       this.stats.mutualDestructions++;
       this.checkAchievement('double_steal');
+    }
+
+    // Emergency Reload Bailout if Bankroll hits <= $0
+    let didBailout = false;
+    if (this.stats.bankroll <= 0) {
+      this.stats.bankroll = 25000;
+      didBailout = true;
     }
 
     if (this.stats.bankroll >= 10000000) {
@@ -269,11 +314,13 @@ class GameMatrix {
       p1Choice,
       p2Choice,
       outcomeType: outcome.outcomeType,
-      p1Amount: outcome.p1Amount
+      p1Amount: outcome.p1Amount,
+      netGainP1: outcome.netGainP1
     });
     if (this.stats.history.length > 20) this.stats.history.pop();
 
     this.saveStats();
+    outcome.didBailout = didBailout;
     return outcome;
   }
 
@@ -287,7 +334,7 @@ class GameMatrix {
   }
 
   resetStats() {
-    localStorage.removeItem('dilemma_game_stats_v2');
+    localStorage.removeItem('dilemma_game_stats_v5');
     localStorage.removeItem('sos_ai_memory');
     this.stats = this.loadStats();
   }

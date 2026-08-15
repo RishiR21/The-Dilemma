@@ -40,15 +40,18 @@ class TheDilemmaApp {
     this.checkUrlRoomParam();
     this.setup3DTilt();
 
-    // Unlock Web Audio & Start Ambient Music on first user interaction
+    // Unlock Web Audio & Start Ambient Music on ANY user gesture
     const unlockAudio = () => {
-      window.soundEngine.init();
+      window.soundEngine.ensureContext();
       window.soundEngine.setTheme(this.currentTheme);
-      window.removeEventListener('pointerdown', unlockAudio);
-      window.removeEventListener('keydown', unlockAudio);
+      if (window.soundEngine.isMusicEnabled && !window.soundEngine.isMuted) {
+        window.soundEngine.startAmbientMusic();
+      }
     };
-    window.addEventListener('pointerdown', unlockAudio);
-    window.addEventListener('keydown', unlockAudio);
+
+    ['pointerdown', 'touchstart', 'mousedown', 'keydown'].forEach(evt => {
+      window.addEventListener(evt, unlockAudio, { once: false, passive: true });
+    });
   }
 
   getThemeConfig() {
@@ -158,7 +161,12 @@ class TheDilemmaApp {
       });
     }
 
-    // 7. Re-render all views
+    // 7. Sync Lobby Quick Theme Pills
+    document.querySelectorAll('.theme-pill-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('data-theme-id') === themeId);
+    });
+
+    // 8. Re-render all views
     this.renderThemeCards();
     this.renderAICards();
     this.renderTiers();
@@ -407,7 +415,25 @@ class TheDilemmaApp {
 
   updateHeaderBankroll() {
     const roll = window.gameMatrix.stats.bankroll;
-    document.getElementById('bankrollValue').textContent = `$${roll.toLocaleString()}`;
+    const bankrollElem = document.getElementById('bankrollValue');
+    if (bankrollElem) bankrollElem.textContent = `$${roll.toLocaleString()}`;
+
+    // Update lobby player standing card
+    const arch = window.gameMatrix.getPlayerArchetype();
+    const avatar = document.getElementById('lobbyPlayerAvatar');
+    if (avatar) avatar.textContent = arch.icon;
+
+    const title = document.getElementById('lobbyPlayerArchetype');
+    if (title) {
+      title.textContent = arch.title;
+      title.style.color = arch.color || 'var(--text-main)';
+    }
+
+    const trust = document.getElementById('lobbyTrustPercent');
+    if (trust) trust.textContent = `${window.gameMatrix.getTrustScore()}%`;
+
+    const matches = document.getElementById('lobbyMatchesCount');
+    if (matches) matches.textContent = window.gameMatrix.stats.matchesPlayed;
   }
 
   setupCanvas() {
@@ -442,6 +468,8 @@ class TheDilemmaApp {
 
   exitToLobby() {
     window.soundEngine.playExitSound();
+    window.gameMatrix.refundWager();
+    this.updateHeaderBankroll();
     this.cleanupGameSession();
     this.showScreen('screenMenu');
   }
@@ -523,6 +551,26 @@ class TheDilemmaApp {
         this.openProfileModal();
       }
     });
+
+    // Lobby Quick Theme Switcher Pills
+    document.querySelectorAll('.theme-pill-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        window.soundEngine.playClick();
+        this.applyTheme(btn.getAttribute('data-theme-id'));
+      });
+    });
+
+    // Lobby Quick Showdown Button
+    const btnQuick = document.getElementById('btnQuickShowdown');
+    if (btnQuick) {
+      btnQuick.addEventListener('click', () => {
+        window.soundEngine.playClick();
+        this.currentMode = 'ai';
+        this.currentStake = 25000;
+        this.selectedAI = 'sarah';
+        this.startAIGameplay();
+      });
+    }
 
     // Lie Detector / Read Tells Scan
     document.getElementById('btnRunPolygraph').addEventListener('click', () => {
@@ -817,6 +865,20 @@ class TheDilemmaApp {
     this.selectedBall = null;
     this.chatHistory = [];
 
+    // Ensure adequate bankroll before match
+    if (window.gameMatrix.stats.bankroll < this.currentStake / 2) {
+      if (window.gameMatrix.stats.bankroll <= 0) {
+        window.gameMatrix.stats.bankroll = 25000;
+        window.gameMatrix.saveStats();
+      } else {
+        this.currentStake = Math.max(25000, window.gameMatrix.stats.bankroll * 2);
+      }
+    }
+
+    // Deduct wager immediately so balance visually drops
+    window.gameMatrix.deductWager(this.currentStake);
+    this.updateHeaderBankroll();
+
     document.getElementById('p1Avatar').textContent = '💼';
     document.getElementById('p1Name').textContent = 'You';
     document.getElementById('p1Trust').textContent = `Trust Rating: ${window.gameMatrix.getTrustScore()}%`;
@@ -857,6 +919,10 @@ class TheDilemmaApp {
     this.selectedBall = null;
     this.chatHistory = [];
 
+    // Deduct wager immediately
+    window.gameMatrix.deductWager(this.currentStake);
+    this.updateHeaderBankroll();
+
     document.getElementById('p1Avatar').textContent = '💼';
     document.getElementById('p1Name').textContent = 'Player 1';
     document.getElementById('p1Trust').textContent = 'Face to Face';
@@ -889,6 +955,10 @@ class TheDilemmaApp {
     this.p2Choice = null;
     this.selectedBall = null;
     this.chatHistory = [];
+
+    // Deduct wager immediately
+    window.gameMatrix.deductWager(this.currentStake);
+    this.updateHeaderBankroll();
 
     document.getElementById('p1Avatar').textContent = '💼';
     document.getElementById('p1Name').textContent = this.p1Name;
@@ -1133,8 +1203,25 @@ class TheDilemmaApp {
 
     headline.textContent = outcome.headline;
     headline.className = `outcome-headline ${outcome.outcomeType.toLowerCase().replace('_', '-')}`;
-    narrative.textContent = outcome.narrative;
-    p1Payout.textContent = `$${outcome.p1Amount.toLocaleString()}`;
+
+    let narrativeText = outcome.narrative;
+    if (outcome.didBailout) {
+      narrativeText += ` ⚠️ Bankroll reached $0! Emergency Syndicate Reload of $10,000 has been deposited to your balance!`;
+    }
+    narrative.textContent = narrativeText;
+
+    const netSign = outcome.netGainP1 > 0 
+      ? `(+ $${outcome.netGainP1.toLocaleString()} Profit)` 
+      : outcome.netGainP1 < 0 
+        ? `(- $${Math.abs(outcome.netGainP1).toLocaleString()} Loss)` 
+        : `($0 Net / Stake Returned)`;
+    const netColor = outcome.netGainP1 > 0 
+      ? 'var(--split-color)' 
+      : outcome.netGainP1 < 0 
+        ? 'var(--steal-color)' 
+        : 'var(--primary-accent)';
+
+    p1Payout.innerHTML = `$${outcome.p1Amount.toLocaleString()} <div style="font-size: 0.72rem; color: ${netColor}; margin-top: 2px;">${netSign}</div>`;
     p2Payout.textContent = `$${outcome.p2Amount.toLocaleString()}`;
 
     card.classList.remove('hidden');

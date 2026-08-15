@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>The Showdown: High-Stakes Dilemma Game</title>
+  <title>The Dilemma: High-Stakes Game Theory & Showdown</title>
   
   <!-- SEO Meta Tags -->
-  <meta name="description" content="A high-stakes psychological dilemma game across 5 immersive worlds: Vegas Poker Tournament, Wall Street Trading Desk, Grand Continental Hotel, Armored Bank Vault, and Military Black Ops.">
+  <meta name="description" content="An executive, high-stakes game theory dilemma across 5 immersive worlds: Vegas Poker Tournament, Wall Street Trading Desk, Grand Continental Hotel, Armored Bank Vault, and Military Black Ops.">
   <meta name="keywords" content="The Dilemma, Poker Tournament, Wall Street, Hotel Lobby, Bank Vault, Military Intelligence, Split or Steal, Prisoner's Dilemma, Game Theory">
-  <meta name="author" content="The Showdown">
+  <meta name="author" content="The Dilemma">
 
   <!-- iOS & PWA Configuration -->
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -24,7 +24,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800;900&family=JetBrains+Mono:wght@400;600;700;800&family=Outfit:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700;900&display=swap" rel="stylesheet">
 
   <!-- App Stylesheet -->
-  <link rel="stylesheet" href="./css/style.css">
+  <link rel="stylesheet" href="./css/style.css?v=20.0">
 </head>
 <body>
   <!-- FX Canvas for Order Execution Particle Celebrations -->
@@ -55,7 +55,7 @@
       <div class="header-actions">
         <div class="bankroll-pill" id="headerBankroll">
           <span class="bankroll-label" id="bankrollLabel">NAV:</span>
-          <span id="bankrollValue">$25,000</span>
+          <span id="bankrollValue">$50,000</span>
         </div>
         <button class="header-icon-btn" id="btnThemeModal" title="Select Visual Theme">
           🎨
@@ -79,56 +79,121 @@
     </header>
 
     <!-- ==========================================
-         SCREEN 1: MAIN MENU (LOBBY)
+         SCREEN 1: MAIN MENU (EXECUTIVE LOBBY)
          ========================================== -->
     <main class="view-screen" id="screenMenu">
-      <section class="hero-section">
-        <p class="hero-subtitle" id="heroSubtitle">High-Conviction Liquidity Execution</p>
-        <h1 class="hero-headline" id="heroHeadline">THE DILEMMA</h1>
-        <p class="hero-tagline" id="heroTagline">
-          Two counterparties. One institutional capital pool. Will you syndicate the 50/50 merger, or execute a ruthless hostile takeover?
-        </p>
-      </section>
+      <div class="lobby-wrapper">
+        <!-- Hero Section -->
+        <section class="hero-section">
+          <div class="hero-pill-badge">
+            <span class="pulse-status-dot"></span>
+            <span id="heroSubtitle">High-Conviction Liquidity Execution</span>
+          </div>
+          <h1 class="hero-headline" id="heroHeadline">THE DILEMMA</h1>
+          <p class="hero-tagline" id="heroTagline">
+            Two counterparties. One institutional capital pool. Will you syndicate the 50/50 merger, or execute a ruthless hostile takeover?
+          </p>
+        </section>
 
-      <div class="mode-grid">
-        <!-- Mode 1: AI Gauntlet -->
-        <div class="mode-card" id="btnModeAI">
-          <span class="badge-tag">Single Player</span>
-          <div class="mode-icon-box">🏛️</div>
-          <div class="mode-details">
-            <h3 id="modeTitleAI">Counterparty Gauntlet</h3>
-            <p id="modeDescAI">Negotiate against 5 ruthless opponents with distinct psychological strategies.</p>
+        <!-- Quick Theme Switcher Pill Bar -->
+        <div class="lobby-theme-bar">
+          <span class="theme-bar-label">SELECT UNIVERSE:</span>
+          <div class="theme-pills-list">
+            <button class="theme-pill-btn" data-theme-id="poker_tournament">♠️ Poker Tournament</button>
+            <button class="theme-pill-btn" data-theme-id="trading_desk">📊 Trading Desk</button>
+            <button class="theme-pill-btn" data-theme-id="hotel_lobby">🛎️ Hotel Lobby</button>
+            <button class="theme-pill-btn" data-theme-id="bank_vault">🔒 Cash Vault</button>
+            <button class="theme-pill-btn" data-theme-id="military_intelligence">🎯 Black Ops</button>
           </div>
         </div>
 
-        <!-- Mode 2: Online 1v1 Room -->
-        <div class="mode-card" id="btnModeMultiplayer">
-          <span class="badge-tag">Online 1v1</span>
-          <div class="mode-icon-box">🌐</div>
-          <div class="mode-details">
-            <h3 id="modeTitleMultiplayer">Private Deal Room</h3>
-            <p id="modeDescMultiplayer">Host or join encrypted game rooms with players in real time.</p>
+        <!-- Player Standing & Quick Start Banner -->
+        <div class="player-quick-card">
+          <div class="player-quick-left">
+            <div class="player-quick-avatar" id="lobbyPlayerAvatar">💼</div>
+            <div>
+              <div class="player-quick-title" id="lobbyPlayerArchetype">Managing Partner</div>
+              <div class="player-quick-meta">
+                <span>Trust Rating: <strong id="lobbyTrustPercent" style="color: var(--split-color);">100%</strong></span>
+                <span class="meta-separator">•</span>
+                <span>Matches: <strong id="lobbyMatchesCount">0</strong></span>
+              </div>
+            </div>
+          </div>
+          <button class="btn btn-primary btn-quick-play" id="btnQuickShowdown">
+            ⚡ Quick Showdown ($25k)
+          </button>
+        </div>
+
+        <!-- Mode List: Aligned in a Single File -->
+        <div class="mode-grid">
+          <!-- Mode 1: AI Gauntlet -->
+          <div class="mode-card" id="btnModeAI">
+            <div class="mode-icon-box">🏛️</div>
+            <div class="mode-details">
+              <div class="mode-details-header">
+                <h3 id="modeTitleAI">Heads-Up AI Duel</h3>
+                <span class="badge-tag">Single Player</span>
+              </div>
+              <p id="modeDescAI">Face 5 distinct poker personalities from solid rocks to aggressive sharks.</p>
+            </div>
+            <div class="mode-card-action">
+              <span class="mode-card-arrow">→</span>
+            </div>
+          </div>
+
+          <!-- Mode 2: Online 1v1 Room -->
+          <div class="mode-card" id="btnModeMultiplayer">
+            <div class="mode-icon-box">🌐</div>
+            <div class="mode-details">
+              <div class="mode-details-header">
+                <h3 id="modeTitleMultiplayer">Private Deal Room</h3>
+                <span class="badge-tag">Online 1v1</span>
+              </div>
+              <p id="modeDescMultiplayer">Create or join an encrypted 1v1 room with a friend in real time.</p>
+            </div>
+            <div class="mode-card-action">
+              <span class="mode-card-arrow">→</span>
+            </div>
+          </div>
+
+          <!-- Mode 3: Floor Pass & Play -->
+          <div class="mode-card" id="btnModePassPlay">
+            <div class="mode-icon-box">📱</div>
+            <div class="mode-details">
+              <div class="mode-details-header">
+                <h3 id="modeTitlePassPlay">Local Table Duel</h3>
+                <span class="badge-tag">Local 2-Player</span>
+              </div>
+              <p id="modeDescPassPlay">Play on one device. Pass the phone and lock in secret decisions before showdown.</p>
+            </div>
+            <div class="mode-card-action">
+              <span class="mode-card-arrow">→</span>
+            </div>
+          </div>
+
+          <!-- Mode 4: High-Stakes Ladder -->
+          <div class="mode-card" id="btnModeLadder">
+            <div class="mode-icon-box">📈</div>
+            <div class="mode-details">
+              <div class="mode-details-header">
+                <h3 id="modeTitleLadder">High-Roller Ladder</h3>
+                <span class="badge-tag">Stakes Ladder</span>
+              </div>
+              <p id="modeDescLadder">Climb from $25,000 Micro Stakes to the $10,000,000 Championship.</p>
+            </div>
+            <div class="mode-card-action">
+              <span class="mode-card-arrow">→</span>
+            </div>
           </div>
         </div>
 
-        <!-- Mode 3: Floor Pass & Play -->
-        <div class="mode-card" id="btnModePassPlay">
-          <span class="badge-tag">Local 2-Player</span>
-          <div class="mode-icon-box">📱</div>
-          <div class="mode-details">
-            <h3 id="modeTitlePassPlay">Pass & Play (1 Device)</h3>
-            <p id="modeDescPassPlay">Execute secret decisions on the same device before the joint reveal.</p>
-          </div>
-        </div>
-
-        <!-- Mode 4: High-Stakes Ladder -->
-        <div class="mode-card" id="btnModeLadder">
-          <span class="badge-tag">Stakes Ladder</span>
-          <div class="mode-icon-box">📈</div>
-          <div class="mode-details">
-            <h3 id="modeTitleLadder">Stakes Ladder</h3>
-            <p id="modeDescLadder">Climb from $25,000 Micro Stakes to the $10,000,000 Master Championship.</p>
-          </div>
+        <!-- Footer Trust & Feature Highlights Strip -->
+        <div class="lobby-features-strip">
+          <div class="feature-item">🔒 Zero-Knowledge Secret Locks</div>
+          <div class="feature-item">🎙️ Web Speech Commentary</div>
+          <div class="feature-item">🎵 Procedural Ambient Synths</div>
+          <div class="feature-item">⚡ 60 FPS Particle FX</div>
         </div>
       </div>
     </main>
@@ -492,18 +557,32 @@
   </div>
 
   <!-- Scripts -->
-  <script src="./js/themeContent.js"></script>
-  <script src="./js/soundEngine.js"></script>
-  <script src="./js/aiEngine.js"></script>
-  <script src="./js/gameMatrix.js"></script>
-  <script src="./js/multiplayer.js"></script>
-  <script src="./js/app.js"></script>
+  <script src="./js/themeContent.js?v=20.0"></script>
+  <script src="./js/soundEngine.js?v=20.0"></script>
+  <script src="./js/aiEngine.js?v=20.0"></script>
+  <script src="./js/gameMatrix.js?v=20.0"></script>
+  <script src="./js/multiplayer.js?v=20.0"></script>
+  <script src="./js/app.js?v=20.0"></script>
 
-  <!-- PWA Service Worker Registration -->
+  <!-- PWA & Cache Management -->
   <script>
+    if ('caches' in window) {
+      caches.keys().then((names) => {
+        for (let name of names) {
+          if (name !== 'the-dilemma-v20') {
+            caches.delete(name);
+          }
+        }
+      });
+    }
     if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(registrations => {
+        for (let registration of registrations) {
+          registration.update();
+        }
+      });
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js').catch(() => {});
+        navigator.serviceWorker.register('./sw.js?v=20.0').catch(() => {});
       });
     }
   </script>
