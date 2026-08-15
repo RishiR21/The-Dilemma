@@ -12,6 +12,8 @@ endpoints = [
     ("/js/app.js", "application/javascript"),
     ("/manifest.json", "application/manifest+json"),
     ("/icons/icon.svg", "image/svg+xml"),
+    ("/favicon.svg", "image/svg+xml"),
+    ("/favicon.ico", "image/x-icon"),
 ]
 
 base = "http://127.0.0.1:8000"
