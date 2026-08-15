@@ -53,27 +53,21 @@
       </div>
 
       <div class="header-actions">
-        <div class="bankroll-pill" id="headerBankroll">
-          <span class="bankroll-label" id="bankrollLabel">NAV:</span>
-          <span id="bankrollValue">$50,000</span>
-        </div>
-        <button class="header-icon-btn" id="btnThemeModal" title="Select Visual Theme">
-          🎨
+        <!-- Header User Profile Button (Checkup on username & balance) -->
+        <button class="header-user-btn" id="btnProfileModal" title="Career Portfolio, PIN Security & Token Skins">
+          <span class="user-avatar-mini" id="headerUserAvatar">💼</span>
+          <span class="user-handle-mini" id="headerUserHandle">@Player</span>
+          <span class="user-bankroll-mini" id="bankrollValue">$50,000</span>
         </button>
-        <button class="header-icon-btn active" id="btnMusicToggle" title="Toggle Theme Ambient Music">
-          🎵
-        </button>
-        <button class="header-icon-btn" id="btnHostVoiceToggle" title="Voice Commentary">
-          🎙️
-        </button>
-        <button class="header-icon-btn" id="btnProfileModal" title="Career Portfolio & Token Skins">
-          📊
-        </button>
+
+        <!-- Help / Rules Modal Button (Outside settings) -->
         <button class="header-icon-btn" id="btnHelpModal" title="Game Mechanics & Rules">
           ❓
         </button>
-        <button class="header-icon-btn" id="btnSoundToggle" title="Toggle Sound FX">
-          🔊
+
+        <!-- Central Settings Modal Button -->
+        <button class="header-icon-btn" id="btnSettingsModal" title="Audio, Commentary & Theme Settings">
+          ⚙️
         </button>
       </div>
     </header>
@@ -130,6 +124,19 @@
           </button>
         </div>
 
+        <!-- Discreet Stakes Ladder Pill (Positioned Near Top) -->
+        <div class="discreet-ladder-pill" id="btnModeLadder" title="Open Stakes Level Ladder">
+          <div class="ladder-pill-left">
+            <span class="ladder-pill-icon">📈</span>
+            <span class="ladder-pill-title" id="modeTitleLadder">Stakes Ladder</span>
+            <span class="ladder-pill-range">$25K → $10M</span>
+          </div>
+          <div class="ladder-pill-right">
+            <span class="ladder-pill-subtext">5 Tiers</span>
+            <span class="ladder-pill-arrow">→</span>
+          </div>
+        </div>
+
         <!-- Core 3 Game Modes (Single File) -->
         <div class="mode-grid">
           <!-- Mode 1: AI Gauntlet -->
@@ -175,19 +182,6 @@
             <div class="mode-card-action">
               <span class="mode-card-arrow">→</span>
             </div>
-          </div>
-        </div>
-
-        <!-- Discreet Stakes Ladder Pill -->
-        <div class="discreet-ladder-pill" id="btnModeLadder" title="Open High-Stakes Tier Ladder">
-          <div class="ladder-pill-left">
-            <span class="ladder-pill-icon">📈</span>
-            <span class="ladder-pill-title" id="modeTitleLadder">Stakes Ladder</span>
-            <span class="ladder-pill-range">$25K → $10M</span>
-          </div>
-          <div class="ladder-pill-right">
-            <span id="modeDescLadder" class="ladder-pill-subtext">5 Staking Tiers</span>
-            <span class="ladder-pill-arrow">→</span>
           </div>
         </div>
 
@@ -452,20 +446,66 @@
     </section>
 
     <!-- ==========================================
-         THEME PICKER MODAL
+         CENTRAL SETTINGS MODAL
          ========================================== -->
-    <div class="modal-overlay hidden" id="themeModal">
+    <div class="modal-overlay hidden" id="settingsModal">
       <div class="modal-box">
-        <button class="modal-close" id="btnCloseTheme">✕</button>
-        <h2 style="font-family: var(--font-display); font-size: 1.4rem; color: #fff; margin-bottom: 6px;">
-          🎨 Select Visual Theme
-        </h2>
-        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 16px;">
-          Choose your preferred environment, aesthetic styling, and audio mood.
-        </p>
+        <button class="modal-close" id="btnCloseSettings">✕</button>
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+          <span style="font-size: 1.8rem;">⚙️</span>
+          <div>
+            <h2 style="font-family: var(--font-display); font-size: 1.35rem; color: #fff; margin: 0;">Game Settings</h2>
+            <p style="font-size: 0.76rem; color: var(--text-muted); font-family: var(--font-mono); margin: 0;">Audio, Atmosphere & Visual Themes</p>
+          </div>
+        </div>
 
-        <div class="theme-picker-grid" id="themePickerGrid">
-          <!-- Injected via JavaScript -->
+        <!-- Audio Settings Toggles List -->
+        <div class="settings-list">
+          <!-- Ambient Music Toggle -->
+          <div class="setting-row">
+            <div class="setting-info">
+              <span class="setting-icon">🎵</span>
+              <div>
+                <div class="setting-title">Theme Ambient Music</div>
+                <div class="setting-desc">Procedural generative synths tailored to each universe</div>
+              </div>
+            </div>
+            <button class="setting-toggle-btn active" id="settingMusicToggle">ON</button>
+          </div>
+
+          <!-- Voice Commentary Toggle -->
+          <div class="setting-row">
+            <div class="setting-info">
+              <span class="setting-icon">🎙️</span>
+              <div>
+                <div class="setting-title">Host Voice Commentary</div>
+                <div class="setting-desc">Web Speech API dynamic play-by-play announcements</div>
+              </div>
+            </div>
+            <button class="setting-toggle-btn active" id="settingVoiceToggle">ON</button>
+          </div>
+
+          <!-- Sound FX Toggle -->
+          <div class="setting-row">
+            <div class="setting-info">
+              <span class="setting-icon">🔊</span>
+              <div>
+                <div class="setting-title">Sound Effects & Tension Audio</div>
+                <div class="setting-desc">Heartbeat pulse, tell scans, chip sounds & reveal stings</div>
+              </div>
+            </div>
+            <button class="setting-toggle-btn active" id="settingSoundToggle">ON</button>
+          </div>
+        </div>
+
+        <!-- Theme Picker Section -->
+        <div style="margin-top: 20px;">
+          <h3 style="font-size: 0.88rem; font-family: var(--font-mono); font-weight: 700; color: var(--primary-accent); margin-bottom: 10px;">
+            🎨 Active Universe Theme
+          </h3>
+          <div class="theme-picker-grid" id="themePickerGrid">
+            <!-- Injected via JavaScript -->
+          </div>
         </div>
       </div>
     </div>

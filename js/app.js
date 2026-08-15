@@ -113,7 +113,7 @@ class TheDilemmaApp {
     const modeTitleLadder = document.getElementById('modeTitleLadder');
     if (modeTitleLadder) modeTitleLadder.textContent = config.modes.ladder.title;
     const modeDescLadder = document.getElementById('modeDescLadder');
-    if (modeDescLadder) modeDescLadder.textContent = config.modes.ladder.desc;
+    if (modeDescLadder) modeDescLadder.textContent = '5 Staking Tiers';
 
     // 4. Gameplay Stage Labels
     const potLabel = document.getElementById('gamePotLabel');
@@ -442,8 +442,14 @@ class TheDilemmaApp {
     const bankrollElem = document.getElementById('bankrollValue');
     if (bankrollElem) bankrollElem.textContent = `$${roll.toLocaleString()}`;
 
-    // Update lobby player standing card
+    // Update Header User Profile Button (at top)
     const arch = window.gameMatrix.getPlayerArchetype();
+    const headAvatar = document.getElementById('headerUserAvatar');
+    if (headAvatar) headAvatar.textContent = arch.icon;
+    const headHandle = document.getElementById('headerUserHandle');
+    if (headHandle) headHandle.textContent = stats.username || '@Player';
+
+    // Update lobby player standing card
     const avatar = document.getElementById('lobbyPlayerAvatar');
     if (avatar) avatar.textContent = arch.icon;
 
@@ -523,38 +529,53 @@ class TheDilemmaApp {
       });
     }
 
-    // Ambient Music Toggle
-    const btnMusic = document.getElementById('btnMusicToggle');
-    if (btnMusic) {
-      btnMusic.addEventListener('click', () => {
-        const isMusicOn = window.soundEngine.toggleMusic();
-        btnMusic.textContent = isMusicOn ? '🎵' : '🔇';
-        btnMusic.classList.toggle('active', isMusicOn);
+    // Central Settings Modal Toggle
+    const btnSettings = document.getElementById('btnSettingsModal');
+    if (btnSettings) {
+      btnSettings.addEventListener('click', () => {
+        window.soundEngine.playClick();
+        this.renderThemeCards();
+        document.getElementById('settingsModal').classList.remove('hidden');
       });
     }
 
-    document.getElementById('btnSoundToggle').addEventListener('click', (e) => {
-      const isMuted = window.soundEngine.toggleMute();
-      e.target.textContent = isMuted ? '🔇' : '🔊';
-    });
+    const btnCloseSettings = document.getElementById('btnCloseSettings');
+    if (btnCloseSettings) {
+      btnCloseSettings.addEventListener('click', () => {
+        window.soundEngine.playClick();
+        document.getElementById('settingsModal').classList.add('hidden');
+      });
+    }
 
-    document.getElementById('btnHostVoiceToggle').addEventListener('click', (e) => {
-      const isVoiceOn = window.soundEngine.toggleHostVoice();
-      e.target.textContent = isVoiceOn ? '🎙️' : '🔇';
-      window.soundEngine.speakHost(isVoiceOn ? 'Voice commentary online' : '', true);
-    });
+    // Settings Audio Toggles inside Settings Modal
+    const settingMusic = document.getElementById('settingMusicToggle');
+    if (settingMusic) {
+      settingMusic.addEventListener('click', () => {
+        const isMusicOn = window.soundEngine.toggleMusic();
+        settingMusic.textContent = isMusicOn ? 'ON' : 'OFF';
+        settingMusic.classList.toggle('active', isMusicOn);
+      });
+    }
 
-    // Theme Modal Toggle
-    document.getElementById('btnThemeModal').addEventListener('click', () => {
-      window.soundEngine.playClick();
-      this.renderThemeCards();
-      document.getElementById('themeModal').classList.remove('hidden');
-    });
+    const settingVoice = document.getElementById('settingVoiceToggle');
+    if (settingVoice) {
+      settingVoice.addEventListener('click', () => {
+        const isVoiceOn = window.soundEngine.toggleHostVoice();
+        settingVoice.textContent = isVoiceOn ? 'ON' : 'OFF';
+        settingVoice.classList.toggle('active', isVoiceOn);
+        window.soundEngine.speakHost(isVoiceOn ? 'Voice commentary online' : '', true);
+      });
+    }
 
-    document.getElementById('btnCloseTheme').addEventListener('click', () => {
-      window.soundEngine.playClick();
-      document.getElementById('themeModal').classList.add('hidden');
-    });
+    const settingSound = document.getElementById('settingSoundToggle');
+    if (settingSound) {
+      settingSound.addEventListener('click', () => {
+        const isMuted = window.soundEngine.toggleMute();
+        const isSoundOn = !isMuted;
+        settingSound.textContent = isSoundOn ? 'ON' : 'OFF';
+        settingSound.classList.toggle('active', isSoundOn);
+      });
+    }
 
     // Profile & Help Modals
     document.getElementById('btnProfileModal').addEventListener('click', () => {

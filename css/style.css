@@ -428,6 +428,46 @@ body::after {
   gap: 8px;
 }
 
+.header-user-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-subtle);
+  padding: 5px 12px;
+  border-radius: var(--radius-full);
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--text-main);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.header-user-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: var(--primary-accent);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 15px var(--primary-glow);
+}
+
+.user-avatar-mini {
+  font-size: 1.1rem;
+}
+
+.user-handle-mini {
+  font-weight: 700;
+  color: var(--primary-accent);
+}
+
+.user-bankroll-mini {
+  font-weight: 800;
+  color: var(--split-color);
+  border-left: 1px solid rgba(255, 255, 255, 0.12);
+  padding-left: 8px;
+}
+
 .bankroll-pill {
   display: flex;
   align-items: center;
@@ -1986,6 +2026,76 @@ body::after {
 
 .sec-feedback-msg.error {
   color: var(--steal-color);
+}
+
+/* Settings Modal Rows & Toggles */
+.settings-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.setting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 12px 16px;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  transition: border-color 0.2s ease;
+}
+
+.setting-row:hover {
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.setting-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.setting-icon {
+  font-size: 1.4rem;
+  flex-shrink: 0;
+}
+
+.setting-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.92rem;
+  color: var(--text-main);
+}
+
+.setting-desc {
+  font-size: 0.74rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.setting-toggle-btn {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-subtle);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.setting-toggle-btn.active {
+  background: var(--split-color);
+  color: #000;
+  border-color: var(--split-color);
+  box-shadow: 0 0 12px var(--split-glow);
 }
 
 /* Theme Picker Cards */
