@@ -1361,6 +1361,84 @@ body::after {
   border-color: var(--primary-accent);
 }
 
+/* Thematic Interactive Intercom / Hotline Widget */
+.thematic-hotline-bar {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 6px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  backdrop-filter: blur(8px);
+  margin-top: -2px;
+}
+
+.hotline-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  flex: 1;
+}
+
+.hotline-icon {
+  font-size: 1.05rem;
+  animation: hotlineRing 2.4s infinite ease-in-out;
+  display: inline-block;
+}
+
+@keyframes hotlineRing {
+  0%, 100% { transform: rotate(0deg); }
+  10%, 30% { transform: rotate(-12deg) scale(1.1); }
+  20%, 40% { transform: rotate(12deg) scale(1.1); }
+  50% { transform: rotate(0deg); }
+}
+
+.hotline-text-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hotline-title {
+  color: var(--primary-accent);
+  font-weight: 700;
+}
+
+.hotline-status {
+  color: var(--text-muted);
+  font-size: 0.70rem;
+}
+
+.hotline-interact-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-main);
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.hotline-interact-btn:hover {
+  background: var(--primary-accent);
+  color: var(--bg-core);
+  border-color: var(--primary-accent);
+  transform: translateY(-1px);
+}
+
 /* Negotiation Panel */
 .negotiation-panel {
   display: flex;

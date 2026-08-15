@@ -28,6 +28,18 @@ const THEMES_DATA = {
     decisionPrompt: '♠️ Lock In Secret Poker Decision',
     scanBtnLabel: '🔍 Read Tells',
     scanTitle: 'Live Player Tell Analysis',
+    hotline: {
+      icon: '🍸',
+      title: 'Pit Boss Intercom:',
+      status: 'VIP Drink Orders & Table Telemetry',
+      btnText: '🍸 Check Intercom',
+      whispers: [
+        '🍸 Pit Boss: "High roller at Table 4 is pre-committing. Watch their pulse."',
+        '🍸 Waitress: "Martini on the house, sir. Opponent\'s chip stack is trembling."',
+        '🍸 Floor Manager: "Table telemetry indicates high bluff probability on the river."',
+        '🍸 Security: "Counterparty has a tell when looking at the prize chips."'
+      ]
+    },
     modes: {
       ai: { title: 'Heads-Up AI Duel', desc: 'Face 5 distinct poker personalities from solid rocks to aggressive sharks.' },
       multiplayer: { title: 'Private Poker Room', desc: 'Create or join a private 1v1 heads-up room with a friend in real time.' },
@@ -172,6 +184,18 @@ const THEMES_DATA = {
     decisionPrompt: '🔒 Lock In Secret Trade Decision',
     scanBtnLabel: '🔍 Scan Risk',
     scanTitle: 'Live Telemetry Risk Scan',
+    hotline: {
+      icon: '📞',
+      title: 'Broker Wire:',
+      status: 'Wall Street order flow active',
+      btnText: '📞 Answer Phone',
+      whispers: [
+        '📞 Broker Wire: "Heavy institutional liquidity surge on Split side! Execute with conviction!"',
+        '📞 Floor Desk: "Block order filled: 25,000 contracts! Counterparty order book is imbalanced."',
+        '📞 Head Trader: "Bid/Ask spread tightening. Do not let them short your position."',
+        '📞 Analyst Desk: "Arbitrage opportunity open for the next 20 seconds. Take the split!"'
+      ]
+    },
     modes: {
       ai: { title: 'Trading Desk AI Duel', desc: 'Negotiate deals against 5 Wall Street trading personalities.' },
       multiplayer: { title: 'Private Deal Room', desc: 'Create an encrypted trade room with another player in real time.' },
@@ -316,6 +340,18 @@ const THEMES_DATA = {
     decisionPrompt: '🛎️ Lock In Secret Golden Balls Decision',
     scanBtnLabel: '🔍 Read Composure',
     scanTitle: 'Player Composure Analysis',
+    hotline: {
+      icon: '🛎️',
+      title: 'Concierge Phone:',
+      status: 'Suite 402 Private Rotary Line',
+      btnText: '🛎️ Pick Up Line',
+      whispers: [
+        '🛎️ Concierge: "Suite 402 champagne delivered. The contract terms are non-negotiable."',
+        '🛎️ Front Desk: "A private courier has arrived with the sealed syndicate documents."',
+        '🛎️ Maître d\': "Discretion is advised. The counterparty has a history of sudden departures."',
+        '🛎️ Bellhop: "The limousine is waiting outside. Lock in your decision before midnight."'
+      ]
+    },
     modes: {
       ai: { title: 'Golden Balls AI Duel', desc: 'Face 5 distinct personalities in the classic Split or Steal standoff.' },
       multiplayer: { title: 'Private Golden Room', desc: 'Challenge a friend to a real-time Split or Steal showdown.' },
@@ -460,6 +496,18 @@ const THEMES_DATA = {
     decisionPrompt: '🔒 Enter Confidential Safe Code',
     scanBtnLabel: '🔍 Read Biometrics',
     scanTitle: 'Vault Biometric Security Scan',
+    hotline: {
+      icon: '📻',
+      title: 'Getaway Radio:',
+      status: 'Encrypted Van Channel 4',
+      btnText: '📻 Radio Check',
+      whispers: [
+        '📻 Getaway Van: "Security cameras looped for 30 more seconds. Secure the bullion now!"',
+        '📻 Hacker: "Thermal drill at 98%. Silent alarms remain dormant... choose wisely."',
+        '📻 Lookout: "Guard patrol approaching subterranean sector B in 20 seconds!"',
+        '📻 Demolitions: "Charges are armed. Grab your share and head for the escape tunnel."'
+      ]
+    },
     modes: {
       ai: { title: 'Vault Infiltration Duel', desc: 'Crack the vault against 5 master safe-crackers and security pros.' },
       multiplayer: { title: 'Private Vault Chamber', desc: 'Connect to an encrypted vault chamber with another player in real time.' },
@@ -604,6 +652,18 @@ const THEMES_DATA = {
     decisionPrompt: '🎯 Turn Secret Launch Key',
     scanBtnLabel: '📡 Read Radar',
     scanTitle: 'Tactical Deception Radar',
+    hotline: {
+      icon: '🔴',
+      title: 'Pentagon Hotline:',
+      status: 'DEFCON 1 Red Phone Link',
+      btnText: '🔴 Red Phone',
+      whispers: [
+        '🔴 Pentagon Hotline: "DEFCON 1 protocol verified. Confirm split or defect authorization."',
+        '🔴 Tactical Comms: "Satellite telemetry shows lock-in sequence initiated by counterpart."',
+        '🔴 Joint Command: "Nuclear handshake encryption code verified. Zero second delay."',
+        '🔴 Recon Alpha: "Thermal scan confirms opponent finger hovering over the launch key."'
+      ]
+    },
     modes: {
       ai: { title: 'War Room AI Duel', desc: 'Engage in game-theoretic standoff against 5 high-ranking commanders.' },
       multiplayer: { title: 'Encrypted Deal Room', desc: 'Establish a secure command link with another operative in real time.' },

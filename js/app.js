@@ -154,10 +154,17 @@ class TheDilemmaApp {
       });
     }
 
-    // 7. Sync Lobby Quick Theme Pills
-    document.querySelectorAll('.theme-pill-btn').forEach(btn => {
-      btn.classList.toggle('active', btn.getAttribute('data-theme-id') === themeId);
-    });
+    // 7. Hotline & Thematic Comms Bar
+    if (config.hotline) {
+      const hotlineIcon = document.getElementById('hotlineIcon');
+      const hotlineTitle = document.getElementById('hotlineTitle');
+      const hotlineStatus = document.getElementById('hotlineStatus');
+      const hotlineAction = document.getElementById('hotlineActionText');
+      if (hotlineIcon) hotlineIcon.textContent = config.hotline.icon;
+      if (hotlineTitle) hotlineTitle.textContent = config.hotline.title;
+      if (hotlineStatus) hotlineStatus.textContent = config.hotline.status;
+      if (hotlineAction) hotlineAction.textContent = config.hotline.btnText;
+    }
 
     // 8. Re-render all views
     this.renderThemeCards();
@@ -803,6 +810,14 @@ class TheDilemmaApp {
       this.handlePolygraphScan();
     });
 
+    // Thematic Hotline / Intercom Comms Button
+    const btnHotline = document.getElementById('btnInteractHotline');
+    if (btnHotline) {
+      btnHotline.addEventListener('click', () => {
+        this.handleHotlineInteraction();
+      });
+    }
+
     // Mode Cards
     document.getElementById('btnModeAI').addEventListener('click', () => {
       window.soundEngine.playClick();
@@ -975,6 +990,39 @@ class TheDilemmaApp {
       `;
       window.soundEngine.playCountdownTick(2);
     }, 600);
+  }
+
+  handleHotlineInteraction() {
+    const config = this.getThemeConfig();
+    const hotline = config.hotline;
+    if (!hotline) return;
+
+    if (this.currentTheme === 'trading_desk') {
+      window.soundEngine.playTradingPhoneRing();
+      setTimeout(() => window.soundEngine.playPhonePickup(), 400);
+    } else if (this.currentTheme === 'poker_tournament') {
+      window.soundEngine.playCasinoRotaryPhone();
+      setTimeout(() => window.soundEngine.playDrinkClink(), 400);
+    } else if (this.currentTheme === 'hotel_lobby') {
+      window.soundEngine.playHotelRotaryRing();
+      setTimeout(() => window.soundEngine.playDeskBellDing(), 500);
+    } else if (this.currentTheme === 'bank_vault') {
+      window.soundEngine.playWalkieTalkieSquelch();
+    } else if (this.currentTheme === 'military_intelligence') {
+      window.soundEngine.playRedPhoneHotline();
+      setTimeout(() => window.soundEngine.playSatcomChirp(), 600);
+    }
+
+    const randomWhisper = hotline.whispers[Math.floor(Math.random() * hotline.whispers.length)];
+    const statusElem = document.getElementById('hotlineStatus');
+    if (statusElem) {
+      statusElem.textContent = 'LINE ACTIVE: Transmitting dispatch...';
+      setTimeout(() => {
+        statusElem.textContent = hotline.status;
+      }, 4000);
+    }
+
+    this.appendChat('DISPATCH', randomWhisper, true);
   }
 
   setupMultiplayerListeners() {

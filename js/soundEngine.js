@@ -4,6 +4,7 @@
  * - Studio Master FX Chain (DynamicsCompressor + Stereo Delay Space + Dynamic Filter)
  * - Continuous Analog Background Drone Beds for seamless theme immersion
  * - 5 Distinct Cinematic Procedural Soundtracks (Trading Floor, High Stakes Arena, Hotel Room, Cash Vault, Black Ops)
+ * - Thematic Phone, Rotary, Intercom & Walkie-Talkie Matchup Comms
  * - Dynamic Real-Time Deal Room Tension & Heartbeat Escalation
  * - High-Impact Game Theory Reveal & Outcome Crescendos
  */
@@ -36,9 +37,10 @@ class TensionSoundEngine {
 
     // Procedural Music Step & Active Voice Tracking
     this.musicTimer = null;
+    this.matchupAmbienceTimer = null;
     this.musicActiveNodes = [];
     this.musicStep = 0;
-    this.currentTensionRatio = 0.0; // 0.0 (calm) -> 1.0 (climax)
+    this.currentTensionRatio = 0.0;
   }
 
   setTheme(themeId) {
@@ -87,14 +89,14 @@ class TensionSoundEngine {
       this.masterCompressor.release.setValueAtTime(0.22, this.ctx.currentTime);
       this.masterCompressor.connect(this.ctx.destination);
 
-      // 2. Dynamic Tension Lowpass Filter (Modulated during Deal Room countdown)
+      // 2. Dynamic Tension Lowpass Filter
       this.masterFilter = this.ctx.createBiquadFilter();
       this.masterFilter.type = 'lowpass';
       this.masterFilter.frequency.setValueAtTime(2400, this.ctx.currentTime);
       this.masterFilter.Q.setValueAtTime(1.2, this.ctx.currentTime);
       this.masterFilter.connect(this.masterCompressor);
 
-      // 3. Spatial Stereo Delay (Lush ambient width & reverb tail)
+      // 3. Spatial Stereo Delay (Ambient width & reverb tail)
       this.spatialDelay = this.ctx.createDelay(1.0);
       this.spatialDelay.delayTime.setValueAtTime(0.28, this.ctx.currentTime);
       this.delayGain = this.ctx.createGain();
@@ -106,8 +108,8 @@ class TensionSoundEngine {
 
       this.spatialDelay.connect(delayDampFilter);
       delayDampFilter.connect(this.delayGain);
-      this.delayGain.connect(this.spatialDelay); // feedback loop
-      this.delayGain.connect(this.masterFilter); // output to master
+      this.delayGain.connect(this.spatialDelay);
+      this.delayGain.connect(this.masterFilter);
 
       // 4. Music Master Bus
       this.musicMasterGain = this.ctx.createGain();
@@ -149,7 +151,7 @@ class TensionSoundEngine {
 
       const rootFreq = this.getThemeRootFreq(this.theme);
       this.droneOsc1.frequency.setValueAtTime(rootFreq, this.ctx.currentTime);
-      this.droneOsc2.frequency.setValueAtTime(rootFreq * 1.004, this.ctx.currentTime); // Chorus detune
+      this.droneOsc2.frequency.setValueAtTime(rootFreq * 1.004, this.ctx.currentTime);
 
       this.droneOsc1.connect(droneFilter);
       this.droneOsc2.connect(droneFilter);
@@ -283,23 +285,20 @@ class TensionSoundEngine {
         [155.56, 196.00, 233.08, 277.18, 392.00], // Eb13
         [130.81, 164.81, 196.00, 246.94, 329.63]  // C7#9
       ];
-      const bassNotes = [87.31, 116.54, 77.78, 65.41]; // F, Bb, Eb, C
+      const bassNotes = [87.31, 116.54, 77.78, 65.41];
 
       const idx = this.musicStep % chords.length;
       const chord = chords[idx];
       const bass = bassNotes[idx];
 
-      // Acoustic Upright Bass
       this.playSynthVoice(bass, t, 2.4, 'triangle', 0.26, 450);
       this.playSynthVoice(bass * 1.5, t + 1.4, 1.2, 'triangle', 0.16, 400);
 
-      // Warm Rhodes 9th Chords (Dual detuned voice for lush chorus)
       chord.forEach((freq, cIdx) => {
         this.playSynthVoice(freq, t + cIdx * 0.08, 2.6, 'sine', 0.14, 1600);
         this.playSynthVoice(freq * 1.003, t + cIdx * 0.08 + 0.01, 2.6, 'triangle', 0.08, 1200);
       });
 
-      // Subtle Brushed Ride Cymbal Tap
       this.playBrushTap(t + 0.7);
       this.playBrushTap(t + 2.1);
 
@@ -318,16 +317,13 @@ class TensionSoundEngine {
       const chord = chords[idx];
       const bass = bassNotes[idx];
 
-      // Chamber Cello Root
       this.playSynthVoice(bass, t, 2.8, 'sawtooth', 0.20, 380);
 
-      // Grand Piano 3/4 Waltz Chords (Beat 1, 2, 3)
       chord.forEach((f, cIdx) => {
         this.playSynthVoice(f, t + 0.25 + cIdx * 0.04, 1.1, 'triangle', 0.14, 1400);
         this.playSynthVoice(f, t + 1.10 + cIdx * 0.04, 1.1, 'triangle', 0.12, 1400);
       });
 
-      // Velvet High Chime Harmonics
       this.playSynthVoice(chord[3] * 2, t + 1.8, 1.2, 'sine', 0.08, 2200);
 
     } else if (this.theme === 'bank_vault') {
@@ -339,23 +335,20 @@ class TensionSoundEngine {
         [87.31, 130.81, 174.61, 261.63, 311.13],  // Fm9
         [98.00, 146.83, 196.00, 293.66, 369.99]   // G7b9
       ];
-      const bassNotes = [65.41, 51.91, 43.65, 49.00]; // Deep Sub C2, Ab1, F1, G1
+      const bassNotes = [65.41, 51.91, 43.65, 49.00];
 
       const idx = this.musicStep % chords.length;
       const chord = chords[idx];
       const bass = bassNotes[idx];
 
-      // Seismic Velvet Sub-Bass
       this.playSynthVoice(bass, t, 2.8, 'sine', 0.28, 220);
       this.playSynthVoice(bass * 1.5, t + 0.05, 2.4, 'triangle', 0.16, 320);
 
-      // Heist Rhodes Minor Chords with Steel Reverb
       chord.forEach((freq, cIdx) => {
         this.playSynthVoice(freq, t + 0.18 + cIdx * 0.09, 2.2, 'sine', 0.15, 900);
         this.playSynthVoice(freq * 1.004, t + 0.18 + cIdx * 0.09, 2.2, 'triangle', 0.09, 750);
       });
 
-      // Subterranean Mechanical Tumbler Click
       this.playVaultTumbler(t + 1.4);
 
     } else if (this.theme === 'military_intelligence') {
@@ -373,22 +366,19 @@ class TensionSoundEngine {
       const chord = chords[idx];
       const bass = bassNotes[idx];
 
-      // Stealth Drone Sub-Layer
       this.playSynthVoice(bass, t, 2.8, 'sawtooth', 0.22, 280);
       this.playSynthVoice(bass * 2, t + 0.1, 2.5, 'triangle', 0.14, 450);
 
-      // Espionage Pad Swell
       chord.forEach((freq, cIdx) => {
         this.playSynthVoice(freq, t + 0.2 + cIdx * 0.08, 2.4, 'triangle', 0.12, 700);
       });
 
-      // Muffled Tactical Sonar Sweep Pulse
       this.playSonarPing(t + 0.05);
 
     } else {
-      // 📊 TRADING FLOOR: FAST-PACED HIGH-ENERGY CYBERPUNK WALL STREET (128 BPM Driving 16ths & Synth Stabs)
-      nextBarDelay = 1600; // Fast-paced 128 BPM cadence
-      const bassFreqs = [73.42, 65.41, 87.31, 55.00]; // D2, C2, F2, A1
+      // 📊 TRADING FLOOR: FAST-PACED HIGH-ENERGY CYBERPUNK WALL STREET (128 BPM Driving 16ths)
+      nextBarDelay = 1600;
+      const bassFreqs = [73.42, 65.41, 87.31, 55.00];
       const padChords = [
         [146.83, 220.00, 261.63, 329.63, 440.00], // Dm9
         [130.81, 196.00, 246.94, 329.63, 392.00], // Cmaj9
@@ -400,23 +390,18 @@ class TensionSoundEngine {
       const rootBass = bassFreqs[barIdx];
       const chord = padChords[barIdx];
 
-      // 1. Driving 16th-Note Analog Rolling Synth Bassline (8 pulses per bar)
       for (let i = 0; i < 8; i++) {
         const noteFreq = (i === 3 || i === 7) ? rootBass * 1.5 : rootBass;
         const pulseGain = (i % 2 === 0) ? 0.22 : 0.14;
         this.playSynthVoice(noteFreq, t + i * 0.19, 0.16, 'sawtooth', pulseGain, 480);
       }
 
-      // 2. High-Impact Cyberpunk Synth Stabs
       chord.forEach((freq, idx) => {
         this.playSynthVoice(freq, t + 0.05 + idx * 0.02, 0.9, 'sawtooth', 0.13, 1600);
         this.playSynthVoice(freq * 1.004, t + 0.05 + idx * 0.02, 0.9, 'triangle', 0.11, 1400);
-
-        // Off-beat rhythmic stab
         this.playSynthVoice(freq, t + 0.8 + idx * 0.02, 0.6, 'sawtooth', 0.10, 1400);
       });
 
-      // 3. Fast High-Frequency Liquidity Order Ticks
       for (let j = 0; j < 6; j++) {
         const arpNote = chord[j % chord.length] * 2;
         this.playClockTick(t + j * 0.25, arpNote);
@@ -431,7 +416,7 @@ class TensionSoundEngine {
   }
 
   /* ==========================================================================
-     MATCHUP AMBIENCE ENGINE (THEMATIC BACKGROUND SFX DURING DEAL ROOM)
+     MATCHUP AMBIENCE ENGINE (THEMATIC BACKGROUND COMMS & GIMMICKS)
      ========================================================================== */
 
   startMatchupAmbience(themeId) {
@@ -443,35 +428,50 @@ class TensionSoundEngine {
       if (this.isMuted || !this.ctx) return;
 
       if (currentTheme === 'trading_desk') {
-        // 📞 TRADING DESK: Classic Wall Street Dual-Tone Telephone Ring (440Hz + 480Hz)
+        // 📞 TRADING DESK: Wall Street Dual-Tone Telephone Ring (440Hz + 480Hz)
         this.playTradingPhoneRing();
-        
-        // Random order execution alert ping
         setTimeout(() => {
           if (!this.matchupAmbienceTimer) return;
           this.playOrderFillChime();
         }, 3200);
 
       } else if (currentTheme === 'poker_tournament') {
-        // ♠️ POKER: Clay Chips Riffle & Shuffle
-        this.playPokerChipShuffle();
+        // 🍸 POKER: Vintage Casino Rotary Phone & High-Roller Chips
+        this.playCasinoRotaryPhone();
+        setTimeout(() => {
+          if (!this.matchupAmbienceTimer) return;
+          this.playDrinkClink();
+        }, 2800);
+
       } else if (currentTheme === 'hotel_lobby') {
-        // 🛎️ HOTEL: Antique Grandfather Clock Tick & Concierge Bell
-        this.playDeskBellDing();
+        // 🛎️ HOTEL: Vintage European Concierge Rotary Ring & Grandfather Chimes
+        this.playHotelRotaryRing();
+        setTimeout(() => {
+          if (!this.matchupAmbienceTimer) return;
+          this.playDeskBellDing();
+        }, 3000);
+
       } else if (currentTheme === 'bank_vault') {
-        // 🔒 CASH VAULT: Vault Safe Dial Spin & Tumbler Clicks
-        this.playVaultDialSpin();
+        // 📻 CASH VAULT: Getaway Driver Radio Squelch & Safe Dial Spin
+        this.playWalkieTalkieSquelch();
+        setTimeout(() => {
+          if (!this.matchupAmbienceTimer) return;
+          this.playVaultDialSpin();
+        }, 2600);
+
       } else if (currentTheme === 'military_intelligence') {
-        // 🎯 BLACK OPS: Tactical SATCOM Radio Squelch & Scrambler Chirp
-        this.playSatcomChirp();
+        // 🔴 BLACK OPS: Pentagon Emergency Red Phone Hotline & SATCOM
+        this.playRedPhoneHotline();
+        setTimeout(() => {
+          if (!this.matchupAmbienceTimer) return;
+          this.playSatcomChirp();
+        }, 2900);
       }
 
-      // Next ambient event cycle (every 5.5 to 8 seconds)
-      const nextDelay = 5500 + Math.random() * 2500;
+      const nextDelay = 6000 + Math.random() * 3000;
       this.matchupAmbienceTimer = setTimeout(runAmbienceCycle, nextDelay);
     };
 
-    // First trigger after 1.5s in match
     this.matchupAmbienceTimer = setTimeout(runAmbienceCycle, 1500);
   }
 
@@ -482,30 +482,157 @@ class TensionSoundEngine {
     }
   }
 
-  /* 📞 Authentic Dual-Tone Telephone Ring (Bell 500 Wall Street Ring) */
+  /* 📞 1. Trading Desk Phone Ring (Bell 500: 440Hz + 480Hz) */
   playTradingPhoneRing() {
     if (!this.ctx || this.isMuted) return;
     try {
       const now = this.ctx.currentTime;
-      // Authentic North American ringtone frequencies: 440 Hz + 480 Hz
-      const ringDur = 0.55;
-      
-      // Ring burst 1 (Ring-Ring)
-      this.triggerDualToneRing(now, 440, 480, ringDur, 0.12);
-      this.triggerDualToneRing(now + 0.75, 440, 480, ringDur, 0.14);
+      this.triggerDualToneRing(now, 440, 480, 0.55, 0.12);
+      this.triggerDualToneRing(now + 0.75, 440, 480, 0.55, 0.14);
+    } catch (e) {}
+  }
+
+  /* 📞 Phone Pickup Click (Receiver lifted) */
+  playPhonePickup() {
+    if (!this.ctx || this.isMuted) return;
+    try {
+      const t = this.ctx.currentTime;
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(320, t);
+      osc.frequency.exponentialRampToValueAtTime(140, t + 0.05);
+      gain.gain.setValueAtTime(0.24, t);
+      gain.gain.exponentialRampToValueAtTime(0.001, t + 0.05);
+      osc.connect(gain);
+      gain.connect(this.sfxMasterGain);
+      osc.start(t);
+      osc.stop(t + 0.05);
+    } catch (e) {}
+  }
+
+  /* 🍸 2. Casino VIP Rotary Intercom Ring (700Hz + 850Hz) */
+  playCasinoRotaryPhone() {
+    if (!this.ctx || this.isMuted) return;
+    try {
+      const now = this.ctx.currentTime;
+      this.triggerDualToneRing(now, 700, 850, 0.45, 0.10);
+      this.triggerDualToneRing(now + 0.65, 700, 850, 0.45, 0.12);
+    } catch (e) {}
+  }
+
+  /* 🍸 Cocktail Ice Clink */
+  playDrinkClink() {
+    if (!this.ctx || this.isMuted) return;
+    try {
+      const t = this.ctx.currentTime;
+      [2800, 3400, 4200].forEach((freq, idx) => {
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, t + idx * 0.07);
+        gain.gain.setValueAtTime(0.08, t + idx * 0.07);
+        gain.gain.exponentialRampToValueAtTime(0.0001, t + idx * 0.07 + 0.25);
+        osc.connect(gain);
+        gain.connect(this.spatialDelay);
+        gain.connect(this.masterFilter);
+        osc.start(t + idx * 0.07);
+        osc.stop(t + idx * 0.07 + 0.25);
+      });
+    } catch (e) {}
+  }
+
+  /* 🛎️ 3. European Concierge Antique Rotary Bell (680Hz + 1100Hz) */
+  playHotelRotaryRing() {
+    if (!this.ctx || this.isMuted) return;
+    try {
+      const now = this.ctx.currentTime;
+      this.triggerDualToneRing(now, 680, 1100, 0.6, 0.10);
+      this.triggerDualToneRing(now + 0.85, 680, 1100, 0.6, 0.12);
+    } catch (e) {}
+  }
+
+  /* 📻 4. Cash Vault Walkie-Talkie Radio Squelch Burst */
+  playWalkieTalkieSquelch() {
+    if (!this.ctx || this.isMuted) return;
+    try {
+      const t = this.ctx.currentTime;
+      const bufferSize = this.ctx.sampleRate * 0.18;
+      const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+      const output = buffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) {
+        output[i] = Math.random() * 2 - 1;
+      }
+
+      const whiteNoise = this.ctx.createBufferSource();
+      whiteNoise.buffer = buffer;
+
+      const bandpass = this.ctx.createBiquadFilter();
+      bandpass.type = 'bandpass';
+      bandpass.frequency.setValueAtTime(2200, t);
+      bandpass.Q.setValueAtTime(2.5, t);
+
+      const gain = this.ctx.createGain();
+      gain.gain.setValueAtTime(0.12, t);
+      gain.gain.exponentialRampToValueAtTime(0.001, t + 0.18);
+
+      whiteNoise.connect(bandpass);
+      bandpass.connect(gain);
+      gain.connect(this.sfxMasterGain);
+
+      whiteNoise.start(t);
+      whiteNoise.stop(t + 0.18);
+
+      // Keypad beep after squelch
+      setTimeout(() => {
+        if (!this.ctx) return;
+        const beepT = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const bGain = this.ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(1760, beepT);
+        bGain.gain.setValueAtTime(0.08, beepT);
+        bGain.gain.exponentialRampToValueAtTime(0.001, beepT + 0.08);
+        osc.connect(bGain);
+        bGain.connect(this.sfxMasterGain);
+        osc.start(beepT);
+        osc.stop(beepT + 0.08);
+      }, 200);
+    } catch (e) {}
+  }
+
+  /* 🔴 5. Pentagon Emergency Red Phone Dual-Tone Warble (853Hz + 960Hz) */
+  playRedPhoneHotline() {
+    if (!this.ctx || this.isMuted) return;
+    try {
+      const now = this.ctx.currentTime;
+      for (let i = 0; i < 4; i++) {
+        const offset = i * 0.16;
+        const freq = (i % 2 === 0) ? 853 : 960;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'square';
+        osc.frequency.setValueAtTime(freq, now + offset);
+        gain.gain.setValueAtTime(0.08, now + offset);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + offset + 0.14);
+        osc.connect(gain);
+        gain.connect(this.spatialDelay);
+        gain.connect(this.masterFilter);
+        osc.start(now + offset);
+        osc.stop(now + offset + 0.14);
+      }
     } catch (e) {}
   }
 
   triggerDualToneRing(startTime, f1, f2, duration, gainVal) {
     const actualT = Math.max(this.ctx.currentTime, startTime);
     
-    // Master ring gain with 20Hz modulated pulse for vintage electromechanical bell texture
     const masterGain = this.ctx.createGain();
     const lfo = this.ctx.createOscillator();
     const lfoGain = this.ctx.createGain();
 
     lfo.type = 'square';
-    lfo.frequency.setValueAtTime(20, actualT); // 20Hz bell striker chatter
+    lfo.frequency.setValueAtTime(20, actualT);
     lfoGain.gain.setValueAtTime(0.5, actualT);
     lfo.connect(lfoGain);
 
@@ -522,8 +649,8 @@ class TensionSoundEngine {
 
     const bandpass = this.ctx.createBiquadFilter();
     bandpass.type = 'bandpass';
-    bandpass.frequency.setValueAtTime(460, actualT);
-    bandpass.Q.setValueAtTime(3.0, actualT);
+    bandpass.frequency.setValueAtTime((f1 + f2) / 2, actualT);
+    bandpass.Q.setValueAtTime(2.5, actualT);
 
     osc1.connect(bandpass);
     osc2.connect(bandpass);
@@ -590,7 +717,7 @@ class TensionSoundEngine {
       const osc = this.ctx.createOscillator();
       const gain = this.ctx.createGain();
       osc.type = 'sine';
-      osc.frequency.setValueAtTime(2349.32, t); // D7 high bell
+      osc.frequency.setValueAtTime(2349.32, t);
       gain.gain.setValueAtTime(0.16, t);
       gain.gain.exponentialRampToValueAtTime(0.0001, t + 1.2);
       osc.connect(gain);
@@ -769,12 +896,10 @@ class TensionSoundEngine {
       const tension = 1 - Math.max(0, Math.min(1, remainingSec / maxSec));
       this.currentTensionRatio = tension;
 
-      // Dynamically open up master lowpass filter cutoff
-      const cutoff = 600 + tension * 2200; // 600Hz -> 2800Hz
+      const cutoff = 600 + tension * 2200;
       this.masterFilter.frequency.setTargetAtTime(cutoff, this.ctx.currentTime, 0.4);
 
-      // Accelerate heartbeat based on tension
-      const targetBpm = Math.floor(65 + tension * 75); // 65 BPM -> 140 BPM
+      const targetBpm = Math.floor(65 + tension * 75);
       if (this.currentBpm !== targetBpm) {
         this.accelerateHeartbeat(targetBpm);
       }
@@ -784,7 +909,6 @@ class TensionSoundEngine {
   startHeartbeat(bpm = 65) {
     this.stopHeartbeat();
     this.currentBpm = bpm;
-    const interval = (60 / this.currentBpm) * 1000;
 
     const beat = () => {
       if (this.isMuted) return;
@@ -809,7 +933,6 @@ class TensionSoundEngine {
     if (!this.ctx || this.isMuted) return;
     try {
       const t = this.ctx.currentTime;
-      // Double lub-dub pulse
       this.triggerThud(t, 55, 0.24);
       this.triggerThud(t + 0.12, 42, 0.16);
     } catch (e) {}
@@ -831,12 +954,9 @@ class TensionSoundEngine {
     osc.stop(startTime + 0.12);
   }
 
-  startTensionDrone() {
-    // Handled seamlessly via continuous drone and dynamic tension filter
-  }
+  startTensionDrone() {}
 
   stopTensionDrone() {
-    // Reset tension filter to calm state
     if (this.ctx && this.masterFilter) {
       this.masterFilter.frequency.setTargetAtTime(2400, this.ctx.currentTime, 0.5);
     }
@@ -914,7 +1034,6 @@ class TensionSoundEngine {
   playSplitChoice() {
     if (!this.ctx || this.isMuted) return;
     const t = this.ctx.currentTime;
-    // Harmonious major third chime
     [523.25, 659.25, 1046.50].forEach((freq, idx) => {
       const osc = this.ctx.createOscillator();
       const gain = this.ctx.createGain();
@@ -932,7 +1051,6 @@ class TensionSoundEngine {
   playStealChoice() {
     if (!this.ctx || this.isMuted) return;
     const t = this.ctx.currentTime;
-    // Heavy dramatic minor lock sting
     [440.00, 311.13, 220.00].forEach((freq, idx) => {
       const osc = this.ctx.createOscillator();
       const gain = this.ctx.createGain();
