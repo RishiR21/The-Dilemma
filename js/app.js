@@ -184,9 +184,9 @@ class TheDilemmaApp {
     const allThemes = [
       {
         id: 'poker_tournament',
-        name: 'Poker Tournament',
+        name: 'High Stakes Arena',
         icon: '♠️',
-        desc: 'Vegas High-Roller room, authentic green baize felt, mahogany table rails, clay chips.',
+        desc: 'Vegas High-Roller felt table, mahogany table rails, 50% chop vs 100% all-in.',
         swatches: ['#04160c', '#fbbf24', '#22c55e', '#ef4444']
       },
       {

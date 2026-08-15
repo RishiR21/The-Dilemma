@@ -11,12 +11,12 @@
 const THEMES_DATA = {
   poker_tournament: {
     id: 'poker_tournament',
-    name: 'Poker Tournament',
+    name: 'High Stakes Arena',
     icon: '♠️',
-    brandTitle: 'THE SHOWDOWN',
+    brandTitle: 'HIGH STAKES ARENA',
     brandBadge: 'HIGH ROLLER',
-    heroSubtitle: 'Vegas Final Table Duel',
-    heroHeadline: 'THE SHOWDOWN',
+    heroSubtitle: 'Vegas Final Table • Chop vs All-In',
+    heroHeadline: 'HIGH STAKES ARENA',
     heroTagline: 'Two poker players. One massive chip pot. Will you chop the pot 50/50, or push ALL-IN to steal the whole stack?',
     currencyName: 'Chips',
     currencyLabel: 'CHIPS:',
