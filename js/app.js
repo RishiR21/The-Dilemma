@@ -1260,8 +1260,8 @@ class TheDilemmaApp {
       this.timeRemaining--;
       timerElem.textContent = this.timeRemaining;
 
-      const bpm = 65 + (45 - this.timeRemaining) * 2;
-      window.soundEngine.setHeartbeatBpm(bpm);
+      // Dynamic real-time Deal Room tension audio scaling
+      window.soundEngine.setGameTension(this.timeRemaining, 45);
 
       const config = this.getThemeConfig();
 
