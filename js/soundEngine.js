@@ -64,7 +64,11 @@ class TensionSoundEngine {
       }
     }
     if (this.ctx && this.ctx.state === 'suspended') {
-      this.ctx.resume().catch(() => {});
+      this.ctx.resume().then(() => {
+        if (this.isMusicEnabled && !this.isMuted && !this.musicTimer) {
+          this.scheduleMusicBar();
+        }
+      }).catch(() => {});
     }
     if (!this.musicMasterGain && this.ctx) {
       this.setupMusicBus();
@@ -75,7 +79,7 @@ class TensionSoundEngine {
     if (!this.ctx) return;
     try {
       this.musicMasterGain = this.ctx.createGain();
-      this.musicMasterGain.gain.setValueAtTime(0.18, this.ctx.currentTime);
+      this.musicMasterGain.gain.setValueAtTime(0.20, this.ctx.currentTime);
       this.musicMasterGain.connect(this.ctx.destination);
     } catch (e) {}
   }
@@ -91,10 +95,10 @@ class TensionSoundEngine {
       }
     } else {
       if (this.musicMasterGain && this.ctx) {
-        this.musicMasterGain.gain.setValueAtTime(0.18, this.ctx.currentTime);
+        this.musicMasterGain.gain.setValueAtTime(0.20, this.ctx.currentTime);
       }
       if (this.isMusicEnabled) {
-        this.startAmbientMusic();
+        this.restartAmbientMusic();
       }
     }
     return this.isMuted;
@@ -105,9 +109,9 @@ class TensionSoundEngine {
     this.isMusicEnabled = !this.isMusicEnabled;
     if (this.isMusicEnabled) {
       if (this.musicMasterGain && this.ctx) {
-        this.musicMasterGain.gain.setValueAtTime(0.18, this.ctx.currentTime);
+        this.musicMasterGain.gain.setValueAtTime(0.20, this.ctx.currentTime);
       }
-      this.startAmbientMusic();
+      this.restartAmbientMusic();
     } else {
       this.stopAmbientMusic();
     }
@@ -129,8 +133,14 @@ class TensionSoundEngine {
     this.ensureContext();
     if (!this.ctx) return;
 
-    if (this.musicTimer) return; // Already running
+    if (this.ctx.state === 'suspended') {
+      this.ctx.resume().then(() => {
+        if (!this.musicTimer) this.scheduleMusicBar();
+      }).catch(() => {});
+      return;
+    }
 
+    if (this.musicTimer) return; // Already running
     this.scheduleMusicBar();
   }
 
@@ -197,16 +207,16 @@ class TensionSoundEngine {
       const pad = padChords[barIdx];
 
       // Deep Warm Sub-Bass Pulse (Lowpass 220Hz)
-      this.playSynthNote(bass, t, 2.8, 'sine', 0.22, 220);
+      this.playSynthNote(bass, t, 2.8, 'sine', 0.24, 220);
 
       // Lush Analog Rhodes Pad Chords (Lowpass 650Hz)
       pad.forEach((freq, idx) => {
-        this.playSynthNote(freq, t + idx * 0.15, 2.6, 'triangle', 0.12, 650);
+        this.playSynthNote(freq, t + idx * 0.15, 2.6, 'triangle', 0.14, 650);
       });
 
       // Subtle Liquid Arpeggio
       if (this.musicStep % 2 === 0) {
-        this.playSynthNote(pad[3] * 1.5, t + 1.2, 1.2, 'sine', 0.06, 1200);
+        this.playSynthNote(pad[3] * 1.5, t + 1.2, 1.2, 'sine', 0.08, 1200);
       }
 
     } else if (this.theme === 'hotel_lobby') {
@@ -290,33 +300,40 @@ class TensionSoundEngine {
     if (!this.ctx || this.isMuted) return;
 
     try {
+      const now = this.ctx.currentTime;
+      const actualStart = Math.max(now, startTime);
+      const attack = Math.min(0.08, duration * 0.15);
+      const stopTime = actualStart + duration;
+
       const osc = this.ctx.createOscillator();
       const gain = this.ctx.createGain();
       const filter = this.ctx.createBiquadFilter();
 
       osc.type = type;
-      osc.frequency.setValueAtTime(freq, startTime);
+      osc.frequency.setValueAtTime(freq, actualStart);
 
       filter.type = 'lowpass';
-      filter.frequency.setValueAtTime(filterFreq, startTime);
+      filter.frequency.setValueAtTime(filterFreq, actualStart);
 
-      gain.gain.setValueAtTime(0.0001, startTime);
-      gain.gain.linearRampToValueAtTime(gainVal, startTime + 0.05);
-      gain.gain.exponentialRampToValueAtTime(0.0001, startTime + duration);
+      gain.gain.setValueAtTime(0.0001, actualStart);
+      gain.gain.linearRampToValueAtTime(gainVal, actualStart + attack);
+      gain.gain.exponentialRampToValueAtTime(0.0001, stopTime);
 
       osc.connect(filter);
       filter.connect(gain);
       gain.connect(this.musicMasterGain || this.ctx.destination);
 
-      osc.start(startTime);
-      osc.stop(startTime + duration);
+      osc.start(actualStart);
+      osc.stop(stopTime);
 
       this.musicActiveNodes.push(osc);
       setTimeout(() => {
         const i = this.musicActiveNodes.indexOf(osc);
         if (i > -1) this.musicActiveNodes.splice(i, 1);
-      }, duration * 1000 + 200);
-    } catch (e) {}
+      }, (duration + 0.3) * 1000);
+    } catch (e) {
+      console.warn('Synth note error:', e);
+    }
   }
 
   /* ==========================================================================
