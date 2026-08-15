@@ -191,16 +191,16 @@ class TheDilemmaApp {
       },
       {
         id: 'trading_desk',
-        name: 'Trading Desk',
+        name: 'Hostile Takeover',
         icon: '📊',
-        desc: 'Bloomberg executive trading desk, phosphor emerald, cyber cyan telemetry.',
+        desc: 'Bloomberg executive trading desk, phosphor emerald, 50% syndicate vs 100% hostile takeover.',
         swatches: ['#06080d', '#00e676', '#38bdf8', '#ff3366']
       },
       {
         id: 'hotel_lobby',
-        name: 'Hotel Lobby',
+        name: 'Golden Balls',
         icon: '🛎️',
-        desc: 'Art Deco Grand Continental, warm champagne brass, private sealed escrow.',
+        desc: 'Classic Grand Continental hotel, Art Deco gold styling, 50/50 split vs 100% steal.',
         swatches: ['#0e0a07', '#d4af37', '#10b981', '#e11d48']
       },
       {
