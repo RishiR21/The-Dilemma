@@ -133,14 +133,7 @@ class TheDilemmaApp {
     const polyHeader = document.getElementById('polygraphHeader');
     if (polyHeader) polyHeader.textContent = `${config.scanTitle}: `;
 
-    // 5. Dynamic Ticker Track
-    const tickerTrack = document.querySelector('.ticker-track');
-    if (tickerTrack && config.ticker) {
-      const itemsHtml = config.ticker.map(t => `<span class="ticker-item ${t.type}">${t.text}</span>`).join('');
-      tickerTrack.innerHTML = itemsHtml + itemsHtml;
-    }
-
-    // 6. Quick Bluffs Bar
+    // 5. Quick Bluffs Bar
     const quickBar = document.getElementById('quickBluffBar');
     if (quickBar && config.bluffs) {
       quickBar.innerHTML = '';

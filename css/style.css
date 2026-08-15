@@ -336,45 +336,6 @@ body::after {
 }
 
 /* ==========================================================================
-   TICKER BAR
-   ========================================================================== */
-
-.ticker-bar {
-  height: var(--ticker-height);
-  background: rgba(0, 0, 0, 0.65);
-  border-bottom: 1px solid var(--border-subtle);
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-  white-space: nowrap;
-  font-family: var(--font-mono);
-  font-size: 0.74rem;
-  letter-spacing: 1px;
-  flex-shrink: 0;
-}
-
-.ticker-track {
-  display: inline-flex;
-  gap: 28px;
-  animation: tickerScroll 30s linear infinite;
-}
-
-@keyframes tickerScroll {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
-}
-
-.ticker-item {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.ticker-item.up { color: var(--split-color); }
-.ticker-item.down { color: var(--steal-color); }
-.ticker-item.neutral { color: var(--primary-accent); }
-
-/* ==========================================================================
    HEADER
    ========================================================================== */
 
