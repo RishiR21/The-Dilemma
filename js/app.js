@@ -518,7 +518,10 @@ class TheDilemmaApp {
   showScreen(screenId) {
     document.querySelectorAll('.view-screen').forEach(s => s.classList.add('hidden'));
     const target = document.getElementById(screenId);
-    if (target) target.classList.remove('hidden');
+    if (target) {
+      target.classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   }
 
   exitToLobby() {
@@ -1406,20 +1409,25 @@ class TheDilemmaApp {
     }
 
     this.p1Choice = this.selectedBall;
-    document.getElementById('btnLockChoice').innerHTML = '✅ Decision Locked In Secret';
-    document.getElementById('btnLockChoice').disabled = true;
+    const btnLock = document.getElementById('btnLockChoice');
+    if (btnLock) {
+      btnLock.innerHTML = '✅ Decision Locked In Secret';
+      btnLock.disabled = true;
+    }
 
-    if (this.currentMode === 'ai') {
+    if (this.currentMode === 'ai' || this.currentMode === 'ladder') {
       if (!this.p2Choice) {
         this.p2Choice = window.aiEngine.decideOutcome(this.selectedAI, window.gameMatrix.stats, this.chatHistory, this.currentStake);
       }
       setTimeout(() => {
         this.triggerRevealSequence(this.p1Choice, this.p2Choice);
-      }, 900);
+      }, 750);
     } else if (this.currentMode === 'multiplayer') {
       window.multiplayerEngine.lockChoice(this.p1Choice);
       if (this.p2Choice) {
         this.triggerRevealSequence(this.p1Choice, this.p2Choice);
+      } else {
+        this.appendChat('SYSTEM', '🔒 Decision locked in secret! Awaiting live counterparty...', false);
       }
     }
   }
@@ -1498,7 +1506,7 @@ class TheDilemmaApp {
       this.currentMode
     );
 
-    if (this.currentMode === 'ai') {
+    if (this.currentMode === 'ai' || this.currentMode === 'ladder') {
       window.aiEngine.recordMatchResult(this.selectedAI, p1, p2);
     }
 

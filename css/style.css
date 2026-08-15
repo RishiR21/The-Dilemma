@@ -514,6 +514,18 @@ body::after {
   justify-content: flex-start;
   padding: clamp(14px, 3vw, 24px) clamp(12px, 3vw, 20px) 60px clamp(12px, 3vw, 20px);
   position: relative;
+  animation: screenFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes screenFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .view-screen.hidden {

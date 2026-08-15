@@ -1202,6 +1202,18 @@ class TensionSoundEngine {
     osc.stop(t + 0.07);
   }
 
+  playBallSelect(isSteal = false) {
+    if (isSteal) {
+      this.playStealChoice();
+    } else {
+      this.playSplitChoice();
+    }
+  }
+
+  playLockDecision(isSteal = false) {
+    this.playClick();
+  }
+
   playSplitChoice() {
     if (!this.ctx || this.isMuted) return;
     const t = this.ctx.currentTime;
