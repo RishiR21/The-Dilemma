@@ -533,6 +533,18 @@ class TheDilemmaApp {
   }
 
   bindEvents() {
+    // Mobile & Desktop First-Touch Audio Context Unlock
+    const unlockAudio = () => {
+      window.soundEngine.ensureContext();
+      if (window.soundEngine.isMusicEnabled && !window.soundEngine.isMuted && !window.soundEngine.musicTimer) {
+        window.soundEngine.startAmbientMusic();
+      }
+      document.removeEventListener('pointerdown', unlockAudio);
+      document.removeEventListener('touchstart', unlockAudio);
+    };
+    document.addEventListener('pointerdown', unlockAudio, { once: true, passive: true });
+    document.addEventListener('touchstart', unlockAudio, { once: true, passive: true });
+
     // Header Navigation
     document.getElementById('btnLogoHome').addEventListener('click', () => {
       this.exitToLobby();

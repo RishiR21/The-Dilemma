@@ -1875,7 +1875,8 @@ body::after {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 12px 22px;
+  padding: 13px 22px;
+  min-height: 48px;
   border-radius: var(--radius-sm);
   font-family: var(--font-mono);
   font-size: 0.88rem;
@@ -1918,11 +1919,15 @@ body::after {
 /* Modals */
 .modal-overlay {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
   background: rgba(0, 0, 0, 0.85);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  z-index: 1000;
+  z-index: 10000;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1942,7 +1947,9 @@ body::after {
   max-width: 540px;
   position: relative;
   max-height: 90vh;
+  max-height: 90dvh;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.85);
 }
 
@@ -2375,9 +2382,301 @@ body::after {
   color: var(--primary-accent);
 }
 
-@media (max-width: 640px) {
-  .hero-headline { font-size: 2rem; }
-  .mode-grid { grid-template-columns: 1fr; }
-  .stage-header { padding: 8px 12px; flex-wrap: wrap; gap: 8px; }
-  .btn { padding: 10px 16px; font-size: 0.82rem; }
+/* ==========================================================================
+   COMPREHENSIVE MOBILE-FIRST RESPONSIVE ARCHITECTURE
+   ========================================================================== */
+
+/* Touch-action and Mobile Tap Optimization */
+input, textarea {
+  user-select: text;
+  -webkit-user-select: text;
 }
+
+button, .btn, .golden-ball-container, .mode-card, .tab-btn, .header-icon-btn, .header-user-btn, .bluff-btn, .skin-card, .tier-card, .ai-card, .polygraph-scan-btn, .hotline-interact-btn {
+  touch-action: manipulation;
+  cursor: pointer;
+}
+
+button:active, .btn:active, .golden-ball-container:active, .mode-card:active, .skin-card:active {
+  transform: scale(0.97);
+}
+
+/* TABLET & MOBILE (< 768px) */
+@media (max-width: 768px) {
+  :root {
+    --header-height: 52px;
+  }
+
+  .app-header {
+    padding: 0 12px;
+  }
+
+  .brand-title {
+    font-size: 1rem;
+    letter-spacing: 1px;
+  }
+
+  .view-screen {
+    padding: 14px 10px 48px 10px;
+  }
+
+  .hero-section {
+    margin-bottom: 14px;
+    padding: 0 6px;
+  }
+
+  .hero-headline {
+    font-size: clamp(1.8rem, 6.5vw, 2.5rem);
+    letter-spacing: 1px;
+  }
+
+  .hero-tagline {
+    font-size: 0.86rem;
+    line-height: 1.45;
+  }
+
+  .mode-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    width: 100%;
+  }
+
+  .mode-card {
+    padding: 16px 14px;
+  }
+
+  /* Deal Room Stage */
+  .deal-room-stage {
+    padding: 12px 10px 20px 10px;
+    width: 100%;
+  }
+
+  .deal-room-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .negotiation-panel {
+    height: 240px;
+    padding: 10px;
+  }
+
+  .chat-stream {
+    max-height: 145px;
+  }
+
+  .chat-bubble {
+    max-width: 90%;
+    font-size: 0.8rem;
+    padding: 6px 10px;
+  }
+
+  /* Balls Podium on Mobile */
+  .balls-podium {
+    gap: clamp(16px, 6vw, 36px);
+    padding: 6px 0;
+  }
+
+  .golden-ball {
+    width: clamp(96px, 26vw, 130px);
+    height: clamp(96px, 26vw, 130px);
+  }
+
+  .ball-emblem {
+    font-size: clamp(0.75rem, 2.8vw, 0.9rem);
+    padding: 4px 10px;
+  }
+
+  /* Reveal Arena on Mobile */
+  .reveal-arena {
+    max-width: 100%;
+    padding: 0 6px;
+  }
+
+  .reveal-stage {
+    gap: 14px;
+  }
+
+  .reveal-ball {
+    width: clamp(96px, 26vw, 130px);
+    height: clamp(96px, 26vw, 130px);
+  }
+
+  .reveal-ball-content {
+    font-size: clamp(0.85rem, 3.2vw, 1.1rem);
+    padding: 4px 8px;
+  }
+
+  .outcome-card {
+    padding: 18px 14px;
+    width: 100%;
+  }
+
+  .outcome-headline {
+    font-size: 1.4rem;
+  }
+
+  .outcome-actions {
+    flex-direction: column;
+    width: 100%;
+    gap: 8px;
+  }
+
+  .outcome-actions .btn {
+    width: 100%;
+  }
+}
+
+/* SMARTPHONE & COMPACT SCREENS (< 480px) */
+@media (max-width: 480px) {
+  .app-header {
+    padding: 0 8px;
+  }
+
+  .brand-badge {
+    display: none;
+  }
+
+  .header-user-btn {
+    padding: 4px 8px;
+    font-size: 0.76rem;
+    gap: 4px;
+  }
+
+  .user-bankroll-mini {
+    padding-left: 5px;
+  }
+
+  .header-actions {
+    gap: 4px;
+  }
+
+  .header-icon-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 0.88rem;
+  }
+
+  .stage-header {
+    padding: 8px;
+    gap: 6px;
+  }
+
+  .stage-pot-label {
+    font-size: 0.65rem;
+  }
+
+  .stage-pot-value {
+    font-size: 1.3rem;
+  }
+
+  .stage-timer {
+    width: 42px;
+    height: 42px;
+    font-size: 1rem;
+  }
+
+  .polygraph-panel {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+    padding: 8px;
+  }
+
+  .polygraph-left {
+    justify-content: space-between;
+  }
+
+  .polygraph-scan-btn {
+    width: 100%;
+    text-align: center;
+    padding: 6px;
+  }
+
+  .thematic-hotline-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+    padding: 8px;
+  }
+
+  .hotline-left {
+    justify-content: space-between;
+  }
+
+  .hotline-interact-btn {
+    width: 100%;
+    text-align: center;
+    padding: 6px;
+    font-size: 0.74rem;
+  }
+
+  .golden-ball {
+    width: clamp(90px, 28vw, 112px);
+    height: clamp(90px, 28vw, 112px);
+    border-width: 3px;
+  }
+
+  .btn-lock-choice {
+    width: 100%;
+    padding: 13px 12px;
+    font-size: 0.88rem;
+    min-height: 48px;
+  }
+
+  .payout-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .tier-list, .gauntlet-list {
+    grid-template-columns: 1fr;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .skins-shelf {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* NATIVE BOTTOM SHEET MODALS ON MOBILE (< 600px) */
+@media (max-width: 600px) {
+  .modal-overlay {
+    align-items: flex-end;
+    padding: 0;
+  }
+
+  .modal-box {
+    border-radius: 20px 20px 0 0;
+    max-height: 86vh;
+    max-height: 86dvh;
+    padding: 20px 14px calc(env(safe-area-inset-bottom, 16px) + 16px) 14px;
+    width: 100%;
+    max-width: 100%;
+    animation: slideUpSheet 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @keyframes slideUpSheet {
+    from {
+      transform: translateY(100%);
+      opacity: 0.5;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  .modal-header {
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+  }
+
+  .modal-title {
+    font-size: 1.15rem;
+  }
+}
+
