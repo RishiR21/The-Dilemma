@@ -386,34 +386,41 @@ class TensionSoundEngine {
       this.playSonarPing(t + 0.05);
 
     } else {
-      // 📊 TRADING FLOOR: CYBERPUNK WALL STREET (Lush Rhodes Pads, Sub-Bass & Sequencer Pings)
-      nextBarDelay = 2900;
+      // 📊 TRADING FLOOR: FAST-PACED HIGH-ENERGY CYBERPUNK WALL STREET (128 BPM Driving 16ths & Synth Stabs)
+      nextBarDelay = 1600; // Fast-paced 128 BPM cadence
       const bassFreqs = [73.42, 65.41, 87.31, 55.00]; // D2, C2, F2, A1
       const padChords = [
-        [146.83, 220.00, 261.63, 329.63, 440.00], // Dm9 (D3, A3, C4, E4, A4)
-        [130.81, 196.00, 246.94, 329.63, 392.00], // Cmaj9 (C3, G3, B3, E4, G4)
-        [174.61, 220.00, 261.63, 349.23, 440.00], // Fmaj9 (F3, A3, C4, F4, A4)
-        [110.00, 164.81, 220.00, 261.63, 329.63]  // Am9 (A2, E3, A3, C4, E4)
+        [146.83, 220.00, 261.63, 329.63, 440.00], // Dm9
+        [130.81, 196.00, 246.94, 329.63, 392.00], // Cmaj9
+        [174.61, 220.00, 261.63, 349.23, 440.00], // Fmaj9
+        [110.00, 164.81, 220.00, 261.63, 329.63]  // Am9
       ];
 
       const barIdx = this.musicStep % bassFreqs.length;
-      const bass = bassFreqs[barIdx];
-      const pad = padChords[barIdx];
+      const rootBass = bassFreqs[barIdx];
+      const chord = padChords[barIdx];
 
-      // Deep Analog Sub-Bass
-      this.playSynthVoice(bass, t, 2.7, 'sine', 0.26, 240);
-      this.playSynthVoice(bass * 2, t + 0.05, 2.4, 'triangle', 0.14, 420);
+      // 1. Driving 16th-Note Analog Rolling Synth Bassline (8 pulses per bar)
+      for (let i = 0; i < 8; i++) {
+        const noteFreq = (i === 3 || i === 7) ? rootBass * 1.5 : rootBass;
+        const pulseGain = (i % 2 === 0) ? 0.22 : 0.14;
+        this.playSynthVoice(noteFreq, t + i * 0.19, 0.16, 'sawtooth', pulseGain, 480);
+      }
 
-      // Lush Dual-Detuned Rhodes Pad Chords
-      pad.forEach((freq, idx) => {
-        this.playSynthVoice(freq, t + idx * 0.06, 2.6, 'sawtooth', 0.09, 850);
-        this.playSynthVoice(freq * 1.004, t + idx * 0.06 + 0.01, 2.6, 'triangle', 0.12, 750);
+      // 2. High-Impact Cyberpunk Synth Stabs
+      chord.forEach((freq, idx) => {
+        this.playSynthVoice(freq, t + 0.05 + idx * 0.02, 0.9, 'sawtooth', 0.13, 1600);
+        this.playSynthVoice(freq * 1.004, t + 0.05 + idx * 0.02, 0.9, 'triangle', 0.11, 1400);
+
+        // Off-beat rhythmic stab
+        this.playSynthVoice(freq, t + 0.8 + idx * 0.02, 0.6, 'sawtooth', 0.10, 1400);
       });
 
-      // Liquid Financial Clock Sequencer
-      this.playClockTick(t + 0.6, pad[2] * 2);
-      this.playClockTick(t + 1.3, pad[3] * 2);
-      this.playClockTick(t + 2.0, pad[4] * 2);
+      // 3. Fast High-Frequency Liquidity Order Ticks
+      for (let j = 0; j < 6; j++) {
+        const arpNote = chord[j % chord.length] * 2;
+        this.playClockTick(t + j * 0.25, arpNote);
+      }
     }
 
     this.musicStep++;
@@ -421,6 +428,220 @@ class TensionSoundEngine {
     this.musicTimer = setTimeout(() => {
       this.scheduleMusicBar();
     }, nextBarDelay);
+  }
+
+  /* ==========================================================================
+     MATCHUP AMBIENCE ENGINE (THEMATIC BACKGROUND SFX DURING DEAL ROOM)
+     ========================================================================== */
+
+  startMatchupAmbience(themeId) {
+    this.stopMatchupAmbience();
+    this.ensureContext();
+    const currentTheme = themeId || this.theme;
+
+    const runAmbienceCycle = () => {
+      if (this.isMuted || !this.ctx) return;
+
+      if (currentTheme === 'trading_desk') {
+        // 📞 TRADING DESK: Classic Wall Street Dual-Tone Telephone Ring (440Hz + 480Hz)
+        this.playTradingPhoneRing();
+        
+        // Random order execution alert ping
+        setTimeout(() => {
+          if (!this.matchupAmbienceTimer) return;
+          this.playOrderFillChime();
+        }, 3200);
+
+      } else if (currentTheme === 'poker_tournament') {
+        // ♠️ POKER: Clay Chips Riffle & Shuffle
+        this.playPokerChipShuffle();
+      } else if (currentTheme === 'hotel_lobby') {
+        // 🛎️ HOTEL: Antique Grandfather Clock Tick & Concierge Bell
+        this.playDeskBellDing();
+      } else if (currentTheme === 'bank_vault') {
+        // 🔒 CASH VAULT: Vault Safe Dial Spin & Tumbler Clicks
+        this.playVaultDialSpin();
+      } else if (currentTheme === 'military_intelligence') {
+        // 🎯 BLACK OPS: Tactical SATCOM Radio Squelch & Scrambler Chirp
+        this.playSatcomChirp();
+      }
+
+      // Next ambient event cycle (every 5.5 to 8 seconds)
+      const nextDelay = 5500 + Math.random() * 2500;
+      this.matchupAmbienceTimer = setTimeout(runAmbienceCycle, nextDelay);
+    };
+
+    // First trigger after 1.5s in match
+    this.matchupAmbienceTimer = setTimeout(runAmbienceCycle, 1500);
+  }
+
+  stopMatchupAmbience() {
+    if (this.matchupAmbienceTimer) {
+      clearTimeout(this.matchupAmbienceTimer);
+      this.matchupAmbienceTimer = null;
+    }
+  }
+
+  /* 📞 Authentic Dual-Tone Telephone Ring (Bell 500 Wall Street Ring) */
+  playTradingPhoneRing() {
+    if (!this.ctx || this.isMuted) return;
+    try {
+      const now = this.ctx.currentTime;
+      // Authentic North American ringtone frequencies: 440 Hz + 480 Hz
+      const ringDur = 0.55;
+      
+      // Ring burst 1 (Ring-Ring)
+      this.triggerDualToneRing(now, 440, 480, ringDur, 0.12);
+      this.triggerDualToneRing(now + 0.75, 440, 480, ringDur, 0.14);
+    } catch (e) {}
+  }
+
+  triggerDualToneRing(startTime, f1, f2, duration, gainVal) {
+    const actualT = Math.max(this.ctx.currentTime, startTime);
+    
+    // Master ring gain with 20Hz modulated pulse for vintage electromechanical bell texture
+    const masterGain = this.ctx.createGain();
+    const lfo = this.ctx.createOscillator();
+    const lfoGain = this.ctx.createGain();
+
+    lfo.type = 'square';
+    lfo.frequency.setValueAtTime(20, actualT); // 20Hz bell striker chatter
+    lfoGain.gain.setValueAtTime(0.5, actualT);
+    lfo.connect(lfoGain);
+
+    masterGain.gain.setValueAtTime(gainVal, actualT);
+    masterGain.gain.setValueAtTime(gainVal, actualT + duration - 0.05);
+    masterGain.gain.exponentialRampToValueAtTime(0.0001, actualT + duration);
+
+    const osc1 = this.ctx.createOscillator();
+    const osc2 = this.ctx.createOscillator();
+    osc1.type = 'sine';
+    osc2.type = 'sine';
+    osc1.frequency.setValueAtTime(f1, actualT);
+    osc2.frequency.setValueAtTime(f2, actualT);
+
+    const bandpass = this.ctx.createBiquadFilter();
+    bandpass.type = 'bandpass';
+    bandpass.frequency.setValueAtTime(460, actualT);
+    bandpass.Q.setValueAtTime(3.0, actualT);
+
+    osc1.connect(bandpass);
+    osc2.connect(bandpass);
+    bandpass.connect(masterGain);
+    masterGain.connect(this.spatialDelay);
+    masterGain.connect(this.masterFilter);
+
+    osc1.start(actualT);
+    osc2.start(actualT);
+    osc1.stop(actualT + duration);
+    osc2.stop(actualT + duration);
+  }
+
+  /* 📈 Order Fill Chime */
+  playOrderFillChime() {
+    if (!this.ctx || this.isMuted) return;
+    try {
+      const t = this.ctx.currentTime;
+      [1046.50, 1318.51, 1567.98].forEach((freq, idx) => {
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, t + idx * 0.06);
+        gain.gain.setValueAtTime(0.09, t + idx * 0.06);
+        gain.gain.exponentialRampToValueAtTime(0.0001, t + idx * 0.06 + 0.35);
+        osc.connect(gain);
+        gain.connect(this.spatialDelay);
+        gain.connect(this.masterFilter);
+        osc.start(t + idx * 0.06);
+        osc.stop(t + idx * 0.06 + 0.35);
+      });
+    } catch (e) {}
+  }
+
+  /* ♠️ Clay Poker Chip Shuffle & Clatter */
+  playPokerChipShuffle() {
+    if (!this.ctx || this.isMuted) return;
+    try {
+      const t = this.ctx.currentTime;
+      const count = 6;
+      for (let i = 0; i < count; i++) {
+        const offset = i * 0.06 + Math.random() * 0.02;
+        const freq = 1200 + Math.random() * 600;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(freq, t + offset);
+        osc.frequency.exponentialRampToValueAtTime(300, t + offset + 0.035);
+        gain.gain.setValueAtTime(0.12, t + offset);
+        gain.gain.exponentialRampToValueAtTime(0.001, t + offset + 0.035);
+        osc.connect(gain);
+        gain.connect(this.sfxMasterGain);
+        osc.start(t + offset);
+        osc.stop(t + offset + 0.035);
+      }
+    } catch (e) {}
+  }
+
+  /* 🛎️ Hotel Concierge Brass Bell Ding */
+  playDeskBellDing() {
+    if (!this.ctx || this.isMuted) return;
+    try {
+      const t = this.ctx.currentTime;
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(2349.32, t); // D7 high bell
+      gain.gain.setValueAtTime(0.16, t);
+      gain.gain.exponentialRampToValueAtTime(0.0001, t + 1.2);
+      osc.connect(gain);
+      gain.connect(this.spatialDelay);
+      gain.connect(this.masterFilter);
+      osc.start(t);
+      osc.stop(t + 1.2);
+    } catch (e) {}
+  }
+
+  /* 🔒 Cash Vault Safe Dial Spin & Tumbler Clicks */
+  playVaultDialSpin() {
+    if (!this.ctx || this.isMuted) return;
+    try {
+      const t = this.ctx.currentTime;
+      for (let i = 0; i < 8; i++) {
+        const offset = i * 0.045;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(200 - i * 12, t + offset);
+        gain.gain.setValueAtTime(0.12, t + offset);
+        gain.gain.exponentialRampToValueAtTime(0.001, t + offset + 0.03);
+        osc.connect(gain);
+        gain.connect(this.sfxMasterGain);
+        osc.start(t + offset);
+        osc.stop(t + offset + 0.03);
+      }
+    } catch (e) {}
+  }
+
+  /* 🎯 Black Ops SATCOM Scrambler Chirp */
+  playSatcomChirp() {
+    if (!this.ctx || this.isMuted) return;
+    try {
+      const t = this.ctx.currentTime;
+      const frequencies = [880, 1320, 990, 1760];
+      frequencies.forEach((freq, idx) => {
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(freq, t + idx * 0.05);
+        gain.gain.setValueAtTime(0.08, t + idx * 0.05);
+        gain.gain.exponentialRampToValueAtTime(0.001, t + idx * 0.05 + 0.045);
+        osc.connect(gain);
+        gain.connect(this.spatialDelay);
+        gain.connect(this.masterFilter);
+        osc.start(t + idx * 0.05);
+        osc.stop(t + idx * 0.05 + 0.045);
+      });
+    } catch (e) {}
   }
 
   /* ==========================================================================

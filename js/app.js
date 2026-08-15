@@ -1143,6 +1143,7 @@ class TheDilemmaApp {
 
     window.soundEngine.startTensionDrone();
     window.soundEngine.startHeartbeat(65);
+    window.soundEngine.startMatchupAmbience(this.currentTheme);
 
     const config = this.getThemeConfig();
     window.soundEngine.speakHost(config.announcements.roundStart, true);
@@ -1244,6 +1245,7 @@ class TheDilemmaApp {
 
     window.soundEngine.startTensionDrone();
     window.soundEngine.startHeartbeat(70);
+    window.soundEngine.startMatchupAmbience(this.currentTheme);
     window.soundEngine.speakHost(`Live deal room connected. 45 seconds to reveal.`, true);
 
     this.startNegotiationTimer(duration, () => {});
@@ -1390,6 +1392,7 @@ class TheDilemmaApp {
     clearInterval(this.aiDialogueTimer);
     window.soundEngine.stopHeartbeat();
     window.soundEngine.stopTensionDrone();
+    window.soundEngine.stopMatchupAmbience();
 
     this.showScreen('screenReveal');
 
@@ -1515,6 +1518,7 @@ class TheDilemmaApp {
     clearInterval(this.aiDialogueTimer);
     window.soundEngine.stopHeartbeat();
     window.soundEngine.stopTensionDrone();
+    window.soundEngine.stopMatchupAmbience();
     this.particles = [];
   }
 
