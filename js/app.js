@@ -6,7 +6,7 @@
 
 class TheDilemmaApp {
   constructor() {
-    this.currentTheme = localStorage.getItem('dilemma_theme') || 'poker_tournament';
+    this.currentTheme = localStorage.getItem('dilemma_theme') || 'trading_desk';
     this.currentMode = 'ai';
     this.selectedAI = 'nick';
     this.selectedTier = null;
@@ -75,14 +75,8 @@ class TheDilemmaApp {
     const config = this.getThemeConfig();
 
     // 1. Header Elements
-    const brandTitle = document.getElementById('headerBrandTitle');
-    if (brandTitle) brandTitle.textContent = config.brandTitle;
-
     const brandBadge = document.getElementById('headerBrandBadge');
     if (brandBadge) brandBadge.textContent = config.brandBadge;
-
-    const bankrollLabel = document.getElementById('bankrollLabel');
-    if (bankrollLabel) bankrollLabel.textContent = config.currencyLabel;
 
     // 2. Hero Section
     const heroSubtitle = document.getElementById('heroSubtitle');
@@ -112,8 +106,6 @@ class TheDilemmaApp {
 
     const modeTitleLadder = document.getElementById('modeTitleLadder');
     if (modeTitleLadder) modeTitleLadder.textContent = config.modes.ladder.title;
-    const modeDescLadder = document.getElementById('modeDescLadder');
-    if (modeDescLadder) modeDescLadder.textContent = '5 Staking Tiers';
 
     // 4. Gameplay Stage Labels
     const potLabel = document.getElementById('gamePotLabel');

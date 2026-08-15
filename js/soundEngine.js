@@ -10,14 +10,14 @@ class TensionSoundEngine {
     this.ctx = null;
     this.isMuted = false;
     this.isMusicEnabled = true;
-    this.isHostVoiceEnabled = true;
+    this.isHostVoiceEnabled = false;
 
     // SFX Oscillators
     this.heartbeatTimer = null;
     this.tensionDroneOsc = null;
     this.tensionDroneGain = null;
     this.currentBpm = 60;
-    this.theme = 'poker_tournament';
+    this.theme = 'trading_desk';
     this.hasInteracted = false;
 
     // Generative Ambient Music Engine
@@ -28,9 +28,9 @@ class TensionSoundEngine {
   }
 
   setTheme(themeId) {
+    if (this.theme === themeId) return;
     this.theme = themeId;
-    if (this.isMusicEnabled) {
-      this.ensureContext();
+    if (this.isMusicEnabled && !this.isMuted) {
       this.restartAmbientMusic();
     }
   }
@@ -57,13 +57,14 @@ class TensionSoundEngine {
 
   ensureContext() {
     if (!this.ctx) {
-      this.init();
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      if (AudioContext) {
+        this.ctx = new AudioContext();
+        this.setupMusicBus();
+      }
     }
     if (this.ctx && this.ctx.state === 'suspended') {
-      this.ctx.resume().catch(() => {});
-    }
-    if (!this.musicMasterGain && this.ctx) {
-      this.setupMusicBus();
+      this.ctx.resume();
     }
   }
 
@@ -71,7 +72,7 @@ class TensionSoundEngine {
     if (!this.ctx) return;
     try {
       this.musicMasterGain = this.ctx.createGain();
-      this.musicMasterGain.gain.setValueAtTime(0.35, this.ctx.currentTime);
+      this.musicMasterGain.gain.setValueAtTime(0.06, this.ctx.currentTime);
       this.musicMasterGain.connect(this.ctx.destination);
     } catch (e) {}
   }
@@ -87,7 +88,7 @@ class TensionSoundEngine {
       }
     } else {
       if (this.musicMasterGain && this.ctx) {
-        this.musicMasterGain.gain.setValueAtTime(0.35, this.ctx.currentTime);
+        this.musicMasterGain.gain.setValueAtTime(0.06, this.ctx.currentTime);
       }
       if (this.isMusicEnabled) {
         this.startAmbientMusic();
@@ -101,7 +102,7 @@ class TensionSoundEngine {
     this.isMusicEnabled = !this.isMusicEnabled;
     if (this.isMusicEnabled) {
       if (this.musicMasterGain && this.ctx) {
-        this.musicMasterGain.gain.setValueAtTime(0.35, this.ctx.currentTime);
+        this.musicMasterGain.gain.setValueAtTime(0.06, this.ctx.currentTime);
       }
       this.startAmbientMusic();
     } else {
@@ -116,16 +117,17 @@ class TensionSoundEngine {
   }
 
   /* ==========================================================================
-     PROPRIETARY GENERATIVE AMBIENT MUSIC ENGINE (5 THEMES)
+     PROCEDURAL GENERATIVE AMBIENT MUSIC ENGINE
+     5 Unique Soundscapes Crafted in Real-Time via Web Audio API Synthesis
      ========================================================================== */
 
   startAmbientMusic() {
     if (!this.isMusicEnabled || this.isMuted) return;
     this.ensureContext();
     if (!this.ctx) return;
-    this.stopAmbientMusic();
 
-    this.musicStep = 0;
+    if (this.musicTimer) return; // Already running
+
     this.scheduleMusicBar();
   }
 
@@ -151,54 +153,48 @@ class TensionSoundEngine {
     if (!this.isMusicEnabled || this.isMuted || !this.ctx) return;
 
     const t = this.ctx.currentTime;
-    let nextBarDelay = 2200; // ms
+    let nextBarDelay = 7500; // 7.5s calm swells
 
     if (this.theme === 'poker_tournament') {
-      // ♠️ VEGAS CASINO LOUNGE JAZZ (Warm Electric Piano + Upright Bass)
-      nextBarDelay = 2400;
+      nextBarDelay = 7500;
       const chords = [
         [174.61, 261.63, 311.13, 392.00], // Fm7
         [116.54, 233.08, 277.18, 349.23], // Bbm7
         [155.56, 233.08, 311.13, 392.00], // Eb7
         [130.81, 196.00, 246.94, 329.63]  // C7
       ];
-      const bassNotes = [87.31, 116.54, 77.78, 65.41]; // F, Bb, Eb, C
+      const bassNotes = [87.31, 116.54, 77.78, 65.41];
 
       const chordIdx = this.musicStep % chords.length;
       const chord = chords[chordIdx];
       const bass = bassNotes[chordIdx];
 
-      // Play Upright Bass Note
-      this.playSynthNote(bass, t, 1.9, 'triangle', 0.35, 600);
-
-      // Play Rhodes Piano Chord (Arpeggiated)
+      this.playSynthNote(bass, t, 5.5, 'triangle', 0.12, 380);
       chord.forEach((freq, idx) => {
-        this.playSynthNote(freq, t + idx * 0.14, 1.7, 'sine', 0.22, 2400);
+        this.playSynthNote(freq, t + idx * 0.25, 5.0, 'sine', 0.08, 1200);
       });
 
     } else if (this.theme === 'trading_desk') {
-      // 📊 CYBERPUNK WALL STREET SYNTHWAVE (Driving 16th Arpeggiator & Deep Sub-Bass)
-      nextBarDelay = 1800;
+      nextBarDelay = 7500;
       const bassFreqs = [73.42, 65.41, 87.31, 55.00]; // D2, C2, F2, A1
-      const arpNotes = [
-        [146.83, 220.00, 293.66, 349.23, 440.00],
-        [130.81, 196.00, 261.63, 329.63, 392.00],
-        [174.61, 261.63, 349.23, 440.00, 523.25],
-        [110.00, 164.81, 220.00, 277.18, 329.63]
+      const padChords = [
+        [146.83, 220.00, 261.63, 329.63], // Dm9
+        [130.81, 196.00, 246.94, 329.63], // Cmaj7
+        [174.61, 220.00, 261.63, 349.23], // Fmaj7
+        [110.00, 164.81, 220.00, 261.63]  // Am7
       ];
 
       const barIdx = this.musicStep % bassFreqs.length;
       const bass = bassFreqs[barIdx];
-      const arp = arpNotes[barIdx];
+      const pad = padChords[barIdx];
 
-      // Deep Analog Bass Pulse
-      this.playSynthNote(bass, t, 1.6, 'sawtooth', 0.28, 450);
+      // Soft Sub-Bass
+      this.playSynthNote(bass, t, 5.5, 'sine', 0.12, 220);
 
-      // Cyber Arpeggio pulses
-      for (let i = 0; i < 8; i++) {
-        const note = arp[i % arp.length];
-        this.playSynthNote(note, t + i * 0.22, 0.2, 'sawtooth', 0.12, 2800);
-      }
+      // Warm Analog Rhodes Pad
+      pad.forEach((freq, idx) => {
+        this.playSynthNote(freq, t + idx * 0.2, 5.2, 'triangle', 0.07, 420);
+      });
 
     } else if (this.theme === 'hotel_lobby') {
       // 🛎️ GRAND CONTINENTAL ART DECO PIANO WALTZ (3/4 time warm chords)
