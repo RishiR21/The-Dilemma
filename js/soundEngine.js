@@ -232,16 +232,52 @@ class TensionSoundEngine {
       this.playSynthNote(metalTicks[(idx + 1) % 4], t + 1.8, 0.12, 'triangle', 0.12, 3800);
 
     } else {
-      // 🎯 MILITARY INTELLIGENCE DEFCON RECON (Stealth Minor Radar Sweep)
-      nextBarDelay = 2200;
-      const basses = [55.0, 58.27, 49.0, 51.91]; // A1, Bb1, G1, Ab1
-      const pings = [1760.0, 1975.5, 2093.0, 1567.98];
+      // 🎯 BLACK OPS / DEFCON 1 ESPIONAGE CINEMATIC (Sub-Bass Grate, Tactical Radar Arp & DEFCON Warning Stabs)
+      nextBarDelay = 1900;
+      
+      // D minor / Eb Phrygian Espionage Progression (D -> Eb -> C -> C#)
+      const bassRoots = [36.71, 38.89, 32.70, 34.65]; // D1, Eb1, C1, C#1 (Ultra Sub)
+      const droneHarmonics = [73.42, 77.78, 65.41, 69.30]; // D2, Eb2, C2, C#2
+      const stealthTensionChords = [
+        [146.83, 220.00, 311.13, 370.00], // D dim / Tension
+        [155.56, 233.08, 311.13, 392.00], // Eb sus4
+        [130.81, 196.00, 293.66, 349.23], // C minor add9
+        [138.59, 207.65, 311.13, 370.00]  // C# dim
+      ];
+      const tacticalArp = [293.66, 311.13, 349.23, 440.00, 493.88, 587.33, 440.00, 349.23]; // D4, Eb4, F4, A4, B4, D5
+      const sonarPings = [1760.0, 2349.32, 1975.53, 2637.02]; // A6, D7, B6, E7
 
-      const idx = this.musicStep % basses.length;
-      this.playSynthNote(basses[idx], t, 2.0, 'triangle', 0.34, 380);
+      const idx = this.musicStep % bassRoots.length;
+      const root = bassRoots[idx];
+      const harmonic = droneHarmonics[idx];
+      const chord = stealthTensionChords[idx];
+      const sonar = sonarPings[idx];
 
-      // Radar Sonar Ping
-      this.playSynthNote(pings[idx], t + 0.4, 0.4, 'sine', 0.18, 4200);
+      // 1. Deep Detuned Dual Sub-Bass Drones
+      this.playSynthNote(root, t, 1.85, 'sawtooth', 0.30, 260);
+      this.playSynthNote(harmonic * 1.004, t, 1.8, 'triangle', 0.22, 380);
+
+      // 2. Sub-Bass Tactical Heartbeat Impact
+      this.playSynthNote(55.0, t, 0.4, 'sine', 0.35, 180);
+      if (this.musicStep % 2 === 1) {
+        this.playSynthNote(49.0, t + 0.95, 0.35, 'sine', 0.26, 160);
+      }
+
+      // 3. Cinematic Espionage Chord Swell
+      chord.forEach((freq, cIdx) => {
+        this.playSynthNote(freq, t + 0.15 + (cIdx * 0.04), 1.5, 'sawtooth', 0.10, 1400);
+      });
+
+      // 4. Tactical Radar / Clock-Tick 16th Arpeggiator (8 pulses)
+      for (let i = 0; i < 8; i++) {
+        const note = tacticalArp[(i + idx * 2) % tacticalArp.length];
+        const gain = (i % 2 === 0) ? 0.12 : 0.07;
+        this.playSynthNote(note, t + (i * 0.22), 0.16, 'sawtooth', gain, 2200);
+      }
+
+      // 5. SATCOM Sonar Pings (High Recon with Echo)
+      this.playSynthNote(sonar, t + 0.35, 0.45, 'sine', 0.16, 4800);
+      this.playSynthNote(sonar * 0.75, t + 0.75, 0.25, 'sine', 0.09, 4200);
     }
 
     this.musicStep++;
