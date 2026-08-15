@@ -233,20 +233,47 @@
     font-size: 0.65rem;
   }
 
-  /* Tactical Intel Panels */
-  .polygraph-panel, .thematic-hotline-bar {
-    padding: 6px 10px;
-    margin-top: 0;
+  /* Deal Room Body on Mobile */
+  .deal-room-body {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+  }
+
+  /* Tactical Intel Sidebar (Side-by-Side 2-Column Strip on Mobile) */
+  .tactical-sidebar {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    width: 100%;
+  }
+
+  .tactical-card {
+    padding: 6px 8px;
+    gap: 4px;
     border-radius: var(--radius-sm);
+    box-shadow: none;
   }
 
-  .polygraph-left, .hotline-left {
-    font-size: 0.72rem;
+  .tactical-card-top {
+    gap: 4px;
   }
 
-  .polygraph-scan-btn, .hotline-interact-btn {
-    padding: 4px 8px;
-    font-size: 0.7rem;
+  .tactical-card-title {
+    font-size: 0.68rem;
+  }
+
+  .tactical-card-reading {
+    font-size: 0.68rem;
+    padding: 4px 6px;
+    min-height: 26px;
+    line-height: 1.2;
+  }
+
+  .tactical-action-btn {
+    padding: 4px 6px;
+    font-size: 0.68rem;
   }
 
   /* Compact Negotiation Panel */

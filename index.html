@@ -342,57 +342,59 @@
           </button>
         </div>
 
-        <!-- Polygraph / Tell Scanner HUD -->
-        <div class="polygraph-panel" id="polygraphPanel">
-          <div class="polygraph-left">
-            <div class="polygraph-pulse-dot"></div>
-            <div>
-              <span style="color: var(--primary-accent); font-weight: 700;" id="polygraphHeader">Live Tell Analysis: </span>
-              <span id="polygraphReading" style="color: var(--text-muted);">Awaiting scan...</span>
+        <!-- Deal Room Body: Tactical Intel Sidebar (Left) + Live Negotiation Stream (Right) -->
+        <div class="deal-room-body">
+          <!-- Tactical Intel Sidebar -->
+          <aside class="tactical-sidebar" id="tacticalSidebar">
+            <!-- Polygraph / Tell Scanner HUD -->
+            <div class="tactical-card polygraph-panel" id="polygraphPanel">
+              <div class="tactical-card-top">
+                <div class="polygraph-pulse-dot"></div>
+                <span class="tactical-card-title" id="polygraphHeader">Live Tell Analysis:</span>
+              </div>
+              <div class="tactical-card-reading" id="polygraphReading">Awaiting scan...</div>
+              <button class="tactical-action-btn polygraph-scan-btn" id="btnRunPolygraph">🔍 Read Tells</button>
             </div>
-          </div>
-          <button class="polygraph-scan-btn" id="btnRunPolygraph">🔍 Read Tells</button>
-        </div>
 
-        <!-- Thematic Interactive Intercom / Hotline Widget -->
-        <div class="thematic-hotline-bar" id="thematicHotlineBar">
-          <div class="hotline-left">
-            <span class="hotline-icon" id="hotlineIcon">📞</span>
-            <div class="hotline-text-wrap">
-              <span class="hotline-title" id="hotlineTitle">Broker Wire:</span>
-              <span class="hotline-status" id="hotlineStatus">Incoming order flow line open</span>
+            <!-- Thematic Interactive Intercom / Hotline Widget -->
+            <div class="tactical-card thematic-hotline-bar" id="thematicHotlineBar">
+              <div class="tactical-card-top">
+                <span class="hotline-icon" id="hotlineIcon">📞</span>
+                <span class="tactical-card-title" id="hotlineTitle">Broker Wire:</span>
+              </div>
+              <div class="tactical-card-reading" id="hotlineStatus">Incoming order flow line open</div>
+              <button class="tactical-action-btn hotline-interact-btn" id="btnInteractHotline">
+                <span id="hotlineActionText">📞 Answer Line</span>
+              </button>
             </div>
-          </div>
-          <button class="hotline-interact-btn" id="btnInteractHotline">
-            <span id="hotlineActionText">📞 Answer Line</span>
-          </button>
-        </div>
+          </aside>
 
-        <!-- Negotiation Panel -->
-        <div class="negotiation-panel" id="negotiationPanel">
-          <!-- Timer Bar -->
-          <div class="timer-container">
-            <div class="timer-circle" id="negotiationTimer">45</div>
-            <div>
-              <div class="timer-phase-text" id="gamePhaseText">Live Negotiation & Bluffing</div>
-              <div style="font-size: 0.72rem; color: var(--text-subtle); font-family: var(--font-mono);">Communicate, bluff, or secure a mutual pact</div>
+          <!-- Negotiation Panel -->
+          <div class="negotiation-panel" id="negotiationPanel">
+            <!-- Timer Bar -->
+            <div class="timer-container">
+              <div class="timer-circle" id="negotiationTimer">45</div>
+              <div>
+                <div class="timer-phase-text" id="gamePhaseText">Live Negotiation & Bluffing</div>
+                <div style="font-size: 0.72rem; color: var(--text-subtle); font-family: var(--font-mono);">Communicate, bluff, or secure a mutual pact</div>
+              </div>
             </div>
-          </div>
 
-          <!-- Dialogue Stream -->
-          <div class="chat-stream" id="chatStream">
-            <!-- Messages injected here -->
-          </div>
+            <!-- Dialogue Stream -->
+            <div class="chat-stream" id="chatStream">
+              <!-- Messages injected here -->
+            </div>
 
-          <!-- Quick Conviction Bluff Reaction Buttons -->
-          <div class="quick-bluff-bar" id="quickBluffBar">
-            <!-- Dynamically injected -->
-          </div>
+            <!-- Quick Conviction Bluff Reaction Buttons -->
+            <div class="quick-bluff-bar" id="quickBluffBar">
+              <!-- Dynamically injected -->
+            </div>
 
-          <!-- Chat Input -->
-          <div class="chat-input-row" id="chatInputRow">
-            <input type="text" class="chat-input" id="chatInput" placeholder="Send dialogue or bluff..." maxlength="120">
-            <button class="chat-send-btn" id="btnSendChat">Send</button>
+            <!-- Chat Input -->
+            <div class="chat-input-row" id="chatInputRow">
+              <input type="text" class="chat-input" id="chatInput" placeholder="Send dialogue or bluff..." maxlength="120">
+              <button class="chat-send-btn" id="btnSendChat">Send</button>
+            </div>
           </div>
         </div>
 
