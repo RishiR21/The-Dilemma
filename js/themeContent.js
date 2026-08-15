@@ -299,11 +299,11 @@ const THEMES_DATA = {
 
   hotel_lobby: {
     id: 'hotel_lobby',
-    name: 'Golden Balls',
+    name: 'Hotel Room',
     icon: '🛎️',
     brandTitle: 'GOLDEN BALLS',
     brandBadge: 'ORIGINAL',
-    heroSubtitle: 'Grand Continental • Split or Steal',
+    heroSubtitle: 'Hotel Room • Split or Steal',
     heroHeadline: 'GOLDEN BALLS',
     heroTagline: 'Two players. One sealed jackpot. Will you split the golden balls 50/50, or steal to take home 100%?',
     currencyName: 'Deposit',

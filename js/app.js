@@ -198,7 +198,7 @@ class TheDilemmaApp {
       },
       {
         id: 'hotel_lobby',
-        name: 'Golden Balls',
+        name: 'Hotel Room',
         icon: '🛎️',
         desc: 'Classic Grand Continental hotel, Art Deco gold styling, 50/50 split vs 100% steal.',
         swatches: ['#0e0a07', '#d4af37', '#10b981', '#e11d48']
