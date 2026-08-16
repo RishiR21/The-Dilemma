@@ -1282,27 +1282,43 @@ body::after {
   transform: translateY(-1px);
 }
 
-/* Deal Room Master Layout (Center Gameplay Focus Stage + Side Negotiation Feed) */
-.deal-room-layout {
+/* FULL BLEED VIEW & GRAND FULL-WIDTH ARENA */
+.full-bleed-view {
+  width: 100% !important;
+  max-width: 100% !important;
+  padding: 10px 24px 36px 24px !important;
+}
+
+.full-width-arena {
+  width: 100% !important;
+  max-width: 1540px !important;
+  gap: 14px;
+}
+
+/* 3-COLUMN GRAND DEAL ROOM LAYOUT */
+.deal-room-tri-layout {
   display: grid;
-  grid-template-columns: 1fr 330px;
-  gap: 16px;
-  align-items: start;
+  grid-template-columns: 290px 1fr 340px;
+  gap: 18px;
+  align-items: stretch;
   width: 100%;
 }
 
-/* Primary Gameplay Focus Stage (Left / Center) */
-.gameplay-focus-stage {
+.sidebar-header-label {
+  font-family: var(--font-mono);
+  font-size: 0.70rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  padding-left: 2px;
+}
+
+/* LEFT COLUMN: TACTICAL INTEL DOCK */
+.tactical-sidebar {
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  width: 100%;
-}
-
-/* Tactical Tools Hub (Tell Scanner & Thematic Hotline) */
-.tactical-tools-hub {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
   gap: 12px;
   width: 100%;
 }
@@ -1311,20 +1327,20 @@ body::after {
   background: var(--bg-card);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
-  padding: 12px 14px;
+  padding: 14px 16px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
   justify-content: space-between;
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   transition: all 0.25s ease;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
 }
 
 .tactical-card:hover {
   border-color: var(--primary-accent);
-  box-shadow: 0 6px 20px var(--primary-glow);
+  box-shadow: 0 8px 28px var(--primary-glow);
 }
 
 .tactical-card-top {
@@ -1358,7 +1374,7 @@ body::after {
 
 .tactical-action-btn {
   width: 100%;
-  padding: 7px 12px;
+  padding: 8px 12px;
   border-radius: var(--radius-sm);
   font-family: var(--font-mono);
   font-size: 0.74rem;
@@ -1411,11 +1427,37 @@ body::after {
   50% { transform: rotate(0deg); }
 }
 
-/* Negotiation Sidebar (Right) */
+/* CENTER COLUMN: GRAND SHOWDOWN ARENA */
+.showdown-center-deck {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.decision-section {
+  width: 100%;
+  height: 100%;
+  min-height: 440px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+}
+
+/* RIGHT COLUMN: NEGOTIATION COMMS */
 .negotiation-sidebar {
   display: flex;
   flex-direction: column;
   width: 100%;
+  height: 100%;
 }
 
 .negotiation-panel {
@@ -1425,10 +1467,12 @@ body::after {
   background: var(--bg-card);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
-  padding: 12px;
+  padding: 14px;
   overflow: hidden;
   gap: 8px;
-  min-height: 410px;
+  height: 100%;
+  min-height: 440px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
 }
 
 .timer-container {

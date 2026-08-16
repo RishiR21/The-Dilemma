@@ -233,27 +233,34 @@
     font-size: 0.65rem;
   }
 
-  /* Deal Room Mobile Layout: Focus Stage (Tokens & Lock) First, then Tactical Tools, then Chat */
-  .deal-room-layout {
+  /* Deal Room Mobile Layout (3-Column collapses gracefully into vertical order: Decision Deck -> Tactical Dock -> Negotiation Feed) */
+  .deal-room-tri-layout {
     display: flex;
     flex-direction: column;
     gap: 8px;
     width: 100%;
   }
 
-  .gameplay-focus-stage {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+  .showdown-center-deck {
+    order: 1;
     width: 100%;
   }
 
-  /* Tactical Tools Hub on Mobile (Side-by-Side 2-Column Strip) */
-  .tactical-tools-hub {
+  .tactical-sidebar {
+    order: 2;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 6px;
     width: 100%;
+  }
+
+  .negotiation-sidebar {
+    order: 3;
+    width: 100%;
+  }
+
+  .sidebar-header-label {
+    display: none;
   }
 
   .tactical-card {

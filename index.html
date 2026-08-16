@@ -312,8 +312,8 @@
     <!-- ==========================================
          SCREEN 6: GAMEPLAY (NEGOTIATION & DECISION)
          ========================================== -->
-    <section class="view-screen hidden" id="screenGameplay">
-      <div class="game-arena">
+    <section class="view-screen full-bleed-view hidden" id="screenGameplay">
+      <div class="game-arena full-width-arena">
         <!-- Stage Header with Instant Exit to Lobby Button -->
         <div class="stage-header">
           <div class="stage-player">
@@ -342,11 +342,37 @@
           </button>
         </div>
 
-        <!-- Deal Room Layout: Gameplay Focus Stage (Left/Center) + Side Negotiation Feed (Right) -->
-        <div class="deal-room-layout">
-          <!-- PRIMARY GAMEPLAY FOCUS: Decision Arena & Tactical Tools Hub -->
-          <div class="gameplay-focus-stage">
-            <!-- 1. The Decision Podium (Golden Balls / Tokens) -->
+        <!-- 3-Column Grand Deal Room: Left Tactical Intel | Center Decision Deck | Right Negotiation Stream -->
+        <div class="deal-room-tri-layout">
+          <!-- LEFT COLUMN: Tactical Intelligence & Hotline Comms -->
+          <aside class="tactical-sidebar" id="tacticalSidebar">
+            <div class="sidebar-header-label">TACTICAL INTEL</div>
+
+            <!-- Polygraph / Tell Scanner HUD -->
+            <div class="tactical-card polygraph-panel" id="polygraphPanel">
+              <div class="tactical-card-top">
+                <div class="polygraph-pulse-dot"></div>
+                <span class="tactical-card-title" id="polygraphHeader">Live Tell Analysis:</span>
+              </div>
+              <div class="tactical-card-reading" id="polygraphReading">Awaiting scan...</div>
+              <button class="tactical-action-btn polygraph-scan-btn" id="btnRunPolygraph">🔍 Read Tells</button>
+            </div>
+
+            <!-- Thematic Interactive Intercom / Hotline Widget -->
+            <div class="tactical-card thematic-hotline-bar" id="thematicHotlineBar">
+              <div class="tactical-card-top">
+                <span class="hotline-icon" id="hotlineIcon">📞</span>
+                <span class="tactical-card-title" id="hotlineTitle">Broker Wire:</span>
+              </div>
+              <div class="tactical-card-reading" id="hotlineStatus">Incoming order flow line open</div>
+              <button class="tactical-action-btn hotline-interact-btn" id="btnInteractHotline">
+                <span id="hotlineActionText">📞 Answer Line</span>
+              </button>
+            </div>
+          </aside>
+
+          <!-- CENTER COLUMN: Grand Decision Arena (The Pure Star of Gameplay) -->
+          <main class="showdown-center-deck">
             <div class="decision-section" id="decisionSection">
               <div class="decision-title" id="decisionPromptTitle">Select Secret Decision</div>
 
@@ -372,35 +398,11 @@
                 🔒 Lock In Secret Decision
               </button>
             </div>
+          </main>
 
-            <!-- 2. Tactical Tools Hub (Tell Analysis & Thematic Hotline) -->
-            <div class="tactical-tools-hub" id="tacticalToolsHub">
-              <!-- Polygraph / Tell Scanner HUD -->
-              <div class="tactical-card polygraph-panel" id="polygraphPanel">
-                <div class="tactical-card-top">
-                  <div class="polygraph-pulse-dot"></div>
-                  <span class="tactical-card-title" id="polygraphHeader">Live Tell Analysis:</span>
-                </div>
-                <div class="tactical-card-reading" id="polygraphReading">Awaiting scan...</div>
-                <button class="tactical-action-btn polygraph-scan-btn" id="btnRunPolygraph">🔍 Read Tells</button>
-              </div>
-
-              <!-- Thematic Interactive Intercom / Hotline Widget -->
-              <div class="tactical-card thematic-hotline-bar" id="thematicHotlineBar">
-                <div class="tactical-card-top">
-                  <span class="hotline-icon" id="hotlineIcon">📞</span>
-                  <span class="tactical-card-title" id="hotlineTitle">Broker Wire:</span>
-                </div>
-                <div class="tactical-card-reading" id="hotlineStatus">Incoming order flow line open</div>
-                <button class="tactical-action-btn hotline-interact-btn" id="btnInteractHotline">
-                  <span id="hotlineActionText">📞 Answer Line</span>
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- SIDEBAR: Live Negotiation & Dialogue Feed -->
+          <!-- RIGHT COLUMN: Live Negotiation & Comms Stream -->
           <aside class="negotiation-sidebar" id="negotiationSidebar">
+            <div class="sidebar-header-label">NEGOTIATION COMMS</div>
             <div class="negotiation-panel" id="negotiationPanel">
               <!-- Timer Bar -->
               <div class="timer-container">
