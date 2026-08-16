@@ -515,6 +515,24 @@ class TheDilemmaApp {
     }
   }
 
+  syncSettingsAudioUI() {
+    this.syncMusicButtons();
+
+    const settingVoice = document.getElementById('settingVoiceToggle');
+    if (settingVoice) {
+      const isVoiceOn = window.soundEngine.isHostVoiceEnabled;
+      settingVoice.textContent = isVoiceOn ? 'ON' : 'OFF';
+      settingVoice.classList.toggle('active', isVoiceOn);
+    }
+
+    const settingSound = document.getElementById('settingSoundToggle');
+    if (settingSound) {
+      const isSoundOn = !window.soundEngine.isMuted;
+      settingSound.textContent = isSoundOn ? 'ON' : 'OFF';
+      settingSound.classList.toggle('active', isSoundOn);
+    }
+  }
+
   showScreen(screenId) {
     document.querySelectorAll('.view-screen').forEach(s => s.classList.add('hidden'));
     const target = document.getElementById(screenId);
@@ -566,6 +584,7 @@ class TheDilemmaApp {
       btnSettings.addEventListener('click', () => {
         window.soundEngine.playClick();
         this.renderThemeCards();
+        this.syncSettingsAudioUI();
         const drawer = document.getElementById('themePickerDrawer');
         if (drawer) drawer.classList.add('hidden');
         const btnChange = document.getElementById('btnChangeTheme');

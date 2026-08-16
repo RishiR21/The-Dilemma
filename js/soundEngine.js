@@ -279,167 +279,150 @@ class TensionSoundEngine {
     if (!this.isMusicEnabled || this.isMuted || !this.ctx) return;
 
     const t = this.ctx.currentTime;
-    let nextBarDelay = 2600;
+    let nextBarDelay = 3200; // ~3.0s - 3.2s per measure for lush, luxurious atmospheric flow
 
     if (this.theme === 'poker_tournament') {
-      // ♠️ 1. OCEAN'S 11 / ACID JAZZ SWAGGER (108 BPM Swung Walking Bass, Rhodes Chords & Finger Snaps)
-      nextBarDelay = 2220; // 108 BPM cadence (4 beats per bar)
-      const beat = 0.555;
-
-      const progression = [
-        { bass: 87.31, chord: [174.61, 220.00, 261.63, 311.13, 392.00] }, // Fm9
-        { bass: 116.54, chord: [116.54, 174.61, 233.08, 277.18, 349.23] }, // Bbm9
-        { bass: 77.78, chord: [155.56, 196.00, 233.08, 277.18, 392.00] }, // Eb13
-        { bass: 65.41, chord: [130.81, 164.81, 196.00, 246.94, 329.63] }  // C7alt
+      // ♠️ 1. HIGH STAKES ARENA: VEGAS JAZZ LOUNGE (Lush Fender Rhodes Chords & Upright Bass)
+      nextBarDelay = 3000;
+      const chords = [
+        [174.61, 261.63, 311.13, 392.00], // Fm9 (F3, C4, Eb4, G4)
+        [116.54, 233.08, 277.18, 349.23], // Bbm9 (Bb2, Bb3, Db4, F4)
+        [155.56, 233.08, 311.13, 392.00], // Eb13 (Eb3, Bb3, Eb4, G4)
+        [130.81, 196.00, 246.94, 329.63]  // C7#9 (C3, G3, B3, E4)
       ];
+      const bassNotes = [87.31, 116.54, 77.78, 65.41]; // F, Bb, Eb, C
 
-      const bar = progression[this.musicStep % progression.length];
+      const chordIdx = this.musicStep % chords.length;
+      const chord = chords[chordIdx];
+      const bass = bassNotes[chordIdx];
 
-      // Swung Walking Acoustic Bassline (Beats 1, 2, 3, 4 with syncopation)
-      this.playSynthVoice(bar.bass, t, 0.45, 'triangle', 0.26, 420);
-      this.playSynthVoice(bar.bass * 1.25, t + beat, 0.40, 'triangle', 0.22, 400);
-      this.playSynthVoice(bar.bass * 1.5, t + beat * 2, 0.45, 'triangle', 0.24, 420);
-      this.playSynthVoice(bar.bass * 1.88, t + beat * 3 + 0.1, 0.35, 'triangle', 0.18, 380);
+      // Warm Acoustic Upright Bass
+      this.playSynthVoice(bass, t, 2.6, 'triangle', 0.24, 450);
 
-      // Warm Fender Rhodes 9th Chords (Played with subtle swing)
-      bar.chord.forEach((freq, idx) => {
-        this.playSynthVoice(freq, t + 0.08 + idx * 0.03, 1.8, 'sine', 0.12, 1400);
-        this.playSynthVoice(freq * 1.003, t + 0.08 + idx * 0.03, 1.8, 'triangle', 0.07, 1200);
-
-        // Syncopated off-beat chord stab on beat 2-and
-        this.playSynthVoice(freq, t + beat * 1.6 + idx * 0.02, 0.6, 'sine', 0.09, 1200);
+      // Smooth Velvet Fender Rhodes Chords
+      chord.forEach((freq, idx) => {
+        this.playSynthVoice(freq, t + idx * 0.12, 2.4, 'sine', 0.14, 1400);
+        this.playSynthVoice(freq * 1.003, t + idx * 0.12, 2.4, 'triangle', 0.08, 1200);
       });
 
-      // Sassy Jazzy Finger Snaps on beats 2 and 4
-      this.playFingerSnap(t + beat);
-      this.playFingerSnap(t + beat * 3);
+      // Subtle Jazzy Finger Snap on the backbeat
+      if (this.musicStep % 2 === 1) {
+        this.playFingerSnap(t + 1.5);
+      }
+
+    } else if (this.theme === 'trading_desk') {
+      // 📊 2. TRADING FLOOR: WALL STREET CYBER AMBIENT (Lush Rhodes Pads & Deep Sub-Bass)
+      nextBarDelay = 3200;
+      const bassFreqs = [73.42, 65.41, 87.31, 55.00]; // D2, C2, F2, A1
+      const padChords = [
+        [146.83, 220.00, 261.63, 329.63], // Dm9 (D3, A3, C4, E4)
+        [130.81, 196.00, 246.94, 329.63], // Cmaj7 (C3, G3, B3, E4)
+        [174.61, 220.00, 261.63, 349.23], // Fmaj7 (F3, A3, C4, F4)
+        [110.00, 164.81, 220.00, 261.63]  // Am7 (A2, E3, A3, C4)
+      ];
+
+      const barIdx = this.musicStep % bassFreqs.length;
+      const bass = bassFreqs[barIdx];
+      const pad = padChords[barIdx];
+
+      // Deep Warm Sub-Bass Pulse
+      this.playSynthVoice(bass, t, 2.8, 'sine', 0.22, 260);
+
+      // Lush Analog Rhodes Pad Chords
+      pad.forEach((freq, idx) => {
+        this.playSynthVoice(freq, t + idx * 0.14, 2.6, 'triangle', 0.12, 950);
+        this.playSynthVoice(freq * 1.002, t + idx * 0.14, 2.6, 'sine', 0.10, 1100);
+      });
+
+      // Subtle Liquid Glass Arpeggio
+      if (this.musicStep % 2 === 0) {
+        this.playSynthVoice(pad[3] * 1.5, t + 1.2, 1.4, 'sine', 0.08, 1400);
+      }
+
+      // Charming Cash Register "Cha-Ching" on 4th bar turnaround
+      if (this.musicStep % 4 === 3) {
+        this.playChaChing(t + 2.4);
+      }
 
     } else if (this.theme === 'hotel_lobby') {
-      // 🛎️ 2. THE WHITE LOTUS / SUCCESSION THEATRICAL DARK COMEDY WALTZ (138 BPM 3/4 Baroque Piano & Pizzicato)
-      nextBarDelay = 1950; // 138 BPM 3/4 time (3 beats per measure: ~0.435s per beat)
-      const beat = 0.435;
-
-      const progression = [
-        { bass: 110.00, chord: [220.00, 261.63, 329.63, 440.00], melody: 523.25 }, // Am (A2 root, C5 top)
-        { bass: 73.42, chord: [146.83, 220.00, 293.66, 349.23], melody: 587.33 },  // Dm6 (D2 root, D5 top)
-        { bass: 123.47, chord: [246.94, 293.66, 369.99, 440.00], melody: 493.88 }, // Bdim7 (B2 root)
-        { bass: 82.41, chord: [164.81, 207.65, 246.94, 329.63], melody: 659.25 }  // E7b9 (E2 root)
+      // 🛎️ 3. HOTEL ROOM: ART DECO CONTINENTAL SALON (3/4 Elegant Velvet Waltz)
+      nextBarDelay = 3200;
+      const chords = [
+        [196.00, 246.94, 293.66, 369.99], // Gmaj7
+        [123.47, 185.00, 220.00, 277.18], // Bm7
+        [130.81, 164.81, 196.00, 246.94], // Cmaj7
+        [146.83, 220.00, 277.18, 329.63]  // D7
       ];
+      const bassNotes = [98.00, 123.47, 130.81, 146.83];
 
-      const bar = progression[this.musicStep % progression.length];
+      const idx = this.musicStep % chords.length;
+      this.playSynthVoice(bassNotes[idx], t, 2.6, 'sine', 0.22, 400);
 
-      // Beat 1: Heavy Dramatic Grand Piano / Harpsichord Bass
-      this.playSynthVoice(bar.bass, t, 1.4, 'sawtooth', 0.22, 360);
-      this.playSynthVoice(bar.bass * 2, t, 1.2, 'triangle', 0.16, 480);
-
-      // Beats 2 & 3: Playful Theatrical Chords
-      bar.chord.forEach((freq, idx) => {
-        this.playPizzicatoPluck(freq, t + beat + idx * 0.02, 0.10);
-        this.playPizzicatoPluck(freq, t + beat * 2 + idx * 0.02, 0.09);
+      // Elegant Waltz Cadence
+      chords[idx].forEach((f, cIdx) => {
+        this.playPizzicatoPluck(f, t + 0.3 + cIdx * 0.02, 0.10);
+        this.playPizzicatoPluck(f, t + 1.2 + cIdx * 0.02, 0.09);
       });
 
-      // Theatrical High Melodic Accents
-      this.playSynthVoice(bar.melody, t + 0.15, 0.7, 'triangle', 0.12, 1600);
-
-      // Amusing Champagne Bubble Pop on every 2nd bar
+      // Subtle Champagne Bubble on 2nd measure
       if (this.musicStep % 2 === 1) {
-        this.playChampagnePop(t + beat * 2.5);
+        this.playChampagnePop(t + 2.2);
       }
 
     } else if (this.theme === 'bank_vault') {
-      // 🔒 3. PAYDAY 2 / OCEANS FUNKY HEIST GROOVE (118 BPM Slap-Bass, Wah Chords & Safe Clicks)
-      nextBarDelay = 2030; // 118 BPM (4 beats: ~0.508s per beat)
-      const beat = 0.508;
-
-      const progression = [
-        { bass: 82.41, chord: [164.81, 246.94, 329.63, 392.00] }, // Em7 (E2 root)
-        { bass: 110.00, chord: [220.00, 277.18, 329.63, 440.00] }, // A13 (A2 root)
-        { bass: 65.41, chord: [130.81, 196.00, 246.94, 329.63] },  // Cmaj7 (C2 root)
-        { bass: 123.47, chord: [246.94, 311.13, 369.99, 493.88] }  // B7#9 (B2 root)
+      // 🔒 4. CASH VAULT: SUBTERRANEAN HEIST SOUNDSCAPE (Deep Velvet Sub & Rhodes Chords)
+      nextBarDelay = 3200;
+      const chords = [
+        [130.81, 155.56, 196.00, 293.66], // Cm9
+        [103.83, 155.56, 207.65, 261.63], // Abmaj7
+        [87.31, 130.81, 174.61, 261.63],  // Fm9
+        [98.00, 146.83, 196.00, 293.66]   // Gsus4
       ];
+      const bassNotes = [65.41, 51.91, 43.65, 49.00];
 
-      const bar = progression[this.musicStep % progression.length];
+      const idx = this.musicStep % chords.length;
+      const chord = chords[idx];
+      const bass = bassNotes[idx];
 
-      // Funky Syncopated Slap Bass Rhythm
-      this.playSynthVoice(bar.bass, t, 0.35, 'sawtooth', 0.26, 520);
-      this.playSynthVoice(bar.bass * 2, t + beat * 0.5, 0.25, 'sawtooth', 0.18, 600);
-      this.playSynthVoice(bar.bass, t + beat * 1.5, 0.35, 'sawtooth', 0.22, 520);
-      this.playSynthVoice(bar.bass * 1.5, t + beat * 2.75, 0.28, 'sawtooth', 0.20, 560);
+      // Velvet Sub Bass
+      this.playSynthVoice(bass, t, 2.8, 'triangle', 0.24, 280);
 
-      // Stealthy Wah-Wah Synth Stabs
-      bar.chord.forEach((freq, idx) => {
-        this.playSynthVoice(freq, t + beat * 1.0 + idx * 0.02, 0.45, 'sawtooth', 0.11, 1100);
-        this.playSynthVoice(freq, t + beat * 3.0 + idx * 0.02, 0.40, 'triangle', 0.09, 1000);
+      // Rhodes Heist Chords
+      chord.forEach((freq, cIdx) => {
+        this.playSynthVoice(freq, t + 0.2 + (cIdx * 0.14), 2.2, 'sine', 0.14, 850);
       });
 
-      // Rhythmic Safe Tumbler Combination Clicks
-      this.playVaultTumbler(t + beat * 2.0);
-
-    } else if (this.theme === 'military_intelligence') {
-      // 🎯 4. MISSION IMPOSSIBLE / 007 ESPIONAGE SPY FUNK (126 BPM Chromatic Spy Chords & Brass Stabs)
-      nextBarDelay = 1900; // 126 BPM (4 beats: ~0.476s per beat)
-      const beat = 0.476;
-
-      const progression = [
-        { bass: 82.41, chord: [164.81, 196.00, 246.94, 329.63] }, // Em (Classic 007 motif 1)
-        { bass: 82.41, chord: [164.81, 207.65, 246.94, 329.63] }, // Em#5 (Classic 007 motif 2)
-        { bass: 82.41, chord: [164.81, 220.00, 246.94, 329.63] }, // Em6 (Classic 007 motif 3)
-        { bass: 82.41, chord: [164.81, 207.65, 246.94, 329.63] }  // Em#5 (Classic 007 motif 4)
-      ];
-
-      const bar = progression[this.musicStep % progression.length];
-
-      // Iconic 007 Driving Espionage Bass (Dotted rhythm: Dum... da-da Dum... da-da)
-      this.playSynthVoice(bar.bass, t, 0.38, 'sawtooth', 0.28, 480);
-      this.playSynthVoice(bar.bass * 1.5, t + beat * 0.75, 0.22, 'triangle', 0.20, 440);
-      this.playSynthVoice(bar.bass * 1.41, t + beat * 1.5, 0.25, 'triangle', 0.18, 420);
-      this.playSynthVoice(bar.bass, t + beat * 2.25, 0.38, 'sawtooth', 0.26, 480);
-
-      // Dramatic Spy Brass Horn Stabs
-      this.playSpyBrassStab(t + beat * 1.0, bar.chord);
-
-      // Covert Sonar Radar Ping
+      // Subtle Safe Combination Tumbler click
       if (this.musicStep % 2 === 0) {
-        this.playSonarPing(t + 0.05);
+        this.playVaultTumbler(t + 1.6);
       }
 
     } else {
-      // 📊 5. WALL STREET NEO-SOUL / CYBERPUNK SWAGGER (124 BPM French Touch Funk & Cash Cha-Ching)
-      nextBarDelay = 1935; // 124 BPM (4 beats: ~0.484s per beat)
-      const beat = 0.484;
-
-      const progression = [
-        { bass: 73.42, chord: [146.83, 220.00, 261.63, 329.63, 440.00] }, // Dm9
-        { bass: 58.27, chord: [116.54, 174.61, 233.08, 293.66, 349.23] }, // Bbmaj9
-        { bass: 49.00, chord: [98.00, 146.83, 196.00, 246.94, 293.66] },  // Gm11
-        { bass: 55.00, chord: [110.00, 164.81, 220.00, 277.18, 329.63] }  // A7alt
+      // 🎯 5. BLACK OPS: STEALTH COVERT AMBIENCE (Deep Drone & Espionage Pad Swell)
+      nextBarDelay = 3200;
+      const chords = [
+        [146.83, 174.61, 220.00, 293.66], // Dm7
+        [116.54, 174.61, 233.08, 293.66], // Bbmaj7
+        [98.00, 146.83, 196.00, 293.66],  // Gm7
+        [110.00, 164.81, 220.00, 277.18]  // A7alt
       ];
+      const bassNotes = [73.42, 58.27, 49.00, 55.00];
 
-      const bar = progression[this.musicStep % progression.length];
+      const idx = this.musicStep % chords.length;
+      const chord = chords[idx];
+      const bass = bassNotes[idx];
 
-      // Funky French House / Daft Punk Syncopated Bassline
-      this.playSynthVoice(bar.bass, t, 0.32, 'sawtooth', 0.26, 480);
-      this.playSynthVoice(bar.bass, t + beat * 0.75, 0.24, 'sawtooth', 0.20, 480);
-      this.playSynthVoice(bar.bass * 1.5, t + beat * 1.5, 0.30, 'sawtooth', 0.22, 520);
-      this.playSynthVoice(bar.bass * 2, t + beat * 2.5, 0.22, 'triangle', 0.18, 560);
-      this.playSynthVoice(bar.bass, t + beat * 3.25, 0.28, 'sawtooth', 0.24, 480);
+      // Stealth Sub Bass
+      this.playSynthVoice(bass, t, 2.8, 'sawtooth', 0.20, 320);
 
-      // Lush Neo-Soul Electric Piano Stabs (Offbeat funk rhythm)
-      bar.chord.forEach((freq, idx) => {
-        this.playSynthVoice(freq, t + beat * 0.5 + idx * 0.02, 0.42, 'sine', 0.12, 1300);
-        this.playSynthVoice(freq * 1.003, t + beat * 0.5 + idx * 0.02, 0.42, 'triangle', 0.08, 1100);
-
-        this.playSynthVoice(freq, t + beat * 2.0 + idx * 0.02, 0.38, 'sine', 0.10, 1200);
+      // Cinematic Espionage Swell Chords
+      chord.forEach((freq, cIdx) => {
+        this.playSynthVoice(freq, t + 0.1 + (cIdx * 0.12), 2.4, 'triangle', 0.12, 900);
       });
 
-      // Liquid Financial Clock Ticker
-      for (let j = 0; j < 4; j++) {
-        this.playClockTick(t + j * beat, bar.chord[2] * 2);
-      }
-
-      // Amusing Cash Register "Cha-Ching" on 4th bar turnaround!
-      if (this.musicStep % 4 === 3) {
-        this.playChaChing(t + beat * 3.5);
+      // Covert Sonar Radar Ping
+      if (this.musicStep % 2 === 0) {
+        this.playSonarPing(t + 1.4);
       }
     }
 

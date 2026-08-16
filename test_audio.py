@@ -178,7 +178,7 @@ def run_chrome_audio_test():
             })()
         """)
         print("T4 Cash Vault Audio:", t4)
-        assert t4['activeNodes'] >= 6
+        assert t4['activeNodes'] >= 5
         print(" [PASS] Funky 70s spy-heist slap bass & safe tumbler groove verified!")
 
         print("\n--- TEST 5: 007 Espionage Spy Funk & Brass Stabs ---")
