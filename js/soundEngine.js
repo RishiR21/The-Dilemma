@@ -87,44 +87,44 @@ class TensionSoundEngine {
     try {
       // 1. Studio Mastering Compressor
       this.masterCompressor = this.ctx.createDynamicsCompressor();
-      this.masterCompressor.threshold.setValueAtTime(-16, this.ctx.currentTime);
-      this.masterCompressor.knee.setValueAtTime(12, this.ctx.currentTime);
-      this.masterCompressor.ratio.setValueAtTime(4.5, this.ctx.currentTime);
-      this.masterCompressor.attack.setValueAtTime(0.005, this.ctx.currentTime);
-      this.masterCompressor.release.setValueAtTime(0.24, this.ctx.currentTime);
+      this.masterCompressor.threshold.setValueAtTime(-18, this.ctx.currentTime);
+      this.masterCompressor.knee.setValueAtTime(10, this.ctx.currentTime);
+      this.masterCompressor.ratio.setValueAtTime(3.5, this.ctx.currentTime);
+      this.masterCompressor.attack.setValueAtTime(0.003, this.ctx.currentTime);
+      this.masterCompressor.release.setValueAtTime(0.18, this.ctx.currentTime);
       this.masterCompressor.connect(this.ctx.destination);
 
-      // 2. Dynamic Tension Lowpass Filter (Rounded warmth, never piercing)
+      // 2. Studio Master Acoustic Filter (Crisp sparkle and transparency: 7500 Hz default)
       this.masterFilter = this.ctx.createBiquadFilter();
       this.masterFilter.type = 'lowpass';
-      this.masterFilter.frequency.setValueAtTime(2200, this.ctx.currentTime);
-      this.masterFilter.Q.setValueAtTime(1.1, this.ctx.currentTime);
+      this.masterFilter.frequency.setValueAtTime(7500, this.ctx.currentTime);
+      this.masterFilter.Q.setValueAtTime(0.7, this.ctx.currentTime);
       this.masterFilter.connect(this.masterCompressor);
 
-      // 3. Spatial Stereo Delay (Lush room depth & reverb tail)
+      // 3. Spatial Stereo Delay (Lush room depth & warm analog tail)
       this.spatialDelay = this.ctx.createDelay(1.0);
-      this.spatialDelay.delayTime.setValueAtTime(0.26, this.ctx.currentTime);
+      this.spatialDelay.delayTime.setValueAtTime(0.22, this.ctx.currentTime);
       this.delayGain = this.ctx.createGain();
-      this.delayGain.gain.setValueAtTime(0.26, this.ctx.currentTime);
+      this.delayGain.gain.setValueAtTime(0.18, this.ctx.currentTime);
 
       const delayDampFilter = this.ctx.createBiquadFilter();
       delayDampFilter.type = 'lowpass';
-      delayDampFilter.frequency.setValueAtTime(1500, this.ctx.currentTime);
+      delayDampFilter.frequency.setValueAtTime(2800, this.ctx.currentTime);
 
       this.spatialDelay.connect(delayDampFilter);
       delayDampFilter.connect(this.delayGain);
       this.delayGain.connect(this.spatialDelay);
       this.delayGain.connect(this.masterFilter);
 
-      // 4. Music Master Bus
+      // 4. Music Master Bus (Balanced studio mixing)
       this.musicMasterGain = this.ctx.createGain();
-      this.musicMasterGain.gain.setValueAtTime(0.22, this.ctx.currentTime);
+      this.musicMasterGain.gain.setValueAtTime(0.20, this.ctx.currentTime);
       this.musicMasterGain.connect(this.masterFilter);
       this.musicMasterGain.connect(this.spatialDelay);
 
       // 5. SFX Master Bus
       this.sfxMasterGain = this.ctx.createGain();
-      this.sfxMasterGain.gain.setValueAtTime(0.35, this.ctx.currentTime);
+      this.sfxMasterGain.gain.setValueAtTime(0.32, this.ctx.currentTime);
       this.sfxMasterGain.connect(this.masterCompressor);
 
       // Start continuous ambient drone
@@ -135,18 +135,18 @@ class TensionSoundEngine {
   }
 
   /* ==========================================================================
-     CONTINUOUS ANALOG AMBIENT DRONE BED
+     CONTINUOUS ANALOG AMBIENT DRONE BED (SUBTLE WARMTH)
      ========================================================================== */
 
   initContinuousDrone() {
     if (!this.ctx || this.droneGain) return;
     try {
       this.droneGain = this.ctx.createGain();
-      this.droneGain.gain.setValueAtTime(0.05, this.ctx.currentTime);
+      this.droneGain.gain.setValueAtTime(0.015, this.ctx.currentTime);
 
       const droneFilter = this.ctx.createBiquadFilter();
       droneFilter.type = 'lowpass';
-      droneFilter.frequency.setValueAtTime(280, this.ctx.currentTime);
+      droneFilter.frequency.setValueAtTime(180, this.ctx.currentTime);
 
       this.droneOsc1 = this.ctx.createOscillator();
       this.droneOsc2 = this.ctx.createOscillator();
@@ -1171,6 +1171,7 @@ class TensionSoundEngine {
   }
 
   playExitSound() {
+    this.ensureContext();
     if (!this.ctx || this.isMuted) return;
     const t = this.ctx.currentTime;
     const osc = this.ctx.createOscillator();
@@ -1187,6 +1188,7 @@ class TensionSoundEngine {
   }
 
   playBallHover() {
+    this.ensureContext();
     if (!this.ctx || this.isMuted) return;
     const t = this.ctx.currentTime;
     const osc = this.ctx.createOscillator();
@@ -1203,6 +1205,7 @@ class TensionSoundEngine {
   }
 
   playBallSelect(isSteal = false) {
+    this.ensureContext();
     if (isSteal) {
       this.playStealChoice();
     } else {
@@ -1211,10 +1214,12 @@ class TensionSoundEngine {
   }
 
   playLockDecision(isSteal = false) {
+    this.ensureContext();
     this.playClick();
   }
 
   playSplitChoice() {
+    this.ensureContext();
     if (!this.ctx || this.isMuted) return;
     const t = this.ctx.currentTime;
     [523.25, 659.25, 1046.50].forEach((freq, idx) => {
@@ -1232,6 +1237,7 @@ class TensionSoundEngine {
   }
 
   playStealChoice() {
+    this.ensureContext();
     if (!this.ctx || this.isMuted) return;
     const t = this.ctx.currentTime;
     [440.00, 311.13, 220.00].forEach((freq, idx) => {
@@ -1249,6 +1255,7 @@ class TensionSoundEngine {
   }
 
   playCountdownTick(count) {
+    this.ensureContext();
     if (!this.ctx || this.isMuted) return;
     const t = this.ctx.currentTime;
     const osc = this.ctx.createOscillator();
@@ -1265,6 +1272,7 @@ class TensionSoundEngine {
   }
 
   playRevealSting() {
+    this.ensureContext();
     if (!this.ctx || this.isMuted) return;
     const t = this.ctx.currentTime;
     const osc = this.ctx.createOscillator();
@@ -1285,6 +1293,7 @@ class TensionSoundEngine {
      ========================================================================== */
 
   playSplitVictory() {
+    this.ensureContext();
     if (!this.ctx || this.isMuted) return;
     const notes = [523.25, 659.25, 783.99, 1046.50, 1318.51];
     notes.forEach((freq, idx) => {
@@ -1306,6 +1315,7 @@ class TensionSoundEngine {
   }
 
   playStealHeist(isUserWinner = true) {
+    this.ensureContext();
     if (!this.ctx || this.isMuted) return;
     const notes = isUserWinner 
       ? [330, 440, 550, 880, 1100] 
@@ -1330,6 +1340,7 @@ class TensionSoundEngine {
   }
 
   playMutualDestruction() {
+    this.ensureContext();
     if (!this.ctx || this.isMuted) return;
     const t = this.ctx.currentTime;
     const osc = this.ctx.createOscillator();

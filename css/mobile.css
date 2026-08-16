@@ -233,16 +233,23 @@
     font-size: 0.65rem;
   }
 
-  /* Deal Room Body on Mobile */
-  .deal-room-body {
+  /* Deal Room Mobile Layout: Focus Stage (Tokens & Lock) First, then Tactical Tools, then Chat */
+  .deal-room-layout {
     display: flex;
     flex-direction: column;
     gap: 8px;
     width: 100%;
   }
 
-  /* Tactical Intel Sidebar (Side-by-Side 2-Column Strip on Mobile) */
-  .tactical-sidebar {
+  .gameplay-focus-stage {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+  }
+
+  /* Tactical Tools Hub on Mobile (Side-by-Side 2-Column Strip) */
+  .tactical-tools-hub {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 6px;

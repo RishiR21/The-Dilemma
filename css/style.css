@@ -1282,20 +1282,29 @@ body::after {
   transform: translateY(-1px);
 }
 
-/* Deal Room Interactive Body (Sidebar + Chat Stream) */
-.deal-room-body {
+/* Deal Room Master Layout (Center Gameplay Focus Stage + Side Negotiation Feed) */
+.deal-room-layout {
   display: grid;
-  grid-template-columns: 260px 1fr;
-  gap: 12px;
-  align-items: stretch;
+  grid-template-columns: 1fr 330px;
+  gap: 16px;
+  align-items: start;
   width: 100%;
 }
 
-/* Tactical Intel Sidebar */
-.tactical-sidebar {
+/* Primary Gameplay Focus Stage (Left / Center) */
+.gameplay-focus-stage {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 14px;
+  width: 100%;
+}
+
+/* Tactical Tools Hub (Tell Scanner & Thematic Hotline) */
+.tactical-tools-hub {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  width: 100%;
 }
 
 .tactical-card {
@@ -1402,7 +1411,13 @@ body::after {
   50% { transform: rotate(0deg); }
 }
 
-/* Negotiation Panel */
+/* Negotiation Sidebar (Right) */
+.negotiation-sidebar {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
 .negotiation-panel {
   display: flex;
   flex-direction: column;
@@ -1413,7 +1428,7 @@ body::after {
   padding: 12px;
   overflow: hidden;
   gap: 8px;
-  min-height: 280px;
+  min-height: 410px;
 }
 
 .timer-container {

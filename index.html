@@ -342,87 +342,92 @@
           </button>
         </div>
 
-        <!-- Deal Room Body: Tactical Intel Sidebar (Left) + Live Negotiation Stream (Right) -->
-        <div class="deal-room-body">
-          <!-- Tactical Intel Sidebar -->
-          <aside class="tactical-sidebar" id="tacticalSidebar">
-            <!-- Polygraph / Tell Scanner HUD -->
-            <div class="tactical-card polygraph-panel" id="polygraphPanel">
-              <div class="tactical-card-top">
-                <div class="polygraph-pulse-dot"></div>
-                <span class="tactical-card-title" id="polygraphHeader">Live Tell Analysis:</span>
-              </div>
-              <div class="tactical-card-reading" id="polygraphReading">Awaiting scan...</div>
-              <button class="tactical-action-btn polygraph-scan-btn" id="btnRunPolygraph">🔍 Read Tells</button>
-            </div>
+        <!-- Deal Room Layout: Gameplay Focus Stage (Left/Center) + Side Negotiation Feed (Right) -->
+        <div class="deal-room-layout">
+          <!-- PRIMARY GAMEPLAY FOCUS: Decision Arena & Tactical Tools Hub -->
+          <div class="gameplay-focus-stage">
+            <!-- 1. The Decision Podium (Golden Balls / Tokens) -->
+            <div class="decision-section" id="decisionSection">
+              <div class="decision-title" id="decisionPromptTitle">Select Secret Decision</div>
 
-            <!-- Thematic Interactive Intercom / Hotline Widget -->
-            <div class="tactical-card thematic-hotline-bar" id="thematicHotlineBar">
-              <div class="tactical-card-top">
-                <span class="hotline-icon" id="hotlineIcon">📞</span>
-                <span class="tactical-card-title" id="hotlineTitle">Broker Wire:</span>
+              <div class="balls-podium">
+                <!-- Split Token -->
+                <div class="golden-ball-container" id="ballSplit" data-choice="SPLIT">
+                  <div class="golden-ball split-ball" id="ballVisualSplit">
+                    <div class="ball-emblem">SPLIT</div>
+                  </div>
+                  <span class="ball-label" id="splitBallLabel">50% Split</span>
+                </div>
+
+                <!-- Steal Token -->
+                <div class="golden-ball-container" id="ballSteal" data-choice="STEAL">
+                  <div class="golden-ball steal-ball" id="ballVisualSteal">
+                    <div class="ball-emblem">STEAL</div>
+                  </div>
+                  <span class="ball-label" id="stealBallLabel">100% Steal</span>
+                </div>
               </div>
-              <div class="tactical-card-reading" id="hotlineStatus">Incoming order flow line open</div>
-              <button class="tactical-action-btn hotline-interact-btn" id="btnInteractHotline">
-                <span id="hotlineActionText">📞 Answer Line</span>
+
+              <button class="btn btn-primary btn-lock-choice" id="btnLockChoice" disabled>
+                🔒 Lock In Secret Decision
               </button>
             </div>
+
+            <!-- 2. Tactical Tools Hub (Tell Analysis & Thematic Hotline) -->
+            <div class="tactical-tools-hub" id="tacticalToolsHub">
+              <!-- Polygraph / Tell Scanner HUD -->
+              <div class="tactical-card polygraph-panel" id="polygraphPanel">
+                <div class="tactical-card-top">
+                  <div class="polygraph-pulse-dot"></div>
+                  <span class="tactical-card-title" id="polygraphHeader">Live Tell Analysis:</span>
+                </div>
+                <div class="tactical-card-reading" id="polygraphReading">Awaiting scan...</div>
+                <button class="tactical-action-btn polygraph-scan-btn" id="btnRunPolygraph">🔍 Read Tells</button>
+              </div>
+
+              <!-- Thematic Interactive Intercom / Hotline Widget -->
+              <div class="tactical-card thematic-hotline-bar" id="thematicHotlineBar">
+                <div class="tactical-card-top">
+                  <span class="hotline-icon" id="hotlineIcon">📞</span>
+                  <span class="tactical-card-title" id="hotlineTitle">Broker Wire:</span>
+                </div>
+                <div class="tactical-card-reading" id="hotlineStatus">Incoming order flow line open</div>
+                <button class="tactical-action-btn hotline-interact-btn" id="btnInteractHotline">
+                  <span id="hotlineActionText">📞 Answer Line</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- SIDEBAR: Live Negotiation & Dialogue Feed -->
+          <aside class="negotiation-sidebar" id="negotiationSidebar">
+            <div class="negotiation-panel" id="negotiationPanel">
+              <!-- Timer Bar -->
+              <div class="timer-container">
+                <div class="timer-circle" id="negotiationTimer">45</div>
+                <div>
+                  <div class="timer-phase-text" id="gamePhaseText">Live Negotiation</div>
+                  <div style="font-size: 0.70rem; color: var(--text-subtle); font-family: var(--font-mono);">Communicate, bluff, or secure a mutual pact</div>
+                </div>
+              </div>
+
+              <!-- Dialogue Stream -->
+              <div class="chat-stream" id="chatStream">
+                <!-- Messages injected here -->
+              </div>
+
+              <!-- Quick Conviction Bluff Reaction Buttons -->
+              <div class="quick-bluff-bar" id="quickBluffBar">
+                <!-- Dynamically injected -->
+              </div>
+
+              <!-- Chat Input -->
+              <div class="chat-input-row" id="chatInputRow">
+                <input type="text" class="chat-input" id="chatInput" placeholder="Send dialogue or bluff..." maxlength="120">
+                <button class="chat-send-btn" id="btnSendChat">Send</button>
+              </div>
+            </div>
           </aside>
-
-          <!-- Negotiation Panel -->
-          <div class="negotiation-panel" id="negotiationPanel">
-            <!-- Timer Bar -->
-            <div class="timer-container">
-              <div class="timer-circle" id="negotiationTimer">45</div>
-              <div>
-                <div class="timer-phase-text" id="gamePhaseText">Live Negotiation & Bluffing</div>
-                <div style="font-size: 0.72rem; color: var(--text-subtle); font-family: var(--font-mono);">Communicate, bluff, or secure a mutual pact</div>
-              </div>
-            </div>
-
-            <!-- Dialogue Stream -->
-            <div class="chat-stream" id="chatStream">
-              <!-- Messages injected here -->
-            </div>
-
-            <!-- Quick Conviction Bluff Reaction Buttons -->
-            <div class="quick-bluff-bar" id="quickBluffBar">
-              <!-- Dynamically injected -->
-            </div>
-
-            <!-- Chat Input -->
-            <div class="chat-input-row" id="chatInputRow">
-              <input type="text" class="chat-input" id="chatInput" placeholder="Send dialogue or bluff..." maxlength="120">
-              <button class="chat-send-btn" id="btnSendChat">Send</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Decision Tokens Podium (Selection) -->
-        <div class="decision-section" id="decisionSection">
-          <div class="decision-title" id="decisionPromptTitle">Select Secret Decision</div>
-
-          <div class="balls-podium">
-            <!-- Split Token -->
-            <div class="golden-ball-container" id="ballSplit" data-choice="SPLIT">
-              <div class="golden-ball split-ball" id="ballVisualSplit">
-                <div class="ball-emblem">SPLIT</div>
-              </div>
-              <span class="ball-label" id="splitBallLabel">50% Split</span>
-            </div>
-
-            <!-- Steal Token -->
-            <div class="golden-ball-container" id="ballSteal" data-choice="STEAL">
-              <div class="golden-ball steal-ball" id="ballVisualSteal">
-                <div class="ball-emblem">STEAL</div>
-              </div>
-              <span class="ball-label" id="stealBallLabel">100% Steal</span>
-            </div>
-          </div>
-
-          <button class="btn btn-primary" id="btnLockChoice" style="min-width: 260px;" disabled>
-            🔒 Lock In Secret Decision
-          </button>
         </div>
       </div>
     </section>
