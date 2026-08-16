@@ -155,13 +155,13 @@ const THEMES_DATA = {
       }
     },
     announcements: {
-      roundStart: "Final table showdown! Will you Split or will you Steal?",
-      tenSeconds: "Ten seconds left! Lock in your secret decision!",
-      reveal: "Three, two, one, reveal!",
-      splitWin: "Pot split! Both players share the prize equally!",
-      stealWin: "Solo steal! You take 100% of the jackpot!",
-      stealLose: "Betrayal! Opponent takes the whole jackpot!",
-      mutualLose: "Both stole! Mutual collapse, both get $0!"
+      roundStart: "Forty-five seconds on the clock at the high-stakes final table! Who do you trust?! Will you honor the chop or shove all-in to steal the whole stack?!",
+      tenSeconds: "Ten seconds! The clock is ticking down, lock it in NOW!",
+      reveal: "Showdown on the river! Moment of truth... REVEAL!",
+      splitWin: "BOOM! A gentleman's chop! You both walk away with a mountain of chips!",
+      stealWin: "COLD-BLOODED! You took every single chip off the table! What a legendary steal!",
+      stealLose: "Ouch! You got played! Opponent snapped off the pot and took the whole stack!",
+      mutualLose: "Total carnage! Both players shoved all-in, both walk away with ZERO!"
     }
   },
 
@@ -311,13 +311,13 @@ const THEMES_DATA = {
       }
     },
     announcements: {
-      roundStart: "Showdown on the floor! Will you Split or will you Steal?",
-      tenSeconds: "Ten seconds left! Lock in your trade decision!",
-      reveal: "Three, two, one, reveal!",
-      splitWin: "Equilibrium reached! Both traders share the pool equally!",
-      stealWin: "Defection successful! You capture 100% of the pool!",
-      stealLose: "Counterparty defected! They captured the whole pool!",
-      mutualLose: "Both stole! Deal collapsed, both get $0!"
+      roundStart: "The opening bell has rung on Wall Street! Millions on the line... will you cooperate or execute a hostile takeover?!",
+      tenSeconds: "Closing bell in ten seconds! Execute your order immediately!",
+      reveal: "Market close! All orders locked... let's see the fills!",
+      splitWin: "Perfect equilibrium! Both desks profit and the fund wins big!",
+      stealWin: "Hostile takeover complete! You wiped out the competition and captured 100% of the alpha!",
+      stealLose: "Short squeezed! Counterparty dumped the position and took the entire fund!",
+      mutualLose: "Market crash! Mutual greed wiped out both portfolios to absolute zero!"
     }
   },
 
@@ -467,13 +467,13 @@ const THEMES_DATA = {
       }
     },
     announcements: {
-      roundStart: "Showdown in the VIP Lounge! Will you Split or will you Steal?",
-      tenSeconds: "Ten seconds remaining! Lock in your secret decision!",
-      reveal: "Three, two, one, reveal!",
-      splitWin: "Deposit divided! Both guests share the funds equally!",
-      stealWin: "Seized! You claim the entire deposit box!",
-      stealLose: "Seized! Opponent claimed the entire deposit box!",
-      mutualLose: "Both seized! Total default, neither guest receives a payout!"
+      roundStart: "Welcome to the Penthouse Suite! A massive fortune in the room safe... will you share like royalty or run a dirty hustle?!",
+      tenSeconds: "Checkout in ten seconds! Final decision time!",
+      reveal: "Keys on the counter! Let's pop the champagne and reveal!",
+      splitWin: "Magnificent! A lavish 50/50 split! Champagne for everyone!",
+      stealWin: "Pure scandal! You slipped out the back door with the entire inheritance!",
+      stealLose: "Betrayed in paradise! Opponent took the keys and left you with the bill!",
+      mutualLose: "Absolute catastrophe! Both tried to steal and the hotel seized everything!"
     }
   },
 
@@ -623,13 +623,13 @@ const THEMES_DATA = {
       }
     },
     announcements: {
-      roundStart: "Vault unlocked! Will you Share or will you Steal?",
-      tenSeconds: "Ten seconds before lockdown! Lock in your secret code!",
-      reveal: "Three, two, one, reveal!",
-      splitWin: "Gold shared! Both infiltrators split the reserves equally!",
-      stealWin: "Solo heist! You raided 100% of the vault gold!",
-      stealLose: "Betrayal! Opponent raided the entire vault!",
-      mutualLose: "Lockdown triggered! Both raided, neither gets a dime!"
+      roundStart: "The vault door is cracked! Solid gold bars on the floor... will you split the loot or betray your partner in crime?!",
+      tenSeconds: "Silent alarm in ten seconds! Grab the bag and lock it in!",
+      reveal: "Duffel bags on the table... three, two, one, unmask!",
+      splitWin: "Clean getaway! Honor among thieves, both walking away filthy rich!",
+      stealWin: "Masterclass heist! You double-crossed your crew and took every last bar of gold!",
+      stealLose: "Left in the dust! Your partner ghosted you and took the entire loot!",
+      mutualLose: "Greed triggered the alarm! Laser grid tripped, both get arrested with zero!"
     }
   },
 
@@ -779,13 +779,13 @@ const THEMES_DATA = {
       }
     },
     announcements: {
-      roundStart: "Commanders at the console! Will you honor the Pact or launch a Strike?",
-      tenSeconds: "Ten seconds in the launch window! Lock in your secret key!",
-      reveal: "Three, two, one, reveal!",
-      splitWin: "Joint pact honored! Both commanders share the budget equally!",
-      stealWin: "Unilateral strike! You seized 100% of the defense budget!",
-      stealLose: "Rogue strike! Opponent seized the entire defense budget!",
-      mutualLose: "Mutual strike! Both fired, total destruction, both receive $0!"
+      roundStart: "DEFCON 1 classified channel active! Two commanders at the terminal... will you sign the treaty or execute a surprise strike?!",
+      tenSeconds: "Launch sequence in ten seconds! Authorize your final cipher!",
+      reveal: "Nuclear football unlocked... decoding orders... SHOWDOWN!",
+      splitWin: "Peace treaty signed! Both nations survive and claim joint victory!",
+      stealWin: "Flawless espionage! Direct tactical strike, you captured 100% of the defense budget!",
+      stealLose: "Ambushed! The enemy counter-intelligence operation wiped you out!",
+      mutualLose: "Mutual Assured Destruction! Both launched strikes, complete strategic wipeout!"
     }
   }
 };

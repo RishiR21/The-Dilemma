@@ -632,7 +632,6 @@ class TheDilemmaApp {
         const isVoiceOn = window.soundEngine.toggleHostVoice();
         settingVoice.textContent = isVoiceOn ? 'ON' : 'OFF';
         settingVoice.classList.toggle('active', isVoiceOn);
-        window.soundEngine.speakHost(isVoiceOn ? 'Voice commentary online' : '', true);
       });
     }
 

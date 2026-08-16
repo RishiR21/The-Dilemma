@@ -1356,18 +1356,39 @@ class TensionSoundEngine {
     osc.stop(t + 0.9);
   }
 
-  speakHost(text, force = false) {
-    if (!this.isHostVoiceEnabled || !('speechSynthesis' in window)) return;
-    if (this.isMuted && !force) return;
+  speakHost(text) {
+    if (!this.isHostVoiceEnabled || !('speechSynthesis' in window) || !text) return;
+    if (this.isMuted) return;
 
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.rate = 1.05;
-    utterance.pitch = 0.95;
-    const voices = window.speechSynthesis.getVoices();
-    const voice = voices.find(v => v.lang.includes('en-GB') || v.lang.includes('en-US'));
-    if (voice) utterance.voice = voice;
-    window.speechSynthesis.speak(utterance);
+    // STRICT: Voice commentary is active ONLY during live gameplay or showdown reveal
+    const gameplay = document.getElementById('screenGameplay');
+    const reveal = document.getElementById('screenReveal');
+    const isGameActive = (gameplay && !gameplay.classList.contains('hidden')) ||
+                         (reveal && !reveal.classList.contains('hidden'));
+    if (!isGameActive) return;
+
+    try {
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      
+      // Dynamic, energetic delivery: 1.12x pace & 1.08 pitch for charismatic game show energy
+      utterance.rate = 1.12;
+      utterance.pitch = 1.08;
+      utterance.volume = 0.95;
+
+      const voices = window.speechSynthesis.getVoices();
+      // Prioritize natural expressive voices
+      const naturalVoice = voices.find(v => (v.name.includes('Natural') || v.name.includes('Google') || v.name.includes('Daniel') || v.name.includes('Samantha') || v.name.includes('Oliver') || v.name.includes('George') || v.name.includes('Serena')) && v.lang.startsWith('en'));
+      const fallbackVoice = voices.find(v => v.lang.includes('en-GB') || v.lang.includes('en-US') || v.lang.startsWith('en'));
+      
+      if (naturalVoice) {
+        utterance.voice = naturalVoice;
+      } else if (fallbackVoice) {
+        utterance.voice = fallbackVoice;
+      }
+
+      window.speechSynthesis.speak(utterance);
+    } catch (e) {}
   }
 }
 
