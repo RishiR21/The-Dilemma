@@ -154,6 +154,11 @@ const THEMES_DATA = {
         ]
       }
     },
+    hedge: {
+      title: '🛡️ Table Insurance Option',
+      badge: 'INSURED',
+      desc: 'Pay 10% premium on 50/50 chop to secure a guaranteed 20% chip floor if opponent pushes All-In.'
+    },
     announcements: {
       roundStart: "Forty-five seconds on the clock at the high-stakes final table! Who do you trust?! Will you honor the chop or shove all-in to steal the whole stack?!",
       tenSeconds: "Ten seconds! The clock is ticking down, lock it in NOW!",
@@ -161,7 +166,8 @@ const THEMES_DATA = {
       splitWin: "BOOM! A gentleman's chop! You both walk away with a mountain of chips!",
       stealWin: "COLD-BLOODED! You took every single chip off the table! What a legendary steal!",
       stealLose: "Ouch! You got played! Opponent snapped off the pot and took the whole stack!",
-      mutualLose: "Total carnage! Both players shoved all-in, both walk away with ZERO!"
+      mutualLose: "Total carnage! Both players shoved all-in, both walk away with ZERO!",
+      hedgeDeflect: "Table Insurance activated! The hostile All-In was deflected, recovering twenty percent of the chip stack!"
     }
   },
 
@@ -310,6 +316,11 @@ const THEMES_DATA = {
         ]
       }
     },
+    hedge: {
+      title: '🛡️ Downside Covered Call Hedge',
+      badge: 'HEDGED',
+      desc: 'Cap split upside by 10% premium to secure a guaranteed 20% floor return if counterparty steals.'
+    },
     announcements: {
       roundStart: "The opening bell has rung on Wall Street! Millions on the line... will you cooperate or execute a hostile takeover?!",
       tenSeconds: "Closing bell in ten seconds! Execute your order immediately!",
@@ -317,7 +328,8 @@ const THEMES_DATA = {
       splitWin: "Perfect equilibrium! Both desks profit and the fund wins big!",
       stealWin: "Hostile takeover complete! You wiped out the competition and captured 100% of the alpha!",
       stealLose: "Short squeezed! Counterparty dumped the position and took the entire fund!",
-      mutualLose: "Market crash! Mutual greed wiped out both portfolios to absolute zero!"
+      mutualLose: "Market crash! Mutual greed wiped out both portfolios to absolute zero!",
+      hedgeDeflect: "Downside hedge triggered! Hostile takeover absorbed, securing twenty percent floor capital!"
     }
   },
 
@@ -466,6 +478,11 @@ const THEMES_DATA = {
         ]
       }
     },
+    hedge: {
+      title: '🛡️ Concierge Escrow Guarantee',
+      badge: 'ESCROW',
+      desc: 'Forfeit 10% of diplomatic division to guarantee a 20% suite reserve if counterparty seizes pot.'
+    },
     announcements: {
       roundStart: "Welcome to the Penthouse Suite! A massive fortune in the room safe... will you share like royalty or run a dirty hustle?!",
       tenSeconds: "Checkout in ten seconds! Final decision time!",
@@ -473,7 +490,8 @@ const THEMES_DATA = {
       splitWin: "Magnificent! A lavish 50/50 split! Champagne for everyone!",
       stealWin: "Pure scandal! You slipped out the back door with the entire inheritance!",
       stealLose: "Betrayed in paradise! Opponent took the keys and left you with the bill!",
-      mutualLose: "Absolute catastrophe! Both tried to steal and the hotel seized everything!"
+      mutualLose: "Absolute catastrophe! Both tried to steal and the hotel seized everything!",
+      hedgeDeflect: "Concierge escrow activated! Twenty percent diplomatic reserve preserved!"
     }
   },
 
@@ -622,6 +640,11 @@ const THEMES_DATA = {
         ]
       }
     },
+    hedge: {
+      title: '🛡️ Dead-Man Vault Reserve',
+      badge: 'PROTECTED',
+      desc: 'Commit 10% split fee to lock in a guaranteed 20% subterranean reserve if counterparty raids pot.'
+    },
     announcements: {
       roundStart: "The vault door is cracked! Solid gold bars on the floor... will you split the loot or betray your partner in crime?!",
       tenSeconds: "Silent alarm in ten seconds! Grab the bag and lock it in!",
@@ -629,7 +652,8 @@ const THEMES_DATA = {
       splitWin: "Clean getaway! Honor among thieves, both walking away filthy rich!",
       stealWin: "Masterclass heist! You double-crossed your crew and took every last bar of gold!",
       stealLose: "Left in the dust! Your partner ghosted you and took the entire loot!",
-      mutualLose: "Greed triggered the alarm! Laser grid tripped, both get arrested with zero!"
+      mutualLose: "Greed triggered the alarm! Laser grid tripped, both get arrested with zero!",
+      hedgeDeflect: "Subterranean vault reserve locked! Twenty percent gold bullion recovered from the heist!"
     }
   },
 
@@ -778,6 +802,11 @@ const THEMES_DATA = {
         ]
       }
     },
+    hedge: {
+      title: '🛡️ DEFCON Contingency Protocol',
+      badge: 'DEFCON-SEC',
+      desc: 'Deduct 10% pact allowance to guarantee a 20% asset extraction if hostile strike occurs.'
+    },
     announcements: {
       roundStart: "DEFCON 1 classified channel active! Two commanders at the terminal... will you sign the treaty or execute a surprise strike?!",
       tenSeconds: "Launch sequence in ten seconds! Authorize your final cipher!",
@@ -785,7 +814,8 @@ const THEMES_DATA = {
       splitWin: "Peace treaty signed! Both nations survive and claim joint victory!",
       stealWin: "Flawless espionage! Direct tactical strike, you captured 100% of the defense budget!",
       stealLose: "Ambushed! The enemy counter-intelligence operation wiped you out!",
-      mutualLose: "Mutual Assured Destruction! Both launched strikes, complete strategic wipeout!"
+      mutualLose: "Mutual Assured Destruction! Both launched strikes, complete strategic wipeout!",
+      hedgeDeflect: "DEFCON contingency protocol executed! Twenty percent strategic reserves extracted!"
     }
   }
 };

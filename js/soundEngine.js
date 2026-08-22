@@ -866,6 +866,73 @@ class TensionSoundEngine {
     } catch (e) {}
   }
 
+  /* 🛡️ Downside Hedge Toggle Shimmer Tone */
+  playHedgeToggle(isActivating = true) {
+    if (!this.ctx || this.isMuted) return;
+    try {
+      const t = this.ctx.currentTime;
+      if (isActivating) {
+        // Ascending crystal cyber-shimmer chord
+        const freqs = [392.00, 587.33, 880.00];
+        freqs.forEach((freq, idx) => {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          const filter = this.ctx.createBiquadFilter();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, t + idx * 0.04);
+          filter.type = 'bandpass';
+          filter.frequency.setValueAtTime(freq * 1.5, t);
+          filter.Q.setValueAtTime(4.0, t);
+          gain.gain.setValueAtTime(0.06, t + idx * 0.04);
+          gain.gain.exponentialRampToValueAtTime(0.0001, t + idx * 0.04 + 0.32);
+          osc.connect(filter);
+          filter.connect(gain);
+          gain.connect(this.spatialDelay);
+          gain.connect(this.masterFilter);
+          osc.start(t + idx * 0.04);
+          osc.stop(t + idx * 0.04 + 0.32);
+        });
+      } else {
+        // Descending gentle power-down
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(660, t);
+        osc.frequency.exponentialRampToValueAtTime(330, t + 0.18);
+        gain.gain.setValueAtTime(0.04, t);
+        gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.18);
+        osc.connect(gain);
+        gain.connect(this.sfxMasterGain);
+        osc.start(t);
+        osc.stop(t + 0.18);
+      }
+    } catch (e) {}
+  }
+
+  /* 🛡️ Downside Hedge Energy Shield Hostile Deflection */
+  playHedgeDeflect() {
+    if (!this.ctx || this.isMuted) return;
+    try {
+      const t = this.ctx.currentTime;
+      // Resonant metallic deflection ring
+      const freqs = [1046.50, 1567.98, 2093.00];
+      freqs.forEach((freq, idx) => {
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(freq, t);
+        osc.frequency.exponentialRampToValueAtTime(freq * 0.8, t + 0.6);
+        gain.gain.setValueAtTime(0.08, t);
+        gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.75 + idx * 0.1);
+        osc.connect(gain);
+        gain.connect(this.spatialDelay);
+        gain.connect(this.masterFilter);
+        osc.start(t);
+        osc.stop(t + 0.75 + idx * 0.1);
+      });
+    } catch (e) {}
+  }
+
   /* ==========================================================================
      CORE SYNTHESIS VOICE GENERATOR
      ========================================================================== */

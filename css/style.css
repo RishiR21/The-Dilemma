@@ -1427,6 +1427,64 @@ body::after {
   50% { transform: rotate(0deg); }
 }
 
+/* Downside Hedge Payoff HUD */
+.hedge-advisor-card {
+  background: rgba(14, 165, 233, 0.05);
+  border: 1px solid rgba(14, 165, 233, 0.2);
+}
+
+.hedge-matrix-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-sm);
+  padding: 6px 8px;
+  font-size: 0.70rem;
+  font-family: var(--font-mono);
+}
+
+.hedge-matrix-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.hedge-matrix-case {
+  color: var(--text-muted);
+}
+
+.hedge-matrix-val {
+  font-weight: 700;
+}
+
+.highlight-green {
+  color: #4ade80;
+}
+
+.highlight-blue {
+  color: #38bdf8;
+  text-shadow: 0 0 8px rgba(56, 189, 248, 0.4);
+}
+
+.highlight-red {
+  color: #f87171;
+}
+
+/* Deflecting Shield Animation on Reveal */
+.reveal-ball.deflecting-shield {
+  animation: shieldDeflectPulse 1.2s ease-in-out infinite alternate;
+  box-shadow: 0 0 35px #0284c7, 0 0 60px rgba(56, 189, 248, 0.8), inset 0 0 20px #38bdf8 !important;
+  border: 2px solid #38bdf8 !important;
+}
+
+@keyframes shieldDeflectPulse {
+  0% { transform: scale(1); filter: drop-shadow(0 0 10px #38bdf8); }
+  50% { transform: scale(1.06); filter: drop-shadow(0 0 25px #0284c7); }
+  100% { transform: scale(1); filter: drop-shadow(0 0 10px #38bdf8); }
+}
+
 /* CENTER COLUMN: GRAND SHOWDOWN ARENA */
 .showdown-center-deck {
   display: flex;

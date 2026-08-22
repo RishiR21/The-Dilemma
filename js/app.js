@@ -162,7 +162,17 @@ class TheDilemmaApp {
       if (hotlineAction) hotlineAction.textContent = config.hotline.btnText;
     }
 
-    // 8. Re-render all views
+    // 8. Thematic Hedge Option Text
+    if (config.hedge) {
+      const hedgeTitleElem = document.querySelector('.hedge-title');
+      const badgeP1 = document.getElementById('revealHedgeBadgeP1');
+      const badgeP2 = document.getElementById('revealHedgeBadgeP2');
+      if (hedgeTitleElem) hedgeTitleElem.textContent = config.hedge.title;
+      if (badgeP1) badgeP1.textContent = `🛡️ ${config.hedge.badge}`;
+      if (badgeP2) badgeP2.textContent = `🛡️ ${config.hedge.badge}`;
+    }
+
+    // 9. Re-render all views
     this.renderThemeCards();
     this.renderAICards();
     this.renderTiers();
@@ -844,7 +854,8 @@ class TheDilemmaApp {
         if (tag) {
           tag.textContent = this.hasHedged ? 'ACTIVE (20% FLOOR)' : 'OPTIONAL';
         }
-        window.soundEngine.playClick();
+        window.soundEngine.playHedgeToggle(this.hasHedged);
+        this.updateHedgeAdvisorHUD();
       });
     }
 
@@ -1449,6 +1460,34 @@ class TheDilemmaApp {
     }
   }
 
+  updateHedgeAdvisorHUD() {
+    const pot = this.currentStake || 50000;
+    const isHedged = this.hasHedged;
+
+    const valSplit = document.getElementById('matrixValSplit');
+    const valSteal = document.getElementById('matrixValSteal');
+    const valMutual = document.getElementById('matrixValMutual');
+
+    if (valSplit) {
+      const splitAmt = isHedged ? (pot * 0.5 * 0.9) : (pot * 0.5);
+      valSplit.textContent = `$${splitAmt.toLocaleString()}${isHedged ? ' (10% Prem)' : ''}`;
+    }
+
+    if (valSteal) {
+      if (isHedged) {
+        valSteal.textContent = `$${(pot * 0.20).toLocaleString()} (Floor)`;
+        valSteal.className = 'hedge-matrix-val highlight-blue';
+      } else {
+        valSteal.textContent = '$0 (Wipeout)';
+        valSteal.className = 'hedge-matrix-val highlight-red';
+      }
+    }
+
+    if (valMutual) {
+      valMutual.textContent = '$0 (Default)';
+    }
+  }
+
   resetBallSelectionUI() {
     this.selectedBall = null;
     this.hasHedged = false;
@@ -1467,6 +1506,7 @@ class TheDilemmaApp {
       const floorAmt = this.currentStake * 0.20;
       hedgeSub.innerHTML = `Forfeit 10% of split payout to secure a <strong>guaranteed 20% floor ($${floorAmt.toLocaleString()})</strong> if opponent steals.`;
     }
+    this.updateHedgeAdvisorHUD();
   }
 
   handleLockChoice() {
@@ -1658,8 +1698,16 @@ class TheDilemmaApp {
       window.soundEngine.speakHost(config.announcements.stealWin);
       this.spawnConfetti(['#eab308', '#38bdf8', '#ffffff', '#f59e0b'], 180);
     } else if (outcome.outcomeType === 'P2_STEALS') {
-      window.soundEngine.playStealHeist(false);
-      window.soundEngine.speakHost(config.announcements.stealLose);
+      if (outcome.hedgeTriggeredP1) {
+        const ballP1 = document.getElementById('revealBallP1');
+        if (ballP1) ballP1.classList.add('deflecting-shield');
+        window.soundEngine.playHedgeDeflect();
+        window.soundEngine.speakHost(config.announcements.hedgeDeflect || config.announcements.stealLose);
+        this.spawnConfetti(['#38bdf8', '#0284c7', '#ffffff', '#e0f2fe'], 120);
+      } else {
+        window.soundEngine.playStealHeist(false);
+        window.soundEngine.speakHost(config.announcements.stealLose);
+      }
     } else {
       window.soundEngine.playMutualDestruction();
       window.soundEngine.speakHost(config.announcements.mutualLose);
