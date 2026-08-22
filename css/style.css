@@ -1452,6 +1452,161 @@ body::after {
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
 }
 
+/* Downside Hedge Option Card (Covered Call Downside Protection) */
+.hedge-control-card {
+  width: 100%;
+  max-width: 480px;
+  background: rgba(14, 165, 233, 0.06);
+  border: 1px solid rgba(14, 165, 233, 0.25);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  margin: 6px 0;
+  transition: all 0.25s ease;
+  backdrop-filter: blur(8px);
+}
+
+.hedge-control-card:hover {
+  border-color: #38bdf8;
+  background: rgba(14, 165, 233, 0.10);
+  box-shadow: 0 0 16px rgba(56, 189, 248, 0.2);
+}
+
+.hedge-control-card.active {
+  background: rgba(14, 165, 233, 0.14);
+  border-color: #38bdf8;
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.35);
+}
+
+.hedge-toggle-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.hedge-switch {
+  position: relative;
+  display: inline-block;
+  width: 42px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.hedge-checkbox {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.hedge-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.15);
+  border: 1px solid var(--border-subtle);
+  transition: .3s;
+  border-radius: 24px;
+}
+
+.hedge-slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 3px;
+  bottom: 3px;
+  background-color: #94a3b8;
+  transition: .3s;
+  border-radius: 50%;
+}
+
+.hedge-checkbox:checked + .hedge-slider {
+  background-color: #0284c7;
+  border-color: #38bdf8;
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+}
+
+.hedge-checkbox:checked + .hedge-slider:before {
+  transform: translateX(18px);
+  background-color: #ffffff;
+}
+
+.hedge-text-col {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.hedge-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.hedge-title {
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #e0f2fe;
+}
+
+.hedge-tag {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-muted);
+  border: 1px solid var(--border-subtle);
+}
+
+.hedge-control-card.active .hedge-tag {
+  background: #0284c7;
+  color: #ffffff;
+  border-color: #38bdf8;
+  box-shadow: 0 0 8px rgba(56, 189, 248, 0.6);
+}
+
+.hedge-subtitle {
+  font-size: 0.70rem;
+  color: var(--text-subtle);
+  line-height: 1.25;
+}
+
+/* Reveal Screen Hedge Badges */
+.reveal-player-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.reveal-hedge-badge {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 800;
+  background: rgba(14, 165, 233, 0.2);
+  border: 1px solid #38bdf8;
+  color: #38bdf8;
+  padding: 2px 8px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
+  animation: pulseGlow 1.5s infinite alternate;
+}
+
+@keyframes pulseGlow {
+  from { opacity: 0.7; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1.03); }
+}
+
 /* RIGHT COLUMN: NEGOTIATION COMMS */
 .negotiation-sidebar {
   display: flex;

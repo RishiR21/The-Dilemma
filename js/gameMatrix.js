@@ -43,11 +43,79 @@ const ACHIEVEMENTS = [
   { id: 'first_split', title: 'Syndicate Closed', desc: 'Successfully execute a 50/50 mutual split', icon: '🤝' },
   { id: 'first_steal', title: 'Grand Heist', desc: 'Execute a successful steal and seize 100% of the pot', icon: '💼' },
   { id: 'double_steal', title: 'Mutual Wipeout', desc: 'Both sides attempt to steal, resulting in total $0 default', icon: '💥' },
+  { id: 'hedge_master', title: 'Downside Protection', desc: 'Successfully hedge a hostile steal and recover 20% of the jackpot', icon: '🛡️' },
   { id: 'master_saint', title: 'Fiduciary Titan', desc: 'Maintain an 80%+ Trust Rating across 10+ matches', icon: '📈' },
   { id: 'master_thief', title: 'Apex Raider', desc: 'Accumulate over $2,000,000 in successful steals', icon: '🦈' },
   { id: 'millionaire', title: 'Decamillionaire Club', desc: 'Build your career bankroll past $10,000,000', icon: '🏆' },
   { id: 'nick_gambit', title: 'Bully Neutralized', desc: 'Defeat Nick in a high-conviction standoff', icon: '👑' }
 ];
+
+/**
+ * Pure calculation function for the Downside Hedge covered-call mechanic.
+ * 
+ * - Both Steal: Total wipeout, hedges voided -> Both get $0.
+ * - Both Split: Base 50% split. Any hedged player forfeits 10% of their split share (45% of total pool).
+ * - Split vs Steal: If splitting player hedged, they secure 20% of the total pool,
+ *   and the stealing player's payout is reduced from 100% to 80%.
+ */
+function calculatePayout(playerAState, playerBState, poolSize) {
+  if (poolSize <= 0) return { playerAPayout: 0, playerBPayout: 0 };
+
+  const choiceA = typeof playerAState === 'object' ? playerAState.choice : playerAState;
+  const hedgedA = typeof playerAState === 'object' ? Boolean(playerAState.hasHedged) : false;
+
+  const choiceB = typeof playerBState === 'object' ? playerBState.choice : playerBState;
+  const hedgedB = typeof playerBState === 'object' ? Boolean(playerBState.hasHedged) : false;
+
+  // 1. Both Steal -> All hedges voided, both receive $0
+  if (choiceA === 'STEAL' && choiceB === 'STEAL') {
+    return { playerAPayout: 0, playerBPayout: 0 };
+  }
+
+  // 2. Both Split -> 50% base payout; hedgers pay 10% premium on their split share
+  if (choiceA === 'SPLIT' && choiceB === 'SPLIT') {
+    const baseSplit = poolSize * 0.5;
+    const hedgedSplit = baseSplit * 0.9; // 10% premium forfeiture
+    return {
+      playerAPayout: hedgedA ? hedgedSplit : baseSplit,
+      playerBPayout: hedgedB ? hedgedSplit : baseSplit
+    };
+  }
+
+  // 3. Player A Splits & Player B Steals (Hostile Takeover by Player B)
+  if (choiceA === 'SPLIT' && choiceB === 'STEAL') {
+    if (hedgedA) {
+      const protectedFloor = poolSize * 0.20; // 20% guaranteed floor
+      return {
+        playerAPayout: protectedFloor,
+        playerBPayout: poolSize - protectedFloor // Steal reduced to 80%
+      };
+    }
+    return {
+      playerAPayout: 0,
+      playerBPayout: poolSize
+    };
+  }
+
+  // 4. Player A Steals & Player B Splits (Hostile Takeover by Player A)
+  if (choiceA === 'STEAL' && choiceB === 'SPLIT') {
+    if (hedgedB) {
+      const protectedFloor = poolSize * 0.20; // 20% guaranteed floor
+      return {
+        playerAPayout: poolSize - protectedFloor, // Steal reduced to 80%
+        playerBPayout: protectedFloor
+      };
+    }
+    return {
+      playerAPayout: poolSize,
+      playerBPayout: 0
+    };
+  }
+
+  return { playerAPayout: 0, playerBPayout: 0 };
+}
+
+window.calculatePayout = calculatePayout;
 
 class GameMatrix {
   constructor() {
@@ -325,48 +393,74 @@ class GameMatrix {
     };
   }
 
-  evaluateMatrix(p1Choice, p2Choice, totalJackpot) {
+  evaluateMatrix(p1, p2, totalJackpot) {
+    const p1Choice = typeof p1 === 'object' ? p1.choice : p1;
+    const p1Hedged = typeof p1 === 'object' ? Boolean(p1.hasHedged) : false;
+    const p2Choice = typeof p2 === 'object' ? p2.choice : p2;
+    const p2Hedged = typeof p2 === 'object' ? Boolean(p2.hasHedged) : false;
+
     const buyIn = totalJackpot / 2;
+    const payouts = calculatePayout(
+      { choice: p1Choice, hasHedged: p1Hedged },
+      { choice: p2Choice, hasHedged: p2Hedged },
+      totalJackpot
+    );
+    const p1Amount = payouts.playerAPayout;
+    const p2Amount = payouts.playerBPayout;
+    const netGainP1 = p1Amount - buyIn;
+
     let outcomeType = '';
-    let p1Amount = 0;
-    let p2Amount = 0;
-    let netGainP1 = 0;
-    let narrative = '';
     let headline = '';
+    let narrative = '';
+    let hedgeTriggeredP1 = false;
+    let hedgeTriggeredP2 = false;
 
     if (p1Choice === 'SPLIT' && p2Choice === 'SPLIT') {
       outcomeType = 'SPLIT_SPLIT';
-      p1Amount = totalJackpot / 2;
-      p2Amount = totalJackpot / 2;
-      netGainP1 = 0; // Broke even, stake returned
-      headline = '50/50 SPLIT FINALIZED!';
-      narrative = `Both sides honored the agreement! The $${totalJackpot.toLocaleString()} pool is disbursed equally ($${p1Amount.toLocaleString()} to each side). Your $${buyIn.toLocaleString()} stake is returned.`;
+      if (p1Hedged && p2Hedged) {
+        headline = '50/50 SPLIT (BOTH HEDGED)';
+        narrative = `Both sides split and hedged! Each paid a 10% premium ($${(buyIn * 0.1).toLocaleString()}) and received $${p1Amount.toLocaleString()} each.`;
+      } else if (p1Hedged) {
+        headline = '50/50 SPLIT (YOU HEDGED)';
+        narrative = `Both sides split! You paid a 10% hedge premium ($${(buyIn * 0.1).toLocaleString()}) and received $${p1Amount.toLocaleString()}. Opponent received full $${p2Amount.toLocaleString()}.`;
+      } else if (p2Hedged) {
+        headline = '50/50 SPLIT (OPPONENT HEDGED)';
+        narrative = `Both sides split! You received full $${p1Amount.toLocaleString()}. Opponent paid a 10% hedge premium and received $${p2Amount.toLocaleString()}.`;
+      } else {
+        headline = '50/50 SPLIT FINALIZED!';
+        narrative = `Both sides honored the agreement! The $${totalJackpot.toLocaleString()} pool is disbursed equally ($${p1Amount.toLocaleString()} to each side). Your $${buyIn.toLocaleString()} stake is returned.`;
+      }
     } else if (p1Choice === 'STEAL' && p2Choice === 'SPLIT') {
       outcomeType = 'P1_STEALS';
-      p1Amount = totalJackpot;
-      p2Amount = 0;
-      netGainP1 = buyIn; // Doubled stake
-      headline = 'SOLO STEAL! YOU SEIZE 100%!';
-      narrative = `You executed a successful steal while your counterparty honored the split. You win the entire $${totalJackpot.toLocaleString()} pot (+$${netGainP1.toLocaleString()} profit)!`;
+      if (p2Hedged) {
+        hedgeTriggeredP2 = true;
+        headline = 'SOLO STEAL (OPPONENT HEDGED 20% FLOOR)';
+        narrative = `You executed a steal, but counterparty had a Downside Hedge active! They recovered their guaranteed 20% floor ($${p2Amount.toLocaleString()}), capping your steal at $${p1Amount.toLocaleString()} (+$${netGainP1.toLocaleString()} profit).`;
+      } else {
+        headline = 'SOLO STEAL! YOU SEIZE 100%!';
+        narrative = `You executed a successful steal while your counterparty honored the split. You win the entire $${totalJackpot.toLocaleString()} pot (+$${netGainP1.toLocaleString()} profit)!`;
+      }
     } else if (p1Choice === 'SPLIT' && p2Choice === 'STEAL') {
       outcomeType = 'P2_STEALS';
-      p1Amount = 0;
-      p2Amount = totalJackpot;
-      netGainP1 = -buyIn; // Lost entire buy-in stake
-      headline = 'BETRAYAL! OPPONENT SEIZED THE POT!';
-      narrative = `Opponent executed a steal while you offered the split. Opponent took the whole pot, and you lost your $${buyIn.toLocaleString()} stake!`;
+      if (p1Hedged) {
+        hedgeTriggeredP1 = true;
+        headline = '🛡️ DOWNSIDE HEDGE EXECUTED! 20% RECOVERED!';
+        narrative = `Opponent executed a hostile steal, but your Downside Hedge protected you! You recovered a guaranteed 20% floor ($${p1Amount.toLocaleString()}), reducing opponent's loot to $${p2Amount.toLocaleString()}.`;
+      } else {
+        headline = 'BETRAYAL! OPPONENT SEIZED THE POT!';
+        narrative = `Opponent executed a steal while you offered the split. Opponent took the whole pot, and you lost your $${buyIn.toLocaleString()} stake!`;
+      }
     } else {
       outcomeType = 'MUTUAL_STEAL';
-      p1Amount = 0;
-      p2Amount = 0;
-      netGainP1 = -buyIn; // Lost entire buy-in stake
       headline = 'MUTUAL DESTRUCTION! BOTH GET $0!';
-      narrative = `Both sides attempted to steal simultaneously! Total collapse: both players forfeit their $${buyIn.toLocaleString()} stakes to $0!`;
+      narrative = `Both sides attempted to steal simultaneously! All hedges are voided in mutual default: both players forfeit their $${buyIn.toLocaleString()} stakes to $0!`;
     }
 
     return {
       p1Choice,
+      p1Hedged,
       p2Choice,
+      p2Hedged,
       p1Amount,
       p2Amount,
       netGainP1,
@@ -374,16 +468,18 @@ class GameMatrix {
       totalJackpot,
       outcomeType,
       headline,
-      narrative
+      narrative,
+      hedgeTriggeredP1,
+      hedgeTriggeredP2
     };
   }
 
-  recordMatch(p1Choice, p2Choice, jackpot, opponentName, mode = 'ai') {
-    const outcome = this.evaluateMatrix(p1Choice, p2Choice, jackpot);
+  recordMatch(p1, p2, jackpot, opponentName, mode = 'ai') {
+    const outcome = this.evaluateMatrix(p1, p2, jackpot);
 
     this.stats.matchesPlayed++;
-    if (p1Choice === 'SPLIT') this.stats.splitsCount++;
-    if (p1Choice === 'STEAL') this.stats.stealsCount++;
+    if (outcome.p1Choice === 'SPLIT') this.stats.splitsCount++;
+    if (outcome.p1Choice === 'STEAL') this.stats.stealsCount++;
 
     // Add gross payout to bankroll (since buy-in was already deducted at match start)
     this.stats.bankroll += outcome.p1Amount;
@@ -405,6 +501,9 @@ class GameMatrix {
       }
     } else if (outcome.outcomeType === 'P2_STEALS') {
       this.stats.betrayedByOpponent++;
+      if (outcome.hedgeTriggeredP1) {
+        this.checkAchievement('hedge_master');
+      }
     } else if (outcome.outcomeType === 'MUTUAL_STEAL') {
       this.stats.mutualDestructions++;
       this.checkAchievement('double_steal');
@@ -434,8 +533,10 @@ class GameMatrix {
       opponent: opponentName,
       mode,
       jackpot,
-      p1Choice,
-      p2Choice,
+      p1Choice: outcome.p1Choice,
+      p1Hedged: outcome.p1Hedged,
+      p2Choice: outcome.p2Choice,
+      p2Hedged: outcome.p2Hedged,
       outcomeType: outcome.outcomeType,
       p1Amount: outcome.p1Amount,
       netGainP1: outcome.netGainP1

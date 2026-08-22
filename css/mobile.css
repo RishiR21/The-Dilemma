@@ -263,6 +263,36 @@
     display: none;
   }
 
+  .hedge-control-card {
+    padding: 6px 10px;
+    margin: 4px 0;
+  }
+
+  .hedge-title {
+    font-size: 0.74rem;
+  }
+
+  .hedge-subtitle {
+    font-size: 0.64rem;
+    line-height: 1.15;
+  }
+
+  .hedge-switch {
+    width: 36px;
+    height: 20px;
+  }
+
+  .hedge-slider:before {
+    height: 14px;
+    width: 14px;
+    left: 2px;
+    bottom: 2px;
+  }
+
+  .hedge-checkbox:checked + .hedge-slider:before {
+    transform: translateX(16px);
+  }
+
   .tactical-card {
     padding: 6px 8px;
     gap: 4px;

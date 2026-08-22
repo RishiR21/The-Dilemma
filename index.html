@@ -394,6 +394,25 @@
                 </div>
               </div>
 
+              <!-- Downside Hedge Option (Covered Call Protection) -->
+              <div class="hedge-control-card" id="hedgeControlCard">
+                <div class="hedge-toggle-wrapper">
+                  <label class="hedge-switch" for="hedgeToggle">
+                    <input type="checkbox" id="hedgeToggle" class="hedge-checkbox">
+                    <span class="hedge-slider"></span>
+                  </label>
+                  <div class="hedge-text-col">
+                    <div class="hedge-title-row">
+                      <span class="hedge-title">🛡️ Downside Hedge Option</span>
+                      <span class="hedge-tag" id="hedgeStatusTag">OPTIONAL</span>
+                    </div>
+                    <div class="hedge-subtitle" id="hedgeSubtitle">
+                      Forfeit 10% of split payout to secure a <strong>guaranteed 20% floor return</strong> if opponent steals.
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               <button class="btn btn-primary btn-lock-choice" id="btnLockChoice" disabled>
                 🔒 Lock In Secret Decision
               </button>
@@ -446,7 +465,10 @@
         <div class="reveal-stage">
           <!-- Player 1 Token -->
           <div class="reveal-player-box">
-            <div class="stage-player-name" id="revealP1Name">You</div>
+            <div class="reveal-player-header">
+              <div class="stage-player-name" id="revealP1Name">You</div>
+              <span class="reveal-hedge-badge hidden" id="revealHedgeBadgeP1">🛡️ HEDGED</span>
+            </div>
             <div class="reveal-ball" id="revealBallP1">
               <span class="reveal-ball-content" id="revealContentP1">SPLIT</span>
             </div>
@@ -454,7 +476,10 @@
 
           <!-- Counterparty Token -->
           <div class="reveal-player-box">
-            <div class="stage-player-name" id="revealP2Name">Opponent</div>
+            <div class="reveal-player-header">
+              <div class="stage-player-name" id="revealP2Name">Opponent</div>
+              <span class="reveal-hedge-badge hidden" id="revealHedgeBadgeP2">🛡️ HEDGED</span>
+            </div>
             <div class="reveal-ball" id="revealBallP2">
               <span class="reveal-ball-content" id="revealContentP2">STEAL</span>
             </div>

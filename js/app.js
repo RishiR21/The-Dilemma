@@ -17,7 +17,10 @@ class TheDilemmaApp {
     this.timeRemaining = 45;
     this.selectedBall = null;
     this.p1Choice = null;
+    this.p1Hedged = false;
     this.p2Choice = null;
+    this.p2Hedged = false;
+    this.hasHedged = false;
     this.p1Name = 'You';
     this.p2Name = 'Opponent';
     this.passPlayStep = 1;
@@ -830,6 +833,21 @@ class TheDilemmaApp {
       });
     }
 
+    // Downside Hedge Toggle Listener
+    const hedgeToggle = document.getElementById('hedgeToggle');
+    if (hedgeToggle) {
+      hedgeToggle.addEventListener('change', (e) => {
+        this.hasHedged = e.target.checked;
+        const card = document.getElementById('hedgeControlCard');
+        const tag = document.getElementById('hedgeStatusTag');
+        if (card) card.classList.toggle('active', this.hasHedged);
+        if (tag) {
+          tag.textContent = this.hasHedged ? 'ACTIVE (20% FLOOR)' : 'OPTIONAL';
+        }
+        window.soundEngine.playClick();
+      });
+    }
+
     // Lie Detector / Read Tells Scan
     document.getElementById('btnRunPolygraph').addEventListener('click', () => {
       window.soundEngine.playClick();
@@ -1080,11 +1098,15 @@ class TheDilemmaApp {
     });
 
     window.multiplayerEngine.on('onOpponentLocked', (data) => {
-      this.p2Choice = data.choice;
+      this.p2Choice = typeof data.choice === 'object' ? data.choice.choice : data.choice;
+      this.p2Hedged = typeof data.choice === 'object' ? Boolean(data.choice.hasHedged) : false;
       this.appendChat('SYSTEM', `${data.opponentName} decision entered in secret 🔒`, false);
       
       if (this.p1Choice) {
-        this.triggerRevealSequence(this.p1Choice, this.p2Choice);
+        this.triggerRevealSequence(
+          { choice: this.p1Choice, hasHedged: this.p1Hedged },
+          { choice: this.p2Choice, hasHedged: this.p2Hedged }
+        );
       }
     });
   }
@@ -1179,8 +1201,11 @@ class TheDilemmaApp {
     this.p1Name = window.gameMatrix.stats.username || 'You';
     this.p2Name = ai.name;
     this.p1Choice = null;
+    this.p1Hedged = false;
     this.p2Choice = null;
+    this.p2Hedged = false;
     this.selectedBall = null;
+    this.hasHedged = false;
     this.chatHistory = [];
 
     // Ensure adequate bankroll before match
@@ -1225,7 +1250,9 @@ class TheDilemmaApp {
     this.appendChat(ai.name, ai.initialDialogue, true);
 
     this.startNegotiationTimer(45, () => {
-      this.p2Choice = window.aiEngine.decideOutcome(this.selectedAI, window.gameMatrix.stats, this.chatHistory, this.currentStake);
+      const aiDecision = window.aiEngine.decideOutcome(this.selectedAI, window.gameMatrix.stats, this.chatHistory, this.currentStake);
+      this.p2Choice = typeof aiDecision === 'object' ? aiDecision.choice : aiDecision;
+      this.p2Hedged = typeof aiDecision === 'object' ? Boolean(aiDecision.hasHedged) : false;
     });
 
     this.scheduleAIBanter();
@@ -1234,8 +1261,11 @@ class TheDilemmaApp {
   startPassAndPlay() {
     this.passPlayStep = 1;
     this.p1Choice = null;
+    this.p1Hedged = false;
     this.p2Choice = null;
+    this.p2Hedged = false;
     this.selectedBall = null;
+    this.hasHedged = false;
     this.chatHistory = [];
 
     // Ensure adequate bankroll before match
@@ -1281,8 +1311,11 @@ class TheDilemmaApp {
 
   startMultiplayerMatch(duration = 45) {
     this.p1Choice = null;
+    this.p1Hedged = false;
     this.p2Choice = null;
+    this.p2Hedged = false;
     this.selectedBall = null;
+    this.hasHedged = false;
     this.chatHistory = [];
 
     // Ensure adequate bankroll before match
@@ -1418,10 +1451,22 @@ class TheDilemmaApp {
 
   resetBallSelectionUI() {
     this.selectedBall = null;
+    this.hasHedged = false;
     document.getElementById('ballSplit').classList.remove('selected');
     document.getElementById('ballSteal').classList.remove('selected');
     document.getElementById('btnLockChoice').disabled = true;
     document.getElementById('btnLockChoice').innerHTML = '🔒 Lock In Secret Decision';
+    const hedgeToggle = document.getElementById('hedgeToggle');
+    if (hedgeToggle) hedgeToggle.checked = false;
+    const hedgeCard = document.getElementById('hedgeControlCard');
+    if (hedgeCard) hedgeCard.classList.remove('active');
+    const hedgeTag = document.getElementById('hedgeStatusTag');
+    if (hedgeTag) hedgeTag.textContent = 'OPTIONAL';
+    const hedgeSub = document.getElementById('hedgeSubtitle');
+    if (hedgeSub) {
+      const floorAmt = this.currentStake * 0.20;
+      hedgeSub.innerHTML = `Forfeit 10% of split payout to secure a <strong>guaranteed 20% floor ($${floorAmt.toLocaleString()})</strong> if opponent steals.`;
+    }
   }
 
   handleLockChoice() {
@@ -1430,15 +1475,21 @@ class TheDilemmaApp {
     if (this.currentMode === 'pass_play') {
       if (this.passPlayStep === 1) {
         this.p1Choice = this.selectedBall;
+        this.p1Hedged = this.hasHedged;
         this.showPassPlayPrivacy(2);
       } else {
         this.p2Choice = this.selectedBall;
-        this.triggerRevealSequence(this.p1Choice, this.p2Choice);
+        this.p2Hedged = this.hasHedged;
+        this.triggerRevealSequence(
+          { choice: this.p1Choice, hasHedged: this.p1Hedged },
+          { choice: this.p2Choice, hasHedged: this.p2Hedged }
+        );
       }
       return;
     }
 
     this.p1Choice = this.selectedBall;
+    this.p1Hedged = this.hasHedged;
     const btnLock = document.getElementById('btnLockChoice');
     if (btnLock) {
       btnLock.innerHTML = '✅ Decision Locked In Secret';
@@ -1447,15 +1498,23 @@ class TheDilemmaApp {
 
     if (this.currentMode === 'ai' || this.currentMode === 'ladder') {
       if (!this.p2Choice) {
-        this.p2Choice = window.aiEngine.decideOutcome(this.selectedAI, window.gameMatrix.stats, this.chatHistory, this.currentStake);
+        const aiDecision = window.aiEngine.decideOutcome(this.selectedAI, window.gameMatrix.stats, this.chatHistory, this.currentStake);
+        this.p2Choice = typeof aiDecision === 'object' ? aiDecision.choice : aiDecision;
+        this.p2Hedged = typeof aiDecision === 'object' ? Boolean(aiDecision.hasHedged) : false;
       }
       setTimeout(() => {
-        this.triggerRevealSequence(this.p1Choice, this.p2Choice);
+        this.triggerRevealSequence(
+          { choice: this.p1Choice, hasHedged: this.p1Hedged },
+          { choice: this.p2Choice, hasHedged: this.p2Hedged }
+        );
       }, 750);
     } else if (this.currentMode === 'multiplayer') {
-      window.multiplayerEngine.lockChoice(this.p1Choice);
+      window.multiplayerEngine.lockChoice({ choice: this.p1Choice, hasHedged: this.p1Hedged });
       if (this.p2Choice) {
-        this.triggerRevealSequence(this.p1Choice, this.p2Choice);
+        this.triggerRevealSequence(
+          { choice: this.p1Choice, hasHedged: this.p1Hedged },
+          { choice: this.p2Choice, hasHedged: this.p2Hedged }
+        );
       } else {
         this.appendChat('SYSTEM', '🔒 Decision locked in secret! Awaiting live counterparty...', false);
       }
@@ -1480,10 +1539,20 @@ class TheDilemmaApp {
     const ballP2 = document.getElementById('revealBallP2');
     const contentP1 = document.getElementById('revealContentP1');
     const contentP2 = document.getElementById('revealContentP2');
+    const badgeP1 = document.getElementById('revealHedgeBadgeP1');
+    const badgeP2 = document.getElementById('revealHedgeBadgeP2');
     const outcomeCard = document.getElementById('outcomeCard');
 
     document.getElementById('revealP1Name').textContent = this.p1Name;
     document.getElementById('revealP2Name').textContent = this.p2Name;
+
+    const choice1 = typeof p1 === 'object' ? p1.choice : p1;
+    const hedged1 = typeof p1 === 'object' ? Boolean(p1.hasHedged) : false;
+    const choice2 = typeof p2 === 'object' ? p2.choice : p2;
+    const hedged2 = typeof p2 === 'object' ? Boolean(p2.hasHedged) : false;
+
+    if (badgeP1) badgeP1.classList.toggle('hidden', !hedged1);
+    if (badgeP2) badgeP2.classList.toggle('hidden', !hedged2);
 
     ballP1.className = 'reveal-ball';
     ballP2.className = 'reveal-ball';
@@ -1513,14 +1582,17 @@ class TheDilemmaApp {
         window.soundEngine.playRevealSting();
 
         setTimeout(() => {
-          ballP1.classList.add('opened', p1 === 'SPLIT' ? 'is-split' : 'is-steal');
-          contentP1.textContent = p1 === 'SPLIT' ? config.ballSplitText : config.ballStealText;
+          ballP1.classList.add('opened', choice1 === 'SPLIT' ? 'is-split' : 'is-steal');
+          contentP1.textContent = choice1 === 'SPLIT' ? config.ballSplitText : config.ballStealText;
 
-          ballP2.classList.add('opened', p2 === 'SPLIT' ? 'is-split' : 'is-steal');
-          contentP2.textContent = p2 === 'SPLIT' ? config.ballSplitText : config.ballStealText;
+          ballP2.classList.add('opened', choice2 === 'SPLIT' ? 'is-split' : 'is-steal');
+          contentP2.textContent = choice2 === 'SPLIT' ? config.ballSplitText : config.ballStealText;
 
           setTimeout(() => {
-            this.concludeMatchOutcome(p1, p2);
+            this.concludeMatchOutcome(
+              { choice: choice1, hasHedged: hedged1 },
+              { choice: choice2, hasHedged: hedged2 }
+            );
           }, 800);
         }, 500);
       }
@@ -1537,7 +1609,9 @@ class TheDilemmaApp {
     );
 
     if (this.currentMode === 'ai' || this.currentMode === 'ladder') {
-      window.aiEngine.recordMatchResult(this.selectedAI, p1, p2);
+      const choice1 = typeof p1 === 'object' ? p1.choice : p1;
+      const choice2 = typeof p2 === 'object' ? p2.choice : p2;
+      window.aiEngine.recordMatchResult(this.selectedAI, choice1, choice2);
     }
 
     this.updateHeaderBankroll();

@@ -64,46 +64,69 @@ class AIEngine {
     const playerText = (playerChatHistory || []).join(' ').toLowerCase();
     const isCompliant = compliantKeywords.some(w => playerText.includes(w));
 
-    // Specific AI decision mechanics
+    let choice = 'SPLIT';
+    let hasHedged = false;
+
+    // Specific AI decision and hedge mechanics
     if (aiId === 'nick') {
-      // The Bully / Raider: If player sounds compliant, has higher split probability
-      return isCompliant 
+      // The Bully / Raider: Pure aggressive offensive play
+      choice = isCompliant 
         ? (Math.random() < 0.70 ? 'SPLIT' : 'STEAL')
         : (Math.random() < 0.35 ? 'SPLIT' : 'STEAL');
+      hasHedged = Math.random() < 0.08;
     } else if (aiId === 'sarah') {
-      // Fiduciary / Loyal: Splits 90% unless previously betrayed
+      // Fiduciary / Loyal: Splits 90% unless previously betrayed; hedges to protect downside
       try {
         const memory = JSON.parse(localStorage.getItem('sos_ai_memory') || '{}');
         const sarahMem = memory.sarah || { betrayedCount: 0 };
         if (sarahMem.betrayedCount > 0) {
-          return Math.random() < 0.75 ? 'STEAL' : 'SPLIT';
+          choice = Math.random() < 0.75 ? 'STEAL' : 'SPLIT';
+          hasHedged = true;
+        } else {
+          choice = Math.random() < 0.88 ? 'SPLIT' : 'STEAL';
+          hasHedged = Math.random() < 0.40;
         }
-      } catch (_) {}
-      return Math.random() < 0.88 ? 'SPLIT' : 'STEAL';
-    } else if (aiId === 'damian') {
-      // Predator / Swindler: Bluffs constantly, steals 85% of high stakes
-      if (currentStake >= 200000) {
-        return Math.random() < 0.90 ? 'STEAL' : 'SPLIT';
+      } catch (_) {
+        choice = Math.random() < 0.88 ? 'SPLIT' : 'STEAL';
+        hasHedged = Math.random() < 0.35;
       }
-      return Math.random() < 0.80 ? 'STEAL' : 'SPLIT';
+    } else if (aiId === 'damian') {
+      // Predator / Swindler: Bluffs constantly, relies on raw steal without hedging
+      if (currentStake >= 200000) {
+        choice = Math.random() < 0.90 ? 'STEAL' : 'SPLIT';
+      } else {
+        choice = Math.random() < 0.80 ? 'STEAL' : 'SPLIT';
+      }
+      hasHedged = Math.random() < 0.12;
     } else if (aiId === 'jax') {
-      // Wildcard / Maniac: 50/50 pure chaos
-      return Math.random() < 0.50 ? 'SPLIT' : 'STEAL';
+      // Wildcard / Maniac: 50/50 pure chaos on choice and hedge
+      choice = Math.random() < 0.50 ? 'SPLIT' : 'STEAL';
+      hasHedged = Math.random() < 0.50;
     } else if (aiId === 'nash') {
-      // Quant / Solver: Bayesian calculation against player trust
+      // Quant / Solver: Bayesian calculation against player trust with systematic hedging
       const playerTrust = playerStats.totalMatches > 0 
         ? playerStats.totalSplits / playerStats.totalMatches 
         : 0.5;
 
       if (playerTrust >= 0.75) {
-        return Math.random() < 0.65 ? 'STEAL' : 'SPLIT';
+        choice = Math.random() < 0.65 ? 'STEAL' : 'SPLIT';
+        hasHedged = Math.random() < 0.50;
       } else if (playerTrust <= 0.35) {
-        return Math.random() < 0.88 ? 'STEAL' : 'SPLIT';
+        choice = Math.random() < 0.88 ? 'STEAL' : 'SPLIT';
+        hasHedged = Math.random() < 0.30;
+      } else {
+        choice = Math.random() < 0.52 ? 'SPLIT' : 'STEAL';
+        hasHedged = Math.random() < 0.65;
       }
-      return Math.random() < 0.52 ? 'SPLIT' : 'STEAL';
+    } else {
+      choice = Math.random() < 0.50 ? 'SPLIT' : 'STEAL';
+      hasHedged = Math.random() < 0.30;
     }
 
-    return Math.random() < 0.50 ? 'SPLIT' : 'STEAL';
+    return {
+      choice,
+      hasHedged
+    };
   }
 
   recordMatchResult(aiId, playerChoice, aiChoice) {
