@@ -584,50 +584,22 @@ class TensionSoundEngine {
     this.ensureContext();
     const currentTheme = themeId || this.theme;
 
-    const runAmbienceCycle = () => {
+    // Single, super subtle thematic audio cue played once at matchup start
+    this.matchupAmbienceTimer = setTimeout(() => {
       if (this.isMuted || !this.ctx) return;
 
       if (currentTheme === 'trading_desk') {
         this.playTradingPhoneRing();
-        setTimeout(() => {
-          if (!this.matchupAmbienceTimer) return;
-          this.playOrderFillChime();
-        }, 3200);
-
       } else if (currentTheme === 'poker_tournament') {
         this.playCasinoRotaryPhone();
-        setTimeout(() => {
-          if (!this.matchupAmbienceTimer) return;
-          this.playDrinkClink();
-        }, 2800);
-
       } else if (currentTheme === 'hotel_lobby') {
         this.playHotelRotaryRing();
-        setTimeout(() => {
-          if (!this.matchupAmbienceTimer) return;
-          this.playDeskBellDing();
-        }, 3000);
-
       } else if (currentTheme === 'bank_vault') {
         this.playWalkieTalkieSquelch();
-        setTimeout(() => {
-          if (!this.matchupAmbienceTimer) return;
-          this.playVaultDialSpin();
-        }, 2600);
-
       } else if (currentTheme === 'military_intelligence') {
         this.playRedPhoneHotline();
-        setTimeout(() => {
-          if (!this.matchupAmbienceTimer) return;
-          this.playSatcomChirp();
-        }, 2900);
       }
-
-      const nextDelay = 6000 + Math.random() * 3000;
-      this.matchupAmbienceTimer = setTimeout(runAmbienceCycle, nextDelay);
-    };
-
-    this.matchupAmbienceTimer = setTimeout(runAmbienceCycle, 1500);
+    }, 750);
   }
 
   stopMatchupAmbience() {
@@ -637,17 +609,16 @@ class TensionSoundEngine {
     }
   }
 
-  /* 📞 1. Trading Desk Phone Ring (Bell 500: 440Hz + 480Hz) */
+  /* 📞 1. Trading Desk Phone Ring (Subtle Dual-Tone: 440Hz + 480Hz - Rings Once) */
   playTradingPhoneRing() {
     if (!this.ctx || this.isMuted) return;
     try {
       const now = this.ctx.currentTime;
-      this.triggerDualToneRing(now, 440, 480, 0.55, 0.12);
-      this.triggerDualToneRing(now + 0.75, 440, 480, 0.55, 0.14);
+      this.triggerDualToneRing(now, 440, 480, 0.38, 0.035);
     } catch (e) {}
   }
 
-  /* 📞 Phone Pickup Click */
+  /* 📞 Phone Pickup Click (Soft & Gentle) */
   playPhonePickup() {
     if (!this.ctx || this.isMuted) return;
     try {
@@ -655,64 +626,62 @@ class TensionSoundEngine {
       const osc = this.ctx.createOscillator();
       const gain = this.ctx.createGain();
       osc.type = 'triangle';
-      osc.frequency.setValueAtTime(320, t);
-      osc.frequency.exponentialRampToValueAtTime(140, t + 0.05);
-      gain.gain.setValueAtTime(0.24, t);
-      gain.gain.exponentialRampToValueAtTime(0.001, t + 0.05);
+      osc.frequency.setValueAtTime(280, t);
+      osc.frequency.exponentialRampToValueAtTime(120, t + 0.04);
+      gain.gain.setValueAtTime(0.05, t);
+      gain.gain.exponentialRampToValueAtTime(0.001, t + 0.04);
       osc.connect(gain);
       gain.connect(this.sfxMasterGain);
       osc.start(t);
-      osc.stop(t + 0.05);
+      osc.stop(t + 0.04);
     } catch (e) {}
   }
 
-  /* 🍸 2. Casino VIP Rotary Intercom Ring (700Hz + 850Hz) */
+  /* 🍸 2. Casino VIP Rotary Intercom Ring (Subtle: 600Hz + 750Hz - Rings Once) */
   playCasinoRotaryPhone() {
     if (!this.ctx || this.isMuted) return;
     try {
       const now = this.ctx.currentTime;
-      this.triggerDualToneRing(now, 700, 850, 0.45, 0.10);
-      this.triggerDualToneRing(now + 0.65, 700, 850, 0.45, 0.12);
+      this.triggerDualToneRing(now, 600, 750, 0.35, 0.035);
     } catch (e) {}
   }
 
-  /* 🍸 Cocktail Ice Clink */
+  /* 🍸 Cocktail Ice Clink (Soft & Mellow) */
   playDrinkClink() {
     if (!this.ctx || this.isMuted) return;
     try {
       const t = this.ctx.currentTime;
-      [2800, 3400, 4200].forEach((freq, idx) => {
+      [2400, 3000].forEach((freq, idx) => {
         const osc = this.ctx.createOscillator();
         const gain = this.ctx.createGain();
         osc.type = 'sine';
-        osc.frequency.setValueAtTime(freq, t + idx * 0.07);
-        gain.gain.setValueAtTime(0.08, t + idx * 0.07);
-        gain.gain.exponentialRampToValueAtTime(0.0001, t + idx * 0.07 + 0.25);
+        osc.frequency.setValueAtTime(freq, t + idx * 0.06);
+        gain.gain.setValueAtTime(0.03, t + idx * 0.06);
+        gain.gain.exponentialRampToValueAtTime(0.0001, t + idx * 0.06 + 0.22);
         osc.connect(gain);
         gain.connect(this.spatialDelay);
         gain.connect(this.masterFilter);
-        osc.start(t + idx * 0.07);
-        osc.stop(t + idx * 0.07 + 0.25);
+        osc.start(t + idx * 0.06);
+        osc.stop(t + idx * 0.06 + 0.22);
       });
     } catch (e) {}
   }
 
-  /* 🛎️ 3. European Concierge Antique Rotary Bell (680Hz + 1100Hz) */
+  /* 🛎️ 3. European Concierge Antique Rotary Bell (Subtle: 580Hz + 880Hz - Rings Once) */
   playHotelRotaryRing() {
     if (!this.ctx || this.isMuted) return;
     try {
       const now = this.ctx.currentTime;
-      this.triggerDualToneRing(now, 680, 1100, 0.6, 0.10);
-      this.triggerDualToneRing(now + 0.85, 680, 1100, 0.6, 0.12);
+      this.triggerDualToneRing(now, 580, 880, 0.38, 0.035);
     } catch (e) {}
   }
 
-  /* 📻 4. Cash Vault Walkie-Talkie Radio Squelch Burst */
+  /* 📻 4. Cash Vault Walkie-Talkie Radio Squelch Burst (Soft) */
   playWalkieTalkieSquelch() {
     if (!this.ctx || this.isMuted) return;
     try {
       const t = this.ctx.currentTime;
-      const bufferSize = this.ctx.sampleRate * 0.18;
+      const bufferSize = this.ctx.sampleRate * 0.12;
       const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
       const output = buffer.getChannelData(0);
       for (let i = 0; i < bufferSize; i++) {
@@ -724,57 +693,28 @@ class TensionSoundEngine {
 
       const bandpass = this.ctx.createBiquadFilter();
       bandpass.type = 'bandpass';
-      bandpass.frequency.setValueAtTime(2200, t);
-      bandpass.Q.setValueAtTime(2.5, t);
+      bandpass.frequency.setValueAtTime(1800, t);
+      bandpass.Q.setValueAtTime(2.0, t);
 
       const gain = this.ctx.createGain();
-      gain.gain.setValueAtTime(0.12, t);
-      gain.gain.exponentialRampToValueAtTime(0.001, t + 0.18);
+      gain.gain.setValueAtTime(0.04, t);
+      gain.gain.exponentialRampToValueAtTime(0.001, t + 0.12);
 
       whiteNoise.connect(bandpass);
       bandpass.connect(gain);
       gain.connect(this.sfxMasterGain);
 
       whiteNoise.start(t);
-      whiteNoise.stop(t + 0.18);
-
-      setTimeout(() => {
-        if (!this.ctx) return;
-        const beepT = this.ctx.currentTime;
-        const osc = this.ctx.createOscillator();
-        const bGain = this.ctx.createGain();
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(1760, beepT);
-        bGain.gain.setValueAtTime(0.08, beepT);
-        bGain.gain.exponentialRampToValueAtTime(0.001, beepT + 0.08);
-        osc.connect(bGain);
-        bGain.connect(this.sfxMasterGain);
-        osc.start(beepT);
-        osc.stop(beepT + 0.08);
-      }, 200);
+      whiteNoise.stop(t + 0.12);
     } catch (e) {}
   }
 
-  /* 🔴 5. Pentagon Emergency Red Phone Dual-Tone Warble (853Hz + 960Hz) */
+  /* 🔴 5. Pentagon Emergency Red Phone Dual-Tone (Subtle: 680Hz + 770Hz - Rings Once) */
   playRedPhoneHotline() {
     if (!this.ctx || this.isMuted) return;
     try {
       const now = this.ctx.currentTime;
-      for (let i = 0; i < 4; i++) {
-        const offset = i * 0.16;
-        const freq = (i % 2 === 0) ? 853 : 960;
-        const osc = this.ctx.createOscillator();
-        const gain = this.ctx.createGain();
-        osc.type = 'square';
-        osc.frequency.setValueAtTime(freq, now + offset);
-        gain.gain.setValueAtTime(0.08, now + offset);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + offset + 0.14);
-        osc.connect(gain);
-        gain.connect(this.spatialDelay);
-        gain.connect(this.masterFilter);
-        osc.start(now + offset);
-        osc.stop(now + offset + 0.14);
-      }
+      this.triggerDualToneRing(now, 680, 770, 0.35, 0.035);
     } catch (e) {}
   }
 
@@ -785,13 +725,14 @@ class TensionSoundEngine {
     const lfo = this.ctx.createOscillator();
     const lfoGain = this.ctx.createGain();
 
-    lfo.type = 'square';
-    lfo.frequency.setValueAtTime(20, actualT);
-    lfoGain.gain.setValueAtTime(0.5, actualT);
+    lfo.type = 'sine';
+    lfo.frequency.setValueAtTime(16, actualT);
+    lfoGain.gain.setValueAtTime(0.4, actualT);
     lfo.connect(lfoGain);
 
-    masterGain.gain.setValueAtTime(gainVal, actualT);
-    masterGain.gain.setValueAtTime(gainVal, actualT + duration - 0.05);
+    masterGain.gain.setValueAtTime(0.0001, actualT);
+    masterGain.gain.linearRampToValueAtTime(gainVal, actualT + 0.03);
+    masterGain.gain.setValueAtTime(gainVal, actualT + duration - 0.06);
     masterGain.gain.exponentialRampToValueAtTime(0.0001, actualT + duration);
 
     const osc1 = this.ctx.createOscillator();
@@ -804,7 +745,7 @@ class TensionSoundEngine {
     const bandpass = this.ctx.createBiquadFilter();
     bandpass.type = 'bandpass';
     bandpass.frequency.setValueAtTime((f1 + f2) / 2, actualT);
-    bandpass.Q.setValueAtTime(2.5, actualT);
+    bandpass.Q.setValueAtTime(2.2, actualT);
 
     osc1.connect(bandpass);
     osc2.connect(bandpass);
@@ -818,7 +759,7 @@ class TensionSoundEngine {
     osc2.stop(actualT + duration);
   }
 
-  /* 📈 Order Fill Chime */
+  /* 📈 Order Fill Chime (Subtle Mellow Accent) */
   playOrderFillChime() {
     if (!this.ctx || this.isMuted) return;
     try {
@@ -828,7 +769,7 @@ class TensionSoundEngine {
         const gain = this.ctx.createGain();
         osc.type = 'sine';
         osc.frequency.setValueAtTime(freq, t + idx * 0.06);
-        gain.gain.setValueAtTime(0.09, t + idx * 0.06);
+        gain.gain.setValueAtTime(0.035, t + idx * 0.06);
         gain.gain.exponentialRampToValueAtTime(0.0001, t + idx * 0.06 + 0.35);
         osc.connect(gain);
         gain.connect(this.spatialDelay);
@@ -839,31 +780,31 @@ class TensionSoundEngine {
     } catch (e) {}
   }
 
-  /* ♠️ Clay Poker Chip Shuffle & Clatter */
+  /* ♠️ Clay Poker Chip Shuffle & Clatter (Soft) */
   playPokerChipShuffle() {
     if (!this.ctx || this.isMuted) return;
     try {
       const t = this.ctx.currentTime;
-      const count = 6;
+      const count = 5;
       for (let i = 0; i < count; i++) {
-        const offset = i * 0.06 + Math.random() * 0.02;
-        const freq = 1200 + Math.random() * 600;
+        const offset = i * 0.05 + Math.random() * 0.015;
+        const freq = 1000 + Math.random() * 400;
         const osc = this.ctx.createOscillator();
         const gain = this.ctx.createGain();
         osc.type = 'triangle';
         osc.frequency.setValueAtTime(freq, t + offset);
-        osc.frequency.exponentialRampToValueAtTime(300, t + offset + 0.035);
-        gain.gain.setValueAtTime(0.12, t + offset);
-        gain.gain.exponentialRampToValueAtTime(0.001, t + offset + 0.035);
+        osc.frequency.exponentialRampToValueAtTime(260, t + offset + 0.03);
+        gain.gain.setValueAtTime(0.05, t + offset);
+        gain.gain.exponentialRampToValueAtTime(0.001, t + offset + 0.03);
         osc.connect(gain);
         gain.connect(this.sfxMasterGain);
         osc.start(t + offset);
-        osc.stop(t + offset + 0.035);
+        osc.stop(t + offset + 0.03);
       }
     } catch (e) {}
   }
 
-  /* 🛎️ Hotel Concierge Brass Bell Ding */
+  /* 🛎️ Hotel Concierge Brass Bell Ding (Super Subtle, Gentle 1760 Hz) */
   playDeskBellDing() {
     if (!this.ctx || this.isMuted) return;
     try {
@@ -871,14 +812,14 @@ class TensionSoundEngine {
       const osc = this.ctx.createOscillator();
       const gain = this.ctx.createGain();
       osc.type = 'sine';
-      osc.frequency.setValueAtTime(2349.32, t);
-      gain.gain.setValueAtTime(0.16, t);
-      gain.gain.exponentialRampToValueAtTime(0.0001, t + 1.2);
+      osc.frequency.setValueAtTime(1760.00, t);
+      gain.gain.setValueAtTime(0.04, t);
+      gain.gain.exponentialRampToValueAtTime(0.0001, t + 1.1);
       osc.connect(gain);
       gain.connect(this.spatialDelay);
       gain.connect(this.masterFilter);
       osc.start(t);
-      osc.stop(t + 1.2);
+      osc.stop(t + 1.1);
     } catch (e) {}
   }
 
